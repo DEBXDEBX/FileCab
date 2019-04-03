@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <!--jQuery CDN -->
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- My CSS File -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+    <title>File Cabinet's</title>
+  </head>
+  <body>
+    <audio id="addAudio">
+      <source src="assets/sound/add.wav" type="audio/wav" />
+    </audio>
+    <audio id="addFileCabAudio">
+      <source src="assets/sound/addFileCab.wav" type="audio/wav" />
+    </audio>
+    <audio id="addImageAudio">
+      <source src="assets/sound/addImage.wav" type="audio/wav" />
+    </audio>
+    <audio id="deleteAudio">
+      <source src="assets/sound/delete.wav" type="audio/wav" />
+    </audio>
+    <audio id="warningEmptyAudio">
+      <source src="assets/sound/warningEmpty.wav" type="audio/wav" />
+    </audio>
+    <audio id="warningSelectAudio">
+      <source src="assets/sound/warningSelect.wav" type="audio/wav" />
+    </audio>
+    <audio id="warningNameTakenAudio">
+      <source src="assets/sound/warningNameTaken.wav" type="audio/wav" />
+    </audio>
+    <audio id="warningMaxNumberAudio">
+      <source src="assets/sound/warningMaxNumber.wav" type="audio/wav" />
+    </audio>
+
+    <form id="myForm">
+      <div class="form-row align-items-center">
+        <div class="col-sm-3 my-1">
+          <label class="sr-only" for="inlineFormInputName">Name</label>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            id="inlineFormInputName"
+            placeholder="Name"
+          />
+        </div>
+
+        <div class="col-auto my-1">
+          <button id="addFileCab" type="button" class="btn">
+            Add File Cabinet
+          </button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="addMainFolder" type="button" class="btn">
+            Add Main Folder
+          </button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="addSubFolder" type="button" class="btn">
+            Add Sub Folder
+          </button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="addImage" type="button" class="btn">
+            Add Image to Note
+          </button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="addNote" type="button" class="btn">Add Note</button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="exportJSON" type="button" class="btn ">
+            Export JSON
+          </button>
+        </div>
+        <div class="col-auto my-1">
+          <button id="importJSON" type="button" class="btn">Import JSON</button>
+        </div>
+
+        <div class="col-auto my-1">
+          <label>show text area</label>
+          <input type="checkbox" id="myCheckBox" name="feature" />
+        </div>
+        <textarea
+          wrap="hard"
+          placeholder="Enter notes here!"
+          id="myTextArea"
+          rows="10"
+          cols="200"
+        ></textarea>
+        <!-- LOADER -->
+        <!-- <div id="loading">
+              <img  class='centerImage'src="assets/img/loading.gif" alt="">
+            </div> -->
+      </div>
+    </form>
+
+    <header>
+      <h6>File Cabinet</h6>
+      <nav>
+        <ul id="fileCabList" class="d-flex justify-content-center">
+          <!-- <li class="fileCab">GUITAR"S</li>
+              <li class="fileCab">JAVA</li>
+              <li class="fileCab">WEB DEVELOPMENT</li>
+              <li class="fileCab">DAVID"S</li> -->
+        </ul>
+      </nav>
+    </header>
+    <section>
+      <h6>Main Folder</h6>
+      <nav>
+        <ul id="mainFolderList" class="d-flex justify-content-center">
+          <!-- <li class="main">IBANEZ</li>
+              <li class="main">YAMAHA</li>
+              <li class="main">RED EPI</li>
+              <li class="main">ORANGE EPI</li> -->
+        </ul>
+      </nav>
+    </section>
+    <section id="subFolder">
+      <h6>Sub Folder</h6>
+      <nav>
+        <ul id="subFolderList" class="d-flex justify-content-center">
+          <!-- <li class="sub">STRING CHANGES</li>
+              <li class="sub">REFRETED</li>
+              <li class="sub">SET INTONATION</li> -->
+        </ul>
+      </nav>
+    </section>
+    <section id="noteList">
+      <!-- <h1>Note's go here</h1> -->
+    </section>
+    <div class="addSpace"></div>
+    <!-- Help  -->
+    <div>
+      <h5 class="text-center">
+        To add a file cabinet or folder, type the name of it in the name text
+        input and click the corresponding button.
+      </h5>
+      <h5 class="text-center">
+        To shift a file cabinet left, hold down shift and click the file cabinet
+        name.
+      </h5>
+      <hr />
+      <h5 class="text-center">
+        To delete a file cabinet, folder or note hold down control key and click
+        it
+      </h5>
+      <hr />
+      <h5 class="text-center">
+        To add an image to a note, place the image in the image folder of this
+        project, type the image Name in the Name text field and press the add
+        image to note button.
+      </h5>
+      <h5 class="text-center">test.png</h5>
+      <h5 class="text-center">webFolder/test.png</h5>
+      <hr />
+      <h5 class="text-center">
+        To export a file cabinet, click the export button and copy and paste the
+        JSON string in the large text area to a JSON file.
+      </h5>
+      <hr />
+      <h5 class="text-center">
+        To import a file cabninet, Add a new file cabinet and click it to select
+        it. copy and paste a JSON string to the large text area. Click the
+        import Button.
+      </h5>
+    </div>
+
+    <!-- My JavaScript File -->
+
+    <script type="text/javascript" src="assets/js/fileCab.js"></script>
+    <script type="text/javascript" src="assets/js/myStorage.js"></script>
+    <script type="text/javascript" src="assets/js/note.js"></script>
+    <script type="text/javascript" src="assets/js/primaryObj.js"></script>
+    <script type="text/javascript" src="assets/js/secondaryObj.js"></script>
+    <script type="text/javascript" src="assets/js/ui.js"></script>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+h6 {
+	margin: 10px;
+	text-align: center;
+	background-color: aqua;
+	border-radius: 15px;
+
+}
+/* the note section */
+h4{
+	margin: 2px;
+	background-color: aqua;
+	padding: 3px;
+}
+body{
+	background-color: blueviolet;
+}
+form{
+	margin: 10px;
+}
+section ul{
+	list-style: none;
+	padding: 0;
+	margin: 0px;
+	background-color: blueviolet;
+}
+section li{
+	display: inline;
+	background-color: #5cabda;
+	color: rgb(0, 0, 0);
+	padding: 0 3px;
+	border-radius: 15px 50px 30px 5px;
+}
+nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background-color: blueviolet;
+}
+nav li {
+	display: inline;
+	background-color: #00ffffbd;
+	color: rgb(0, 0, 0);
+	padding: 0px 3px;
+	margin: 0px 10px;
+	border-radius: 10px 10px 0px 0px;
+}
+
+nav li:hover{
+	color: rgb(255, 255, 255);
+}
+
+
+#noteList {
+	margin: 10px auto;
+	width: 98%;
+}
+
+#myTextArea{
+	margin: 10px auto;
+	width: 98%;
+	border: 1px solid;
+	padding: 10px;
+	border-radius: 20px;
+}
+#myTextArea{
+	display: none;
+}
+#loading{
+	display:none;
+
+	margin: 5px auto;
+}
+.active{
+	color: white;
+}
+#addFileCab{
+	background-color: blue;
+	color: white;
+}
+#addFileCab:hover{
+	background-color: #5cabda;
+	color: black;
+}
+#addMainFolder{
+	background-color: #e51e4c;
+	color: white
+}#addMainFolder:hover{
+	background-color: #5cabda;
+	color: black;
+}
+#addSubFolder{
+	background-color: #25a425;
+	color: white;
+}
+#addSubFolder:hover{
+	background-color: #5cabda;
+	color: black;
+}
+#addNote{
+	background-color: #17c2d4;
+	color: white;
+}
+#addNote:hover{
+	background-color: #5cabda;
+	color: black;
+}
+#addImage{
+	background-color: #108f9d;
+	color: white;
+}
+#addImage:hover{
+	background-color: #5cabda;
+	color: black;
+}
+#exportJSON:hover, #importJSON:hover{
+background-color: #dffe09;
+color: #e51e4c;
+}
+.note{
+	white-space: pre;
+	border-radius: 20px;
+	padding: 7px;
+}
+img{
+	border-radius: 20px;
+}
+.success, .error {
+	color: white;
+	padding: 5px;
+	margin: 5px 0 15px 0;
+	width: 50%;
+	text-align: center;
+	margin: 20px auto;
+	border-radius: 25px;
+}
+
+.success {
+	background: green;
+}
+
+.error {
+	background: red;
+}
+.addSpace{
+	height: 750px;
+}

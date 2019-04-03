@@ -1,0 +1,15 @@
+{
+  "name": "filecab",
+  "version": "1.0.0",
+  "description": "file cab program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "electron": "electron ."
+  },
+  "author": "David Berkheimer",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^4.1.0"
+  }
+}
