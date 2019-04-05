@@ -1,7 +1,10 @@
 // Used to access file system
-let app = require("electron").remote;
-let dialog = app.dialog;
+// let app = require("electron").remote;
+// let dialog = app.dialog;
 let fs = require("fs");
+
+const electron = require("electron");
+const { ipcRenderer } = electron;
 
 //Select ul's
 const fileCabUL = document.querySelector("#fileCabList");
@@ -27,15 +30,74 @@ let currentFileCabIndex = -243;
 let currentMainFolder = -243;
 let currentSubFolder = -243;
 let currentNoteIndex = -243;
+const arrayOfFileCabs = [];
 
 //The start of program exicution.
 window.onload = function() {
   startUp();
-  // writeObject();
-  // readFileObject();
 };
+//************************************************ */
+//IPC
+//************************************************ */
+//listen for inedex.js to send data
+ipcRenderer.on("fileCab:add", (event, dataObj) => {
+  if (dataObj.name === "") {
+    ui.showAlert("You did not enter a name for the File Cabinet!", "error");
+    // warningEmptyAudio.play();
+    return;
+  }
+  if (dataObj.fileNamePath === undefined) {
+    ui.showAlert("You clicked cancel");
+    return;
+  }
+  // //check if the name already exists if it does alert and return
+  //make a variable to return
+  let isTaken = false;
+  arrayOfFileCabs.forEach(element => {
+    if (element.name === dataObj.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  if (isTaken) {
+    // warningNameTakenAudio.play();
+    ui.showAlert("That name is taken", "error");
+    return;
+  }
+  //create a locale var for the index
+  let index = arrayOfFileCabs.length;
+  //create a file cab object
+  let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath, index);
+  //push the file cab obj into the array of file cabinets
+  arrayOfFileCabs.push(newfileCab);
+  //store the path in local var before you stringify it
+  let path = dataObj.fileNamePath;
+  //Grab the fileCab object to store in a local var
+  let content = arrayOfFileCabs[index];
+  //strinify the file cab object
+  content = JSON.stringify(content);
+  //set array back to file
+  fs.writeFile(path, content, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      alert("The file has been successfully saved.");
+    }
+  });
+  // addFileCabAudio.play();
+  ui.showAlert("A new file cabinet was added", "success");
+  currentFileCabIndex = -243;
+  currentMainFolder = -243;
+  currentSubFolder = -243;
+  currentNoteIndex = -243;
+  ui.clearFileCabDisplay();
+  ui.clearPrimaryDisplay();
+  ui.clearSubDisplay();
+  ui.clearNoteDisplay();
+  // ui.paintScreen();
+});
 
-function writeObject() {
+function writeObjectTEST() {
   dialog.showSaveDialog(fileName => {
     if (fileName === undefined) {
       alert("You didn't save the file");
@@ -59,7 +121,7 @@ function writeObject() {
   });
 }
 
-function readFileObject() {
+function readFileObjectTEST() {
   dialog.showOpenDialog(fileNames => {
     if (fileNames === undefined) {
       alert("No file selected");
@@ -69,7 +131,7 @@ function readFileObject() {
   });
 }
 
-function readFileContents(filepath) {
+function readFileContentsTEST(filepath) {
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
       alert("An error occured reading the file.");
@@ -82,13 +144,15 @@ function readFileContents(filepath) {
 }
 
 function startUp() {
-  ui.paintScreen();
+  // ui.paintScreen();
 }
+
+//delete the following event listener later
 //Event listener add file cab Button
 document
   .querySelector("#addFileCab")
   .addEventListener("click", addFileCabToArray);
-
+//Old code below
 function addFileCabToArray() {
   //grab array from file
   const myStorage = new MyStorage();

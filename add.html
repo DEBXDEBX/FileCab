@@ -21,8 +21,8 @@
 
       document.querySelector("form").addEventListener("submit", event => {
         event.preventDefault();
-        const { value } = document.querySelector("input");
-        console.log(value);
+        let { value } = document.querySelector("input");
+        value = value.trim();
         ipcRenderer.send("fileCab:add", value);
       });
     </script>

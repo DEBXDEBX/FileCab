@@ -1,8 +1,8 @@
 const electron = require("electron");
 //start the app
-const { app, BrowserWindow, Menu, ipcMain } = electron;
+const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 console.log(
-  "starting: all console.log() go in ternimal for the chrome side. index.js"
+  "starting: all console.log() go in terminal for the chrome side. index.js"
 );
 //You have to do this declaraiton for scoping issues
 let mainWindow;
@@ -28,14 +28,21 @@ function createFileCabinet() {
     title: "Create New File Cabinet"
   });
   addWindow.loadURL(`file://${__dirname}/add.html`);
+  //the following is for garbage collection
+  addWindow.on("closed", () => {
+    addWindow = null;
+  });
 }
 
-//this is coming from the addWindow
+//this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
-  mainWindow.webContents.send("fileCab:add", name);
-  console.log(name);
   //close the addWindow
   addWindow.close();
+  //open save dialog to create a fileNamePath
+  dialog.showSaveDialog(fileNamePath => {
+    //Send all info in an object to script.js
+    mainWindow.webContents.send("fileCab:add", { fileNamePath, name });
+  });
 });
 
 // Top Menu
@@ -71,6 +78,8 @@ if (process.env.NODE_ENV !== "production") {
   menuTemplate.push({
     label: "View",
     submenu: [
+      //predefined role
+      { role: "reload" },
       {
         label: "Toggle Developer Tools",
         accelerator:
