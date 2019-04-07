@@ -70,22 +70,10 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath, index);
   //push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
-  //store the path in local var before you stringify it
-  let path = dataObj.fileNamePath;
-  //Grab the fileCab object to store in a local var
-  let content = arrayOfFileCabs[index];
-  //strinify the file cab object
-  content = JSON.stringify(content);
-  //set array back to file
-  fs.writeFile(path, content, err => {
-    if (err) {
-      console.log(err);
-    } else {
-      alert("The file has been successfully saved.");
-    }
-  });
-  // addFileCabAudio.play();
-  ui.showAlert("A new file cabinet was added", "success");
+  //Write the file cab object to disk
+  newfileCab.writeFileCabToHardDisk(fs, ui);
+
+  //redisplay
   currentFileCabIndex = -243;
   currentMainFolder = -243;
   currentSubFolder = -243;
@@ -94,116 +82,18 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  // ui.paintScreen();
+  let mapedArray = arrayOfFileCabs.map(item => {
+    return item.name;
+  });
+
+  ui.paintScreen(mapedArray);
 });
-
-function writeObjectTEST() {
-  dialog.showSaveDialog(fileName => {
-    if (fileName === undefined) {
-      alert("You didn't save the file");
-      return;
-    }
-    let content = {
-      name: "David Berkheimer",
-      dob: "November 29 1972",
-      car: "Kia Spectra 2003"
-    };
-
-    content = JSON.stringify(content);
-
-    fs.writeFile(fileName, content, err => {
-      if (err) {
-        console.log(err);
-      } else {
-        alert("The file has been successfully saved.");
-      }
-    });
-  });
-}
-
-function readFileObjectTEST() {
-  dialog.showOpenDialog(fileNames => {
-    if (fileNames === undefined) {
-      alert("No file selected");
-    } else {
-      readFileContents(fileNames[0]);
-    }
-  });
-}
-
-function readFileContentsTEST(filepath) {
-  fs.readFile(filepath, "utf-8", (err, data) => {
-    if (err) {
-      alert("An error occured reading the file.");
-      return;
-    } else {
-      data = JSON.parse(data);
-      textArea.value = `Name: ${data.name} DOB: ${data.dob} Car: ${data.car}`;
-    }
-  });
-}
+//IPC End ipcRenderer.on("fileCab:add",
 
 function startUp() {
   // ui.paintScreen();
 }
 
-//delete the following event listener later
-//Event listener add file cab Button
-document
-  .querySelector("#addFileCab")
-  .addEventListener("click", addFileCabToArray);
-//Old code below
-function addFileCabToArray() {
-  //grab array from file
-  const myStorage = new MyStorage();
-  const fileCabArray = myStorage.getArrayOfFileCabinets();
-  //create file cab
-  let fileCabName = textName.value.trim();
-  if (fileCabName === "") {
-    warningEmptyAudio.play();
-    ui.showAlert("Please enter a name for the File Cabinet!", "error");
-    return;
-  }
-  //check if the name already exists if it does alert and return
-  //make a variable to return
-  let isTaken = false;
-  fileCabArray.forEach(element => {
-    if (element.name === fileCabName) {
-      isTaken = true;
-      return;
-    }
-  });
-  if (isTaken) {
-    warningNameTakenAudio.play();
-    ui.showAlert("That name is taken", "error");
-  } else {
-    //check if you have the maximun number of file cabinets
-    if (fileCabArray.length === 10) {
-      warningMaxNumberAudio.play();
-      ui.showAlert(
-        "You have reached the maximun number of File Cabinets",
-        "error"
-      );
-      return;
-    }
-    let fileCab = new FileCab(fileCabName);
-    //push into array
-    fileCabArray.push(fileCab);
-    //set array back to file
-    myStorage.setArrayOfFileCabinets(fileCabArray);
-    addFileCabAudio.play();
-    ui.showAlert("A new file cabinet was added", "success");
-    currentFileCabIndex = -243;
-    currentMainFolder = -243;
-    currentSubFolder = -243;
-    currentNoteIndex = -243;
-    ui.clearFileCabDisplay();
-    ui.clearPrimaryDisplay();
-    ui.clearSubDisplay();
-    ui.clearNoteDisplay();
-    ui.paintScreen();
-  } //End of else statement
-} //End of add a file cabinet
 //************************************************************************* */
 document.querySelector("#addMainFolder").addEventListener("click", e => {
   if (currentFileCabIndex === -243) {

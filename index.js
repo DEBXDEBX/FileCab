@@ -52,6 +52,7 @@ const menuTemplate = [
     submenu: [
       {
         label: "Create File Cabinet",
+        accelerator: process.platform === "darwin" ? "Command+N" : "Ctrl+N",
         click() {
           createFileCabinet();
         }
