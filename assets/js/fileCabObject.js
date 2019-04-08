@@ -2,12 +2,11 @@
 
 //FileCabObject class start
 class FileCabObject {
-  constructor(name, fileNamePath, index) {
+  constructor(name, fileNamePath, array = []) {
     this.name = name;
     this.fileNamePath = fileNamePath;
-    this.index = index;
+    this.arrayOfPrimaryObjects = array;
     this.fileType = "ElectronFileCab2019April";
-    this.arrayOfPrimaryObjects = [];
   }
   // Method
   writeFileCabToHardDisk(fs, ui) {
@@ -19,13 +18,15 @@ class FileCabObject {
       if (err) {
         ui.showAlert("There was an error writing the file", "error");
         return true;
-      } else {
-        ui.showAlert("A new file cabinet was added", "success");
       }
     });
     return returnVar;
   } //End writeFileCabToHardDisk(fs, ui)
 
+  //Method
+  getPrimaryArray() {
+    return this.arrayOfPrimaryObjects;
+  }
   // Method
   getSecondaryArray(primaryName) {
     let secondaryArray;
@@ -33,7 +34,7 @@ class FileCabObject {
   } //getSecondaryArray(primaryName)
 
   // Method
-  getNoteArray(primaryName) {
+  getNoteArray(primaryName, seccondaryName) {
     let noteArray;
     return noteArray;
   } //getSecondaryArray(primaryName)

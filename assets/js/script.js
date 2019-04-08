@@ -36,6 +36,19 @@ const arrayOfFileCabs = [];
 window.onload = function() {
   startUp();
 };
+
+//*************************************************** */
+//Helper functions
+//*************************************************** */
+function mapNamesOut(array) {
+  let mapedArray = array.map(item => {
+    return item.name;
+  });
+  return mapedArray;
+}
+
+//End Helper functions********************************
+
 //************************************************ */
 //IPC
 //************************************************ */
@@ -64,10 +77,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.showAlert("That name is taken", "error");
     return;
   }
-  //create a locale var for the index
-  let index = arrayOfFileCabs.length;
   //create a file cab object
-  let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath, index);
+  let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath);
   //push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
   //Write the file cab object to disk
@@ -82,14 +93,62 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  let mapedArray = arrayOfFileCabs.map(item => {
-    return item.name;
-  });
-
-  ui.paintScreen(mapedArray);
+  //Get the names for all the file cabinets
+  //and then send them to the UI
+  ui.paintScreen(mapNamesOut(arrayOfFileCabs));
 });
-//IPC End ipcRenderer.on("fileCab:add",
+// End ipcRenderer.on("fileCab:add"********************
+//*************************************************** */
 
+//listen for inedex.js to send data
+ipcRenderer.on("fileCab:load", (event, data) => {
+  // //check if the name already exists if it does alert and return
+  //make a variable to return
+  let isTaken = false;
+  arrayOfFileCabs.forEach(element => {
+    if (element.name === data.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  if (isTaken) {
+    // warningNameTakenAudio.play();
+    ui.showAlert("That name is taken", "error");
+    return;
+  }
+  //create a file cab object
+  let newfileCab = new FileCabObject(
+    data.name,
+    data.fileNamePath,
+    data.arrayOfPrimaryObjects
+  );
+  //push the file cab obj into the array of file cabinets
+  arrayOfFileCabs.push(newfileCab);
+  //Write the file cab object to disk
+  newfileCab.writeFileCabToHardDisk(fs, ui);
+
+  //redisplay
+  currentFileCabIndex = -243;
+  currentMainFolder = -243;
+  currentSubFolder = -243;
+  currentNoteIndex = -243;
+  ui.clearFileCabDisplay();
+  ui.clearPrimaryDisplay();
+  ui.clearSubDisplay();
+  ui.clearNoteDisplay();
+  //Get the names for all the file cabinets
+  //and then send them to the UI
+  ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
+//End ipcRenderer.on("fileCab:load"*****************************
+// ***********************************************************
+
+//listen for inedex.js to send data
+ipcRenderer.on("UI:showAlert", (event, dataObj) => {
+  ui.showAlert(dataObj.message, dataObj.msgType);
+}); //End ipcRenderer.on("UI:showAlert"
+
+//End IPC**************************************
 function startUp() {
   // ui.paintScreen();
 }
@@ -101,11 +160,10 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     ui.showAlert("Please select a  File Cabinet first!", "error");
     return;
   }
-  //get file name with index
-  const myStorage = new MyStorage();
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-  //grab array from file
-  let primaryArray = myStorage.getArrayFromFile(fileName);
+  //grab fileCab
+  let fileCab = arrayOfFileCabs[currentFileCabIndex];
+  //grab primary array
+  let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
   //create primary object
   let primaryName = textName.value.trim();
   if (primaryName === "") {
@@ -146,8 +204,9 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
       // names must be equal
       return 0;
     }); //End sort function
+
     //save array storage
-    myStorage.setArrayToFileName(primaryArray, fileName);
+    fileCab.writeFileCabToHardDisk(fs, ui);
     addAudio.play();
     ui.showAlert("A new main folder was added", "success");
     //redisplay paint screen
@@ -157,7 +216,9 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     currentSubFolder = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
-    ui.paintScreenPrimary(currentFileCabIndex);
+
+    //mapped primary array
+    ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } //End else statement
 }); //End add main folder
 //***************************************************************************** */
@@ -488,7 +549,8 @@ fileCabUL.addEventListener("click", e => {
     currentSubFolder = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
-    ui.paintScreenPrimary(currentFileCabIndex);
+    let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
+    ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
   //if shift is held down move file cab left

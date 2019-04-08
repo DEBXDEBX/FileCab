@@ -1,9 +1,11 @@
 const electron = require("electron");
+let fs = require("fs");
 //start the app
 const { app, BrowserWindow, Menu, ipcMain, dialog } = electron;
 console.log(
   "starting: all console.log() go in terminal for the chrome side. index.js"
 );
+
 //You have to do this declaraiton for scoping issues
 let mainWindow;
 let addWindow;
@@ -21,6 +23,7 @@ app.on("ready", () => {
   Menu.setApplicationMenu(mainMenu);
 });
 
+//When you click on create file cab
 function createFileCabinet() {
   addWindow = new BrowserWindow({
     width: 300,
@@ -32,6 +35,57 @@ function createFileCabinet() {
   addWindow.on("closed", () => {
     addWindow = null;
   });
+}
+
+//When You click on load file cab
+function loadFileCabinet() {
+  console.log("Start loading file cab....");
+
+  dialog.showOpenDialog(fileNames => {
+    if (fileNames === undefined) {
+      let message = "No file selected";
+      let msgType = "error";
+      mainWindow.webContents.send("UI:showAlert", { message, msgType });
+    } else {
+      readFileContents(fileNames[0]);
+    }
+  });
+
+  function readFileContents(filepath) {
+    fs.readFile(filepath, "utf-8", (err, data) => {
+      if (err) {
+        let message = "An error occured reading the file.";
+        let msgType = "error";
+        mainWindow.webContents.send("UI:showAlert", { message, msgType });
+        return;
+      } else {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          let message = "Can not parse data";
+          let msgType = "error";
+          mainWindow.webContents.send("UI:showAlert", { message, msgType });
+          return;
+        }
+
+        if (data) {
+          if (data.fileType === "ElectronFileCab2019April") {
+            console.log("This is a valid file");
+            //set filepath: This is in case you moved your file
+            data.fileNamePath = filepath;
+            //laod file cab
+            console.log("sending data to script.js");
+            //data is an object to be converted to an file cab object
+            mainWindow.webContents.send("fileCab:load", data);
+          } else {
+            let message = "This is not a valid ElectronFileCab2019April file";
+            let msgType = "error";
+            mainWindow.webContents.send("UI:showAlert", { message, msgType });
+          }
+        }
+      }
+    });
+  }
 }
 
 //this listens for the addWindow
@@ -57,7 +111,13 @@ const menuTemplate = [
           createFileCabinet();
         }
       },
-      { label: "Load File Cabinet" },
+      {
+        label: "Load File Cabinet",
+        accelerator: process.platform === "darwin" ? "Command+O" : "Ctrl+O",
+        click() {
+          loadFileCabinet();
+        }
+      },
       {
         label: "Quit",
         accelerator: process.platform === "darwin" ? "Command+Q" : "Ctrl+Q",

@@ -74,16 +74,10 @@ class Ui {
   //******************************************************************************* */
 
   // Method
-  paintScreenPrimary(fileIndex) {
-    //create storage  variable
-    let myStorage = new MyStorage();
-    //Get  primaryArray with index
-    let fileName = myStorage.getFileNameWithIndex(fileIndex);
-    let primaryArray = myStorage.getArrayFromFile(fileName);
-    //Make var for html
+  paintScreenPrimary(mapedArray) {
     let html = "";
-    primaryArray.forEach(element => {
-      html += `<li class="main">${element.name}</li>`;
+    mapedArray.forEach(element => {
+      html += `<li class="main">${element}</li>`;
     });
 
     this.mainFolderList.innerHTML = html;
