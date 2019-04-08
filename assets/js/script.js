@@ -234,12 +234,9 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
-  //create storage var
-  const myStorage = new MyStorage();
-  //get primary array
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
+
   //grab array from file
-  let primaryArray = myStorage.getArrayFromFile(fileName);
+  let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
   //grab the primary object index
   let primaryObjIndex;
   primaryArray.forEach((element, index, array) => {
@@ -285,7 +282,8 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
       return 0;
     }); //End sort function
     //save array storage
-    myStorage.setArrayToFileName(primaryArray, fileName);
+    arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+    console.table(primaryArray[primaryObjIndex].secondaryArray);
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //redisplay paint screen
@@ -293,7 +291,7 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     currentSubFolder = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
-    ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
+    // ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
   } //End else statement
 }); //End add sub folder
 
@@ -555,53 +553,12 @@ fileCabUL.addEventListener("click", e => {
 
   //if shift is held down move file cab left
   if (e.shiftKey) {
-    let myStorage = new MyStorage();
-    myStorage.moveFileCabinetLeft(currentFileCabIndex);
-    //update display
-    currentFileCabIndex = -243;
-    currentMainFolder = -243;
-    currentSubFolder = -243;
-    currentNoteIndex = -243;
-    ui.clearFileCabDisplay();
-    ui.clearPrimaryDisplay();
-    ui.clearSubDisplay();
-    ui.clearPrimaryDisplay();
-    ui.paintScreen();
+    console.log("Shift key is held down");
   }
 
   //if control is held down delete file cabinet and move files down one
   if (e.ctrlKey) {
-    //This setTimeout is to give the audio a chance to play before the confirm pop's up
-    warningEmptyAudio.play();
-    setTimeout(function() {
-      //I tried to put warning audio here but it doesn't want to play until after the confirm is done
-      if (confirm("Are you sure, you want to delete this File Cabinet?")) {
-        //grab the array of file cabinets
-        let myStorage = new MyStorage();
-        let fileCabArray = myStorage.getArrayOfFileCabinets();
-        //remove the current file cab from array
-        fileCabArray.splice(currentFileCabIndex, 1);
-        //set file cab array back to file
-        myStorage.setArrayOfFileCabinets(fileCabArray);
-        //move all files down one with currentFileCabIndex
-        myStorage.moveAllFilesDownOneWithDeleteIndex(currentFileCabIndex);
-        //set current file cabinet to -243
-        currentFileCabIndex = -243;
-        deleteAudio.play();
-        ui.showAlert("File cabinet deleted!", "success");
-        //repaint screens
-        ui.clearPrimaryDisplay();
-        currentMainFolder = -243;
-        ui.clearSubDisplay();
-        currentSubFolder = -243;
-        ui.clearNoteDisplay();
-        currentNoteIndex = -243;
-        ui.paintScreen();
-      } else {
-        warningNameTakenAudio.play();
-        ui.showAlert("You have chosen not to delete a file cabinet!", "error");
-      } //End bottom else
-    }, 1000);
+    console.log("control key held down");
   }
 });
 
@@ -631,7 +588,7 @@ mainFolderUL.addEventListener("click", e => {
 
     ui.clearNoteDisplay();
 
-    ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
+    // ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
     //check if control was down, if so delete
     if (e.ctrlKey) {
       //create storage var
