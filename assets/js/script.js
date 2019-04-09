@@ -28,7 +28,9 @@ const warningMaxNumberAudio = document.querySelector("#warningMaxNumberAudio");
 //Global variable's
 let currentFileCabIndex = -243;
 let currentMainFolder = -243;
+let currentMainFolderIndex = -243;
 let currentSubFolder = -243;
+let currentSubFolderIndex = -243;
 let currentNoteIndex = -243;
 const arrayOfFileCabs = [];
 
@@ -87,7 +89,9 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   //redisplay
   currentFileCabIndex = -243;
   currentMainFolder = -243;
+  currentMainFolderIndex = -243;
   currentSubFolder = -243;
+  currentSubFolderIndex = -243;
   currentNoteIndex = -243;
   ui.clearFileCabDisplay();
   ui.clearPrimaryDisplay();
@@ -130,7 +134,9 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   //redisplay
   currentFileCabIndex = -243;
   currentMainFolder = -243;
+  currentMainFolderIndex = -243;
   currentSubFolder = -243;
+  currentSubFolderIndex = -243;
   currentNoteIndex = -243;
   ui.clearFileCabDisplay();
   ui.clearPrimaryDisplay();
@@ -163,7 +169,7 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
   //grab fileCab
   let fileCab = arrayOfFileCabs[currentFileCabIndex];
   //grab primary array
-  let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
+  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
   //create primary object
   let primaryName = textName.value.trim();
   if (primaryName === "") {
@@ -171,8 +177,6 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     ui.showAlert("Please enter a name for the Main Folder!", "error");
     return;
   }
-  //You must set the main folder name to the input value above
-  // currentMainFolder = primaryName;
   let primaryObj = new PrimaryObj(primaryName);
   //check if the name already exists if it does alert and return and set current main folder to -243
   //make a variable to return
@@ -187,6 +191,7 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
     currentMainFolder = -243;
+    currentMainFolderIndex = -243;
   } else {
     //push primary object into array
     primaryArray.push(primaryObj);
@@ -212,8 +217,10 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     //redisplay paint screen
     ui.clearPrimaryDisplay();
     currentMainFolder = -243;
+    currentMainFolderIndex = -243;
     ui.clearSubDisplay();
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
 
@@ -229,21 +236,16 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     ui.showAlert("Please select a File Cabinet first!", "error");
     return;
   }
-  if (currentMainFolder === -243) {
+  if (currentMainFolderIndex === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
 
   //grab array from file
-  let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
+  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
   //grab the primary object index
-  let primaryObjIndex;
-  primaryArray.forEach((element, index, array) => {
-    if (currentMainFolder === element.name) {
-      primaryObjIndex = index;
-    }
-  });
+
   //create secondary obj
   let secondaryName = textName.value.trim();
   if (secondaryName === "") {
@@ -255,7 +257,7 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
   //check if the name already exists if it does alert and return and set current sub folder to -243
   //make a variable to return
   let isTaken = false;
-  primaryArray[primaryObjIndex].secondaryArray.forEach(element => {
+  primaryArray[currentMainFolderIndex].secondaryArray.forEach(element => {
     if (secondaryName === element.name) {
       isTaken = true;
       return;
@@ -265,11 +267,12 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
   } else {
     //push object into array
-    primaryArray[primaryObjIndex].secondaryArray.push(secondaryObject);
+    primaryArray[currentMainFolderIndex].secondaryArray.push(secondaryObject);
     // sort by name
-    primaryArray[primaryObjIndex].secondaryArray.sort(function(a, b) {
+    primaryArray[currentMainFolderIndex].secondaryArray.sort(function(a, b) {
       var nameA = a.name.toUpperCase(); // ignore upper and lowercase
       var nameB = b.name.toUpperCase(); // ignore upper and lowercase
       if (nameA < nameB) {
@@ -283,15 +286,18 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     }); //End sort function
     //save array storage
     arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
-    console.table(primaryArray[primaryObjIndex].secondaryArray);
+    console.table(primaryArray[currentMainFolderIndex].secondaryArray);
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //redisplay paint screen
     ui.clearSubDisplay();
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
-    // ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
+    let secondaryArray = primaryArray[currentMainFolderIndex].secondaryArray;
+
+    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
   } //End else statement
 }); //End add sub folder
 
@@ -543,8 +549,10 @@ fileCabUL.addEventListener("click", e => {
     currentFileCabIndex = index;
     ui.clearPrimaryDisplay();
     currentMainFolder = -243;
+    currentMainFolderIndex = -243;
     ui.clearSubDisplay();
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
     let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
@@ -583,42 +591,49 @@ mainFolderUL.addEventListener("click", e => {
     //End code to set the active class
 
     currentMainFolder = e.target.textContent;
+
+    //get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    currentMainFolderIndex = index;
+
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
     currentNoteIndex = -243;
 
     ui.clearNoteDisplay();
-
+    let secondaryArray =
+      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
+        currentMainFolderIndex
+      ].secondaryArray;
+    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
     // ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
     //check if control was down, if so delete
     if (e.ctrlKey) {
-      //create storage var
-      const myStorage = new MyStorage();
       //get primary array
-      let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-      //grab array from file
-      let primaryArray = myStorage.getArrayFromFile(fileName);
-      //grab the primary object index
-      let primaryObjIndex;
-      primaryArray.forEach((element, index, array) => {
-        if (currentMainFolder === element.name) {
-          primaryObjIndex = index;
-        }
-      });
+
+      let primaryArray =
+        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+
       //Delete main folder
-      primaryArray.splice(primaryObjIndex, 1);
-      //set the primary array back to file
-      myStorage.setArrayToFileName(primaryArray, fileName);
+      primaryArray.splice(currentMainFolderIndex, 1);
+      //write file cab to file
+      arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
       ui.clearPrimaryDisplay();
       currentMainFolder = -243;
+      currentMainFolderIndex = -243;
       ui.clearSubDisplay();
       currentSubFolder = -243;
+      currentSubFolderIndex = -243;
       ui.clearNoteDisplay();
       currentNoteIndex = -243;
       //redisplay main folder
-      ui.paintScreenPrimary(currentFileCabIndex);
+      //mapped primary array
+      ui.paintScreenPrimary(mapNamesOut(primaryArray));
+      // ui.paintScreenPrimary(currentFileCabIndex);
     } //End control key down
   }
 });

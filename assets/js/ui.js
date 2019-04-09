@@ -76,8 +76,8 @@ class Ui {
   // Method
   paintScreenPrimary(mapedArray) {
     let html = "";
-    mapedArray.forEach(element => {
-      html += `<li class="main">${element}</li>`;
+    mapedArray.forEach((element, index) => {
+      html += `<li data-index="${index}" class="main">${element}</li>`;
     });
 
     this.mainFolderList.innerHTML = html;
@@ -85,28 +85,11 @@ class Ui {
   //********************************************************************************* */
 
   // Method
-  paintScreenSecondary(fileIndex, primaryName) {
-    //create storage  variable
-    let myStorage = new MyStorage();
-    //Get  primaryArray with index
-    let fileName = myStorage.getFileNameWithIndex(fileIndex);
-    let primaryArray = myStorage.getArrayFromFile(fileName);
-    //set up primaryObject var
-    let primaryObject;
-    //loop through array to get primary object
-    primaryArray.forEach((element, index) => {
-      if (primaryName === element.name) {
-        primaryObject = element;
-        //  console.log('they are equal');
-        //  console.log(primaryObject);
-      }
-    });
-    //Get secondary array
-    let secondaryArray = primaryObject.secondaryArray;
+  paintScreenSecondary(mappedSecondaryArray) {
     //Make var for html
     let html = "";
-    secondaryArray.forEach(element => {
-      html += `<li class="sub">${element.name}</li>`;
+    mappedSecondaryArray.forEach((element, index) => {
+      html += `<li data-index="${index}" class="sub">${element}</li>`;
     });
     this.subFolderList.innerHTML = html;
   } //end paint screen secondary
