@@ -38,6 +38,10 @@ const arrayOfFileCabs = [];
 window.onload = function() {
   startUp();
 };
+//Start Up
+function startUp() {
+  // there is nothing that needs to run at start up, it is event driven
+}
 
 //*************************************************** */
 //Helper functions
@@ -155,9 +159,6 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 }); //End ipcRenderer.on("UI:showAlert"
 
 //End IPC**************************************
-function startUp() {
-  // ui.paintScreen();
-}
 
 //************************************************************************* */
 document.querySelector("#addMainFolder").addEventListener("click", e => {
@@ -320,26 +321,26 @@ document.querySelector("#addNote").addEventListener("click", e => {
     return;
   }
 
-  //create storage var
-  const myStorage = new MyStorage();
-  //get primary array
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
+  // //create storage var
+  // const myStorage = new MyStorage();
+  // //get primary array
+  // let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
   //grab array from file
-  let primaryArray = myStorage.getArrayFromFile(fileName);
-  //grab the primary object index
-  let primaryObjIndex;
-  primaryArray.forEach((element, index, array) => {
-    if (currentMainFolder === element.name) {
-      primaryObjIndex = index;
-    }
-  });
-  //grab the secondary object index
-  let secondaryObjIndex;
-  primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-    if (currentSubFolder === element.name) {
-      secondaryObjIndex = index;
-    }
-  });
+  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+  // //grab the primary object index
+  // let primaryObjIndex;
+  // primaryArray.forEach((element, index, array) => {
+  //   if (currentMainFolder === element.name) {
+  //     primaryObjIndex = index;
+  //   }
+  // });
+  // //grab the secondary object index
+  // let secondaryObjIndex;
+  // primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
+  //   if (currentSubFolder === element.name) {
+  //     secondaryObjIndex = index;
+  //   }
+  // });
   //create note
   let noteText = textArea.value.trim();
   if (noteText === "") {
@@ -350,11 +351,11 @@ document.querySelector("#addNote").addEventListener("click", e => {
   }
   let newNote = new Note(noteText);
   //push note into note array
-  primaryArray[primaryObjIndex].secondaryArray[
-    secondaryObjIndex
+  primaryArray[currentMainFolderIndex].secondaryArray[
+    currentSubFolderIndex
   ].noteArray.push(newNote);
-  //set primary array back to file
-  myStorage.setArrayToFileName(primaryArray, fileName);
+  //save array storage
+  arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
   addAudio.play();
   ui.showAlert("A new note was added", "success");
   //redisplay paint screen
@@ -362,7 +363,10 @@ document.querySelector("#addNote").addEventListener("click", e => {
   ui.clearNoteDisplay();
   currentNoteIndex = -243;
 
-  ui.paintScreenNote(currentFileCabIndex, currentMainFolder, currentSubFolder);
+  ui.paintScreenNote(
+    primaryArray[currentMainFolderIndex].secondaryArray[currentSubFolderIndex]
+      .noteArray
+  );
 }); //End add note
 //************************************************** */
 
@@ -658,44 +662,48 @@ subFolderUL.addEventListener("click", e => {
     }
     //End code to set the active class
   }
+
+  //get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  currentSubFolderIndex = index;
+
   currentSubFolder = e.target.textContent;
   currentNoteIndex = -243;
-  ui.paintScreenNote(currentFileCabIndex, currentMainFolder, currentSubFolder);
+  //send the note array to ui.paintScreenNote()
+  ui.paintScreenNote(
+    arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
+      currentMainFolderIndex
+    ].secondaryArray[currentSubFolderIndex].noteArray
+  );
 
   if (e.ctrlKey) {
-    //create storage var
-    const myStorage = new MyStorage();
-    //get primary array
-    let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
     //grab array from file
-    let primaryArray = myStorage.getArrayFromFile(fileName);
-    //grab the primary object index
-    let primaryObjIndex;
-    primaryArray.forEach((element, index, array) => {
-      if (currentMainFolder === element.name) {
-        primaryObjIndex = index;
-      }
-    });
-    //grab the secondary object index
-    let secondaryObjIndex;
-    primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-      if (currentSubFolder === element.name) {
-        secondaryObjIndex = index;
-      }
-    });
+    let primaryArray =
+      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+
     //grab the secondary array and delete sub folder
-    primaryArray[primaryObjIndex].secondaryArray.splice(secondaryObjIndex, 1);
+    primaryArray[currentMainFolderIndex].secondaryArray.splice(
+      currentSubFolderIndex,
+      1
+    );
     //set the primary array back to file
-    myStorage.setArrayToFileName(primaryArray, fileName);
+    arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+    // myStorage.setArrayToFileName(primaryArray, fileName);
     deleteAudio.play();
     ui.showAlert("Sub folder deleted!", "success");
     //clear sub folder and notes
     ui.clearSubDisplay();
     currentSubFolder = -243;
+    currentSubFolderIndex = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
     //redisplay sub folder
-    ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
+    let secondaryArray =
+      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
+        currentMainFolderIndex
+      ].secondaryArray;
+    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
   } //End control key down
 }); //End
 
@@ -715,31 +723,15 @@ noteSection.addEventListener("click", e => {
     currentNoteIndex = deleteIndex;
 
     //if the note has a image path create elemment and insert into document
-    //create storage var
-    const myStorage = new MyStorage();
-    //get primary array
-    let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
+
     //grab array from file
-    let primaryArray = myStorage.getArrayFromFile(fileName);
-    //grab the primary object index
-    let primaryObjIndex;
-    primaryArray.forEach((element, index, array) => {
-      if (currentMainFolder === element.name) {
-        primaryObjIndex = index;
-      }
-    });
-    //grab the secondary object index
-    let secondaryObjIndex;
-    primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-      if (currentSubFolder === element.name) {
-        secondaryObjIndex = index;
-      }
-    });
+    let primaryArray =
+      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+
     //see if the note has a imagePath
     let selectedNote =
-      primaryArray[primaryObjIndex].secondaryArray[secondaryObjIndex].noteArray[
-        currentNoteIndex
-      ];
+      primaryArray[currentMainFolderIndex].secondaryArray[currentSubFolderIndex]
+        .noteArray[currentNoteIndex];
     if (selectedNote.imagePath !== "R2D2") {
       // image path is not R2D2
       let oImg = document.createElement("img");
@@ -757,41 +749,25 @@ noteSection.addEventListener("click", e => {
 
     //check if control was down, if so delete
     if (e.ctrlKey) {
-      //create storage var
-      const myStorage = new MyStorage();
-      //get primary array
-      let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
       //grab array from file
-      let primaryArray = myStorage.getArrayFromFile(fileName);
-      //grab the primary object index
-      let primaryObjIndex;
-      primaryArray.forEach((element, index, array) => {
-        if (currentMainFolder === element.name) {
-          primaryObjIndex = index;
-        }
-      });
-      //grab the secondary object index
-      let secondaryObjIndex;
-      primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-        if (currentSubFolder === element.name) {
-          secondaryObjIndex = index;
-        }
-      });
+      let primaryArray =
+        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+
       //grab the note array and delete current note
-      primaryArray[primaryObjIndex].secondaryArray[
-        secondaryObjIndex
+      primaryArray[currentMainFolderIndex].secondaryArray[
+        currentSubFolderIndex
       ].noteArray.splice(deleteIndex, 1);
-      //set primary array back to file
-      myStorage.setArrayToFileName(primaryArray, fileName);
+      //write to file
+      arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
       //reasign current note
       currentNoteIndex = -243;
       deleteAudio.play();
       ui.showAlert("Note deleted!", "success");
       //redisplay notes
       ui.paintScreenNote(
-        currentFileCabIndex,
-        currentMainFolder,
-        currentSubFolder
+        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
+          currentMainFolderIndex
+        ].secondaryArray[currentSubFolderIndex].noteArray
       );
     } //End control key down
   } //End class name contains note

@@ -96,38 +96,7 @@ class Ui {
   //******************************************************************************* */
 
   //Method
-  paintScreenNote(fileIndex, primaryName, secondaryName) {
-    //create storage  variable
-    let myStorage = new MyStorage();
-    //Get  primaryArray with index
-    let fileName = myStorage.getFileNameWithIndex(fileIndex);
-    let primaryArray = myStorage.getArrayFromFile(fileName);
-    //set up primaryObject var
-    let primaryObject;
-    //loop through array to get primary object
-    primaryArray.forEach((element, index) => {
-      if (primaryName === element.name) {
-        primaryObject = element;
-        // console.log('they are equal');
-        // console.log(primaryObject);
-      }
-    });
-    //Get secondary array
-    let secondaryArray = primaryObject.secondaryArray;
-    //set up a secondaryObject var
-    let secondaryObject;
-    //loop through array to get secondary object
-    secondaryArray.forEach((element, index) => {
-      if (secondaryName === element.name) {
-        secondaryObject = element;
-        // console.log('they are equal');
-        // console.log(secondaryObject);
-      }
-    });
-    //get array of notes
-    let noteArray = secondaryObject.noteArray;
-    //Make div for html
-
+  paintScreenNote(noteArray) {
     //clear the div
     this.noteList.innerHTML = "";
     //build div
