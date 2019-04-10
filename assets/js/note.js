@@ -2,12 +2,10 @@
 class Note {
   constructor(text) {
     this.text = text;
-    this.imagePath ='R2D2';
+    this.imagePath;
   }
-  //Method
-  setImagePath(imageName){
-    let firstPart = '../assets/img/'
-    this.imagePath = firstPart + imageName;
-}
-
-}// End class 
+  // //Method
+  // setImagePath(imagePath) {
+  //   this.imagePath = imagePath;
+  // }
+} // End class

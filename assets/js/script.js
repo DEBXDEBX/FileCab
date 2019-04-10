@@ -1,6 +1,6 @@
 // Used to access file system
-// let app = require("electron").remote;
-// let dialog = app.dialog;
+let app = require("electron").remote;
+let { dialog } = app;
 let fs = require("fs");
 
 const electron = require("electron");
@@ -11,11 +11,11 @@ const fileCabUL = document.querySelector("#fileCabList");
 const mainFolderUL = document.querySelector("#mainFolderList");
 const subFolderUL = document.querySelector("#subFolderList");
 const noteSection = document.querySelector("#noteList");
+
 //Select textName and textArea
 const textName = document.querySelector("#name");
 const textArea = document.querySelector("#myTextArea");
-//Create ui object
-const ui = new Ui();
+
 //Select audio files
 const addAudio = document.querySelector("#addAudio");
 const addFileCabAudio = document.querySelector("#addFileCabAudio");
@@ -25,18 +25,25 @@ const warningEmptyAudio = document.querySelector("#warningEmptyAudio");
 const warningSelectAudio = document.querySelector("#warningSelectAudio");
 const warningNameTakenAudio = document.querySelector("#warningNameTakenAudio");
 const warningMaxNumberAudio = document.querySelector("#warningMaxNumberAudio");
+
 //Global variable's
-let currentFileCabIndex = -243;
-let currentMainFolder = -243;
-let currentMainFolderIndex = -243;
-let currentSubFolder = -243;
-let currentSubFolderIndex = -243;
-let currentNoteIndex = -243;
+//current File Cab Index
+let fcI = -243;
+// current Main Folder Index
+let mfI = -243;
+// currentSub Folder Index
+let sfI = -243;
+// current note Index
+let nI = -243;
+//Create ui object
+const ui = new Ui();
+// This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
 
 //The start of program exicution.
 window.onload = function() {
-  startUp();
+  // startUp();
+  // console.log(dialog);
 };
 //Start Up
 function startUp() {
@@ -44,8 +51,9 @@ function startUp() {
 }
 
 //*************************************************** */
-//Helper functions
+// Helper functions
 //*************************************************** */
+// Create a new array with only the items name
 function mapNamesOut(array) {
   let mapedArray = array.map(item => {
     return item.name;
@@ -53,6 +61,40 @@ function mapNamesOut(array) {
   return mapedArray;
 }
 
+// Sort an array by it's name
+function sortArrayByName(array) {
+  array.sort(function(a, b) {
+    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    // names must be eimagePathual
+    return 0;
+  }); //End sort function
+}
+
+function handleFilePath(imagePath) {
+  console.log(imagePath);
+  if (imagePath === "") {
+    warningEmptyAudio.play();
+    ui.showAlert("Please enter a path in the name area!", "error");
+    return;
+  }
+  console.log(imagePath);
+  //set image path
+  //get primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath = imagePath;
+  console.log(primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath);
+  // save file cab
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+  addImageAudio.play();
+  ui.showAlert("A new image was added to the note", "success");
+}
 //End Helper functions********************************
 
 //************************************************ */
@@ -91,12 +133,12 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   newfileCab.writeFileCabToHardDisk(fs, ui);
 
   //redisplay
-  currentFileCabIndex = -243;
+  fcI = -243;
   currentMainFolder = -243;
-  currentMainFolderIndex = -243;
+  mfI = -243;
   currentSubFolder = -243;
-  currentSubFolderIndex = -243;
-  currentNoteIndex = -243;
+  sfI = -243;
+  nI = -243;
   ui.clearFileCabDisplay();
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
@@ -110,8 +152,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
 //listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
-  // //check if the name already exists if it does alert and return
-  //make a variable to return
+  // check if the name already exists if it does alert and return
+  // make a variable to return
   let isTaken = false;
   arrayOfFileCabs.forEach(element => {
     if (element.name === data.name) {
@@ -136,12 +178,12 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   newfileCab.writeFileCabToHardDisk(fs, ui);
 
   //redisplay
-  currentFileCabIndex = -243;
+  fcI = -243;
   currentMainFolder = -243;
-  currentMainFolderIndex = -243;
+  mfI = -243;
   currentSubFolder = -243;
-  currentSubFolderIndex = -243;
-  currentNoteIndex = -243;
+  sfI = -243;
+  nI = -243;
   ui.clearFileCabDisplay();
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
@@ -162,15 +204,16 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 
 //************************************************************************* */
 document.querySelector("#addMainFolder").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
+  if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a  File Cabinet first!", "error");
     return;
   }
+
   //grab fileCab
-  let fileCab = arrayOfFileCabs[currentFileCabIndex];
+  let fileCab = arrayOfFileCabs[fcI];
   //grab primary array
-  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //create primary object
   let primaryName = textName.value.trim();
   if (primaryName === "") {
@@ -192,59 +235,47 @@ document.querySelector("#addMainFolder").addEventListener("click", e => {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
     currentMainFolder = -243;
-    currentMainFolderIndex = -243;
+    mfI = -243;
   } else {
     //push primary object into array
     primaryArray.push(primaryObj);
-    //sort primary array
-    // sort by name
-    primaryArray.sort(function(a, b) {
-      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      // names must be equal
-      return 0;
-    }); //End sort function
+    //sort primary array by name
+    sortArrayByName(primaryArray);
 
-    //save array storage
+    // save file cab
     fileCab.writeFileCabToHardDisk(fs, ui);
     addAudio.play();
     ui.showAlert("A new main folder was added", "success");
     //redisplay paint screen
     ui.clearPrimaryDisplay();
     currentMainFolder = -243;
-    currentMainFolderIndex = -243;
+    mfI = -243;
     ui.clearSubDisplay();
     currentSubFolder = -243;
-    currentSubFolderIndex = -243;
+    sfI = -243;
     ui.clearNoteDisplay();
-    currentNoteIndex = -243;
+    nI = -243;
 
-    //mapped primary array
+    // mapped primary array
     ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } //End else statement
 }); //End add main folder
 //***************************************************************************** */
 
 document.querySelector("#addSubFolder").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
+  if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a File Cabinet first!", "error");
     return;
   }
-  if (currentMainFolderIndex === -243) {
+  if (mfI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
 
   //grab array from file
-  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //grab the primary object index
 
   //create secondary obj
@@ -258,7 +289,7 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
   //check if the name already exists if it does alert and return and set current sub folder to -243
   //make a variable to return
   let isTaken = false;
-  primaryArray[currentMainFolderIndex].secondaryArray.forEach(element => {
+  primaryArray[mfI].secondaryArray.forEach(element => {
     if (secondaryName === element.name) {
       isTaken = true;
       return;
@@ -268,35 +299,24 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
     currentSubFolder = -243;
-    currentSubFolderIndex = -243;
+    sfI = -243;
   } else {
     //push object into array
-    primaryArray[currentMainFolderIndex].secondaryArray.push(secondaryObject);
-    // sort by name
-    primaryArray[currentMainFolderIndex].secondaryArray.sort(function(a, b) {
-      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      // names must be equal
-      return 0;
-    }); //End sort function
+    primaryArray[mfI].secondaryArray.push(secondaryObject);
+    // sort secondary array by name
+    sortArrayByName(primaryArray[mfI].secondaryArray);
     //save array storage
-    arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
-    console.table(primaryArray[currentMainFolderIndex].secondaryArray);
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //redisplay paint screen
     ui.clearSubDisplay();
     currentSubFolder = -243;
-    currentSubFolderIndex = -243;
+    sfI = -243;
     ui.clearNoteDisplay();
-    currentNoteIndex = -243;
-    let secondaryArray = primaryArray[currentMainFolderIndex].secondaryArray;
+    nI = -243;
+    let secondaryArray = primaryArray[mfI].secondaryArray;
 
     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
   } //End else statement
@@ -305,42 +325,25 @@ document.querySelector("#addSubFolder").addEventListener("click", e => {
 //************************************************************* */
 
 document.querySelector("#addNote").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
+  // get current notge index
+
+  if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a File Cabinet first!", "error");
     return;
   }
-  if (currentMainFolder === -243) {
+  if (mfI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
-  if (currentSubFolder === -243) {
+  if (sfI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Sub Folder first!", "error");
     return;
   }
-
-  // //create storage var
-  // const myStorage = new MyStorage();
-  // //get primary array
-  // let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-  //grab array from file
-  let primaryArray = arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
-  // //grab the primary object index
-  // let primaryObjIndex;
-  // primaryArray.forEach((element, index, array) => {
-  //   if (currentMainFolder === element.name) {
-  //     primaryObjIndex = index;
-  //   }
-  // });
-  // //grab the secondary object index
-  // let secondaryObjIndex;
-  // primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-  //   if (currentSubFolder === element.name) {
-  //     secondaryObjIndex = index;
-  //   }
-  // });
+  // grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //create note
   let noteText = textArea.value.trim();
   if (noteText === "") {
@@ -350,178 +353,71 @@ document.querySelector("#addNote").addEventListener("click", e => {
     return;
   }
   let newNote = new Note(noteText);
+  console.table(newNote);
   //push note into note array
-  primaryArray[currentMainFolderIndex].secondaryArray[
-    currentSubFolderIndex
-  ].noteArray.push(newNote);
+  primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
   //save array storage
-  arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
   addAudio.play();
   ui.showAlert("A new note was added", "success");
   //redisplay paint screen
-
   ui.clearNoteDisplay();
-  currentNoteIndex = -243;
-
-  ui.paintScreenNote(
-    primaryArray[currentMainFolderIndex].secondaryArray[currentSubFolderIndex]
-      .noteArray
-  );
+  nI = -243;
+  ui.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
 }); //End add note
 //************************************************** */
 
 document.querySelector("#addImage").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
+  //get current note index
+
+  if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a File Cabinet first!", "error");
     return;
   }
-  if (currentMainFolder === -243) {
+  if (mfI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
-  if (currentSubFolder === -243) {
+  if (sfI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Sub Folder first!", "error");
     return;
   }
-  if (currentNoteIndex === -243) {
+  if (nI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Note first!", "error");
     return;
   }
 
-  //the first half of the image path
-  let firstPart = "./assets/img/";
   //grab current note and add a image path property to it and save back to file
-  //create storage var
-  const myStorage = new MyStorage();
+
   //get primary array
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-  //grab array from file
-  let primaryArray = myStorage.getArrayFromFile(fileName);
-  //grab the primary object index
-  let primaryObjIndex;
-  primaryArray.forEach((element, index, array) => {
-    if (currentMainFolder === element.name) {
-      primaryObjIndex = index;
-    }
-  });
-  //grab the secondary object index
-  let secondaryObjIndex;
-  primaryArray[primaryObjIndex].secondaryArray.forEach((element, index) => {
-    if (currentSubFolder === element.name) {
-      secondaryObjIndex = index;
-    }
-  }); //End of forEach
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
   //get the image path from the name text field
-  let imageName = textName.value.trim();
-  if (imageName === "") {
-    warningEmptyAudio.play();
-    ui.showAlert("Please enter a path in the name area!", "error");
-    return;
-  }
-  //add the image paths togather
-  let fullImagePath = firstPart + imageName;
-  primaryArray[primaryObjIndex].secondaryArray[secondaryObjIndex].noteArray[
-    currentNoteIndex
-  ].imagePath = fullImagePath;
-  //set primary array back to file
-  myStorage.setArrayToFileName(primaryArray, fileName);
-  addImageAudio.play();
-  ui.showAlert("A new image was added to the note", "success");
+  // let fullImagePath = textName.value.trim();
+  let imagePath;
+
+  dialog.showOpenDialog(fileNames => {
+    if (fileNames === undefined) {
+      let message = "No file selected";
+      let msgType = "error";
+      console.log("there is no file");
+      // mainWindow.webContents.send("UI:showAlert", { message, msgType });
+    } else {
+      console.log("got file name");
+      imagePath = fileNames[0];
+      console.log(imagePath);
+      handleFilePath(imagePath);
+    }
+  });
 }); //End add event listener
 
 //**************************************************************** */
-document.querySelector("#exportJSON").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  addAudio.play();
-  ui.showAndCheckTextArea();
-  ui.showAlert(
-    "Copy and paste the text in the text area to a .json file and add it to the json folder",
-    "success",
-    10000
-  );
-  //get current file cab array
-  let myStorage = new MyStorage();
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-  let array = myStorage.getArrayFromFile(fileName);
-  //turn array into a string
-  let myStringOfJSON = JSON.stringify(array);
-  //output string to text area
-  textArea.value = myStringOfJSON;
-}); //End add event listener
 
 //*************************************************************** */
-document.querySelector("#importJSON").addEventListener("click", e => {
-  if (currentFileCabIndex === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-
-  let textAreaInput = textArea.value.trim();
-
-  if (textAreaInput === "") {
-    warningEmptyAudio.play();
-    ui.showAlert(
-      "Please copy and paste a valid JSON string in the large text Area",
-      "error",
-      10000
-    );
-    ui.showAndCheckTextArea();
-    return;
-  }
-
-  //get data from file
-  let array = JSON.parse(textAreaInput);
-
-  //get current file cab array
-  let myStorage = new MyStorage();
-  let fileName = myStorage.getFileNameWithIndex(currentFileCabIndex);
-
-  //check if array is empty if so go ahead and write over
-  let checkArray = myStorage.getArrayFromFile(fileName);
-  if (checkArray.length === 0) {
-    //the file cabinet is empty go ahead and write the new file
-    myStorage.setArrayToFileName(array, fileName);
-    addAudio.play();
-    ui.showAlert("File Cabinet loaded!", "success");
-  } else {
-    //This setTimeout is to give the audio a chance to play before the confirm pop's up
-    warningEmptyAudio.play();
-    setTimeout(function() {
-      //I tried to put warning audio here but it doesn't want to play until after the confirm is done
-      if (
-        confirm(
-          "Are you sure, you want to load this data, this file cabinet already has valid data?"
-        )
-      ) {
-        myStorage.setArrayToFileName(array, fileName);
-        addAudio.play();
-        ui.showAlert("File Cabinet loaded!", "success");
-      } else {
-        warningNameTakenAudio.play();
-        ui.showAlert("You have chosen not to load a file cabinet!", "error");
-      } //End bottom else
-    }, 1000);
-  } //End top else
-
-  //paint the Main folder
-  ui.clearPrimaryDisplay();
-  currentMainFolder = -243;
-  ui.clearSubDisplay();
-  currentSubFolder = -243;
-  ui.clearNoteDisplay();
-  currentNoteIndex = -243;
-  ui.paintScreenPrimary(currentFileCabIndex);
-}); //End add event listener
 
 //********************************************** */
 //addEventListener for event delegation
@@ -535,7 +431,7 @@ fileCabUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".fileCab");
+    var el = document.querySelector(".fileCab");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -550,17 +446,16 @@ fileCabUL.addEventListener("click", e => {
     //get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    currentFileCabIndex = index;
+    fcI = index;
     ui.clearPrimaryDisplay();
     currentMainFolder = -243;
-    currentMainFolderIndex = -243;
+    mfI = -243;
     ui.clearSubDisplay();
     currentSubFolder = -243;
-    currentSubFolderIndex = -243;
+    sfI = -243;
     ui.clearNoteDisplay();
-    currentNoteIndex = -243;
-    let primaryArray =
-      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+    nI = -243;
+    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
     ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
@@ -583,7 +478,7 @@ mainFolderUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".main");
+    var el = document.querySelector(".main");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -595,50 +490,39 @@ mainFolderUL.addEventListener("click", e => {
     }
     //End code to set the active class
 
-    currentMainFolder = e.target.textContent;
-
     //get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    currentMainFolderIndex = index;
-
-    currentSubFolder = -243;
-    currentSubFolderIndex = -243;
-    currentNoteIndex = -243;
+    mfI = index;
+    sfI = -243;
+    nI = -243;
 
     ui.clearNoteDisplay();
     let secondaryArray =
-      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
-        currentMainFolderIndex
-      ].secondaryArray;
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
-    // ui.paintScreenSecondary(currentFileCabIndex, currentMainFolder);
+
     //check if control was down, if so delete
     if (e.ctrlKey) {
       //get primary array
-
-      let primaryArray =
-        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
-
+      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
       //Delete main folder
-      primaryArray.splice(currentMainFolderIndex, 1);
-      //write file cab to file
-      arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+      primaryArray.splice(mfI, 1);
+      // save file cab
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
       ui.clearPrimaryDisplay();
-      currentMainFolder = -243;
-      currentMainFolderIndex = -243;
+      mfI = -243;
       ui.clearSubDisplay();
-      currentSubFolder = -243;
-      currentSubFolderIndex = -243;
+      sfI = -243;
       ui.clearNoteDisplay();
-      currentNoteIndex = -243;
+      nI = -243;
       //redisplay main folder
       //mapped primary array
       ui.paintScreenPrimary(mapNamesOut(primaryArray));
-      // ui.paintScreenPrimary(currentFileCabIndex);
+      // ui.paintScreenPrimary(fcI);
     } //End control key down
   }
 });
@@ -651,7 +535,7 @@ subFolderUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".sub");
+    var el = document.querySelector(".sub");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -667,73 +551,78 @@ subFolderUL.addEventListener("click", e => {
   //get the index from the html
   let index = e.target.dataset.index;
   index = parseInt(index);
-  currentSubFolderIndex = index;
-
-  currentSubFolder = e.target.textContent;
-  currentNoteIndex = -243;
+  sfI = index;
+  nI = -243;
   //send the note array to ui.paintScreenNote()
   ui.paintScreenNote(
-    arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
-      currentMainFolderIndex
-    ].secondaryArray[currentSubFolderIndex].noteArray
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray
   );
 
   if (e.ctrlKey) {
     //grab array from file
-    let primaryArray =
-      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
     //grab the secondary array and delete sub folder
-    primaryArray[currentMainFolderIndex].secondaryArray.splice(
-      currentSubFolderIndex,
-      1
-    );
+    primaryArray[mfI].secondaryArray.splice(sfI, 1);
     //set the primary array back to file
-    arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
     // myStorage.setArrayToFileName(primaryArray, fileName);
     deleteAudio.play();
     ui.showAlert("Sub folder deleted!", "success");
     //clear sub folder and notes
     ui.clearSubDisplay();
-    currentSubFolder = -243;
-    currentSubFolderIndex = -243;
+    sfI = -243;
     ui.clearNoteDisplay();
-    currentNoteIndex = -243;
+    nI = -243;
     //redisplay sub folder
     let secondaryArray =
-      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
-        currentMainFolderIndex
-      ].secondaryArray;
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
   } //End control key down
 }); //End
 
 //****************************************************** */
+// When the user clicks on a note
 noteSection.addEventListener("click", e => {
   // event delegation
   if (e.target.classList.contains("myPic")) {
     // remove image
     e.target.remove();
   }
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  nI = index;
+  console.log(`note index: ${nI}`);
+  if (nI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Note first!", "error");
+    return;
+  }
+  //get the index from the html
 
   // event delegation
   if (e.target.classList.contains("note")) {
+    if (nI === -243) {
+      warningSelectAudio.play();
+      ui.showAlert("Please select a Note first!", "error");
+      return;
+    }
     //This gets the data I embedded into the html
     let dataIndex = e.target.dataset.index;
     let deleteIndex = parseInt(dataIndex);
-    currentNoteIndex = deleteIndex;
-
+    nI = deleteIndex;
+    console.log(`note index: ${nI}`);
     //if the note has a image path create elemment and insert into document
 
     //grab array from file
-    let primaryArray =
-      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
-
+    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+    console.log(`note index: ${nI}`);
     //see if the note has a imagePath
-    let selectedNote =
-      primaryArray[currentMainFolderIndex].secondaryArray[currentSubFolderIndex]
-        .noteArray[currentNoteIndex];
-    if (selectedNote.imagePath !== "R2D2") {
+    let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
+    console.table(selectedNote);
+    if (selectedNote.imagePath) {
+      console.log("there is an image path");
       // image path is not R2D2
       let oImg = document.createElement("img");
       oImg.setAttribute("src", selectedNote.imagePath);
@@ -748,31 +637,30 @@ noteSection.addEventListener("click", e => {
       // console.log('image path is R2D2');
     }
 
-    //check if control was down, if so delete
+    //check if control was down, if so delete note
     if (e.ctrlKey) {
+      console.log(`note index: ${nI}`);
       //grab array from file
-      let primaryArray =
-        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
+      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
       //grab the note array and delete current note
-      primaryArray[currentMainFolderIndex].secondaryArray[
-        currentSubFolderIndex
-      ].noteArray.splice(deleteIndex, 1);
+      primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
       //write to file
-      arrayOfFileCabs[currentFileCabIndex].writeFileCabToHardDisk(fs, ui);
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
       //reasign current note
-      currentNoteIndex = -243;
+      nI = -243;
       deleteAudio.play();
       ui.showAlert("Note deleted!", "success");
       //redisplay notes
+      console.log(`note index: ${nI}`);
       ui.paintScreenNote(
-        arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects[
-          currentMainFolderIndex
-        ].secondaryArray[currentSubFolderIndex].noteArray
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+          .noteArray
       );
     } //End control key down
   } //End class name contains note
 }); //End event listener
 
 //********************************************* */
+
 //End addEventListener

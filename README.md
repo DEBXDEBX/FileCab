@@ -9,7 +9,6 @@ starting: all console.log() go in ternimal for the chrome side. index.js console
 ---
 
 must do later
-sort helper function
-get rid of currentMainFolder and currentSubFolder
 fiter out file extensions for .deb
 get rid of addfilecab and import and export buttons
+add a file to note

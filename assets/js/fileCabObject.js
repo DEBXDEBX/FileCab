@@ -9,36 +9,6 @@ class FileCabObject {
     this.fileType = "ElectronFileCab2019April";
   }
 
-  // //Method
-  // getPrimaryArray() {
-  //   return this.arrayOfPrimaryObjects;
-  // }
-  // // Method
-  // getSecondaryArray(primaryName) {
-  //   let index;
-
-  //   for (let i = 0; i < this.arrayOfPrimaryObjects.length; i++) {
-  //     if (this.arrayOfPrimaryObjects.name === primaryName) {
-  //       index = i;
-  //       break;
-  //     }
-  //   }
-  //   return this.arrayOfPrimaryObjects[index].secondaryArray;
-  // } //getSecondaryArray(primaryName)
-
-  // // Method
-  // getNoteArray(primaryName, secondaryName) {
-  //   let index;
-  //   let secondaryArray = this.getSecondaryArray(primaryName);
-  //   for (let i = 0; i < secondaryArray.length; i++) {
-  //     if (secondaryArray.name === secondaryName) {
-  //       index = i;
-  //       break;
-  //     }
-  //   }
-  //   return secondaryArray[index].noteArray;
-  // } //getNoteArray(primaryName, secondaryName)
-
   // Method
   writeFileCabToHardDisk(fs, ui) {
     //Stringify the file cab Object
