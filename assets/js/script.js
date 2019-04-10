@@ -559,7 +559,8 @@ fileCabUL.addEventListener("click", e => {
     currentSubFolderIndex = -243;
     ui.clearNoteDisplay();
     currentNoteIndex = -243;
-    let primaryArray = arrayOfFileCabs[currentFileCabIndex].getPrimaryArray();
+    let primaryArray =
+      arrayOfFileCabs[currentFileCabIndex].arrayOfPrimaryObjects;
     ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
