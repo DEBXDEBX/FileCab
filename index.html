@@ -54,7 +54,7 @@
       <source src="assets/sound/warningMaxNumber.wav" type="audio/wav" />
     </audio>
 
-    <form id="myForm">
+    <!-- <form id="myForm">
       <div class="form-row align-items-center">
         <div class="col-sm-3 my-1">
           <label class="sr-only" for="inlineFormInputName">Name</label>
@@ -103,19 +103,13 @@
           <label>show text area</label>
           <input type="checkbox" id="myCheckBox" name="feature" />
         </div>
-        <textarea
-          wrap="hard"
-          placeholder="Enter notes here!"
-          id="myTextArea"
-          rows="10"
-          cols="200"
-        ></textarea>
-        <!-- LOADER -->
-        <!-- <div id="loading">
+
+        <!LOADER -->
+    <!-- <div id="loading">
               <img  class='centerImage'src="assets/img/loading.gif" alt="">
             </div> -->
-      </div>
-    </form>
+    <!-- </div>
+    </form>  -->
 
     <header>
       <h6>File Cabinet</h6>
@@ -129,7 +123,19 @@
       </nav>
     </header>
     <section>
-      <h6>Main Folder</h6>
+      <h6 id="headingMainFolder">Main Folder <span id="mfadd">+</span></h6>
+      <form id="mainFolderForm">
+        <input
+          id="mainFolderName"
+          type="text"
+          class="form-control"
+          id="inlineFormInputName"
+          placeholder="Main Folder Name"
+        />
+        <!-- <button id="mainFolderAdd" type="button">Add Main Folder</button> -->
+        <input id="mainFolderAdd" type="submit" value="Add Main Folder" />
+        <button id="mainFolderCancel" type="button">Cancel</button>
+      </form>
       <nav>
         <ul id="mainFolderList" class="d-flex justify-content-center">
           <!-- <li class="main">IBANEZ</li>
@@ -140,7 +146,19 @@
       </nav>
     </section>
     <section id="subFolder">
-      <h6>Sub Folder</h6>
+      <h6 id="headingSubFolder">Sub Folder <span id="sfadd">+</span></h6>
+      <form id="subFolderForm">
+        <input
+          id="subFolderName"
+          type="text"
+          class="form-control"
+          id="inlineFormInputName"
+          placeholder="Sub Folder Name"
+        />
+        <!-- <button id="subFolderAdd" type="button">Add Sub Folder</button> -->
+        <input id="subFolderAdd" type="submit" value="Add Sub Folder" />
+        <button id="subFolderCancel" type="button">Cancel</button>
+      </form>
       <nav>
         <ul id="subFolderList" class="d-flex justify-content-center">
           <!-- <li class="sub">STRING CHANGES</li>
@@ -149,6 +167,19 @@
         </ul>
       </nav>
     </section>
+    <h6 id="headingNote">Notes <span id="nadd">+</span></h6>
+    <form id="noteForm">
+      <textarea
+        wrap="hard"
+        placeholder="Enter notes here!"
+        id="myTextArea"
+        rows="10"
+        cols="200"
+      ></textarea>
+      <button id="noteAdd" type="button">Add Note</button>
+
+      <button id="noteCancel" type="button">Cancel</button>
+    </form>
     <section id="noteList">
       <!-- <h1>Note's go here</h1> -->
     </section>

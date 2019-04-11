@@ -12,8 +12,21 @@ const mainFolderUL = document.querySelector("#mainFolderList");
 const subFolderUL = document.querySelector("#subFolderList");
 const noteSection = document.querySelector("#noteList");
 
+//Select headings
+const mfHeading = document.querySelector("#headingMainFolder");
+const sfHeading = document.querySelector("#headingSubFolder");
+const nHeading = document.querySelector("#headingNote");
+//Select forms
+const mainFolderForm = document.querySelector("#mainFolderForm");
+const subFolderForm = document.querySelector("#subFolderForm");
+const noteForm = document.querySelector("#noteForm");
+//Select add show forms +
+const addShowFormMain = document.querySelector("#mfadd");
+const addShowFormSub = document.querySelector("#sfadd");
+const addShowFormNote = document.querySelector("#nadd");
 //Select textName and textArea
-const textName = document.querySelector("#name");
+const textNameMain = document.querySelector("#mainFolderName");
+const textNameSub = document.querySelector("#subFolderName");
 const textArea = document.querySelector("#myTextArea");
 
 //Select audio files
@@ -42,12 +55,18 @@ const arrayOfFileCabs = [];
 
 //The start of program exicution.
 window.onload = function() {
-  // startUp();
+  startUp();
   // console.log(dialog);
 };
 //Start Up
 function startUp() {
   // there is nothing that needs to run at start up, it is event driven
+  ui.displayNone(mfHeading);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
 }
 
 //*************************************************** */
@@ -78,13 +97,12 @@ function sortArrayByName(array) {
 }
 
 function handleFilePath(imagePath) {
-  console.log(imagePath);
   if (imagePath === "") {
     warningEmptyAudio.play();
     ui.showAlert("Please enter a path in the name area!", "error");
     return;
   }
-  console.log(imagePath);
+
   //set image path
   //get primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -95,6 +113,53 @@ function handleFilePath(imagePath) {
   addImageAudio.play();
   ui.showAlert("A new image was added to the note", "success");
 }
+
+function addImage() {
+  if (fcI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a File Cabinet first!", "error");
+    return;
+  }
+  if (mfI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Main Folder first!", "error");
+    return;
+  }
+  if (sfI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Sub Folder first!", "error");
+    return;
+  }
+  if (nI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Note first!", "error");
+    return;
+  }
+
+  //grab current note and add a image path property to it and save back to file
+
+  //get primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+
+  //get the image path from the name text field
+  // let fullImagePath = textName.value.trim();
+  let imagePath;
+
+  dialog.showOpenDialog(fileNames => {
+    if (fileNames === undefined) {
+      let message = "No file selected";
+      let msgType = "error";
+      console.log("there is no file");
+      // mainWindow.webContents.send("UI:showAlert", { message, msgType });
+    } else {
+      console.log("got file name");
+      imagePath = fileNames[0];
+      console.log(imagePath);
+      handleFilePath(imagePath);
+    }
+  });
+}
+
 //End Helper functions********************************
 
 //************************************************ */
@@ -203,217 +268,10 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 //End IPC**************************************
 
 //************************************************************************* */
-document.querySelector("#addMainFolder").addEventListener("click", e => {
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a  File Cabinet first!", "error");
-    return;
-  }
 
-  //grab fileCab
-  let fileCab = arrayOfFileCabs[fcI];
-  //grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  //create primary object
-  let primaryName = textName.value.trim();
-  if (primaryName === "") {
-    warningEmptyAudio.play();
-    ui.showAlert("Please enter a name for the Main Folder!", "error");
-    return;
-  }
-  let primaryObj = new PrimaryObj(primaryName);
-  //check if the name already exists if it does alert and return and set current main folder to -243
-  //make a variable to return
-  let isTaken = false;
-  primaryArray.forEach(element => {
-    if (primaryName === element.name) {
-      isTaken = true;
-      return;
-    }
-  });
-  if (isTaken) {
-    warningNameTakenAudio.play();
-    ui.showAlert("That name is taken", "error");
-    currentMainFolder = -243;
-    mfI = -243;
-  } else {
-    //push primary object into array
-    primaryArray.push(primaryObj);
-    //sort primary array by name
-    sortArrayByName(primaryArray);
-
-    // save file cab
-    fileCab.writeFileCabToHardDisk(fs, ui);
-    addAudio.play();
-    ui.showAlert("A new main folder was added", "success");
-    //redisplay paint screen
-    ui.clearPrimaryDisplay();
-    currentMainFolder = -243;
-    mfI = -243;
-    ui.clearSubDisplay();
-    currentSubFolder = -243;
-    sfI = -243;
-    ui.clearNoteDisplay();
-    nI = -243;
-
-    // mapped primary array
-    ui.paintScreenPrimary(mapNamesOut(primaryArray));
-  } //End else statement
-}); //End add main folder
 //***************************************************************************** */
 
-document.querySelector("#addSubFolder").addEventListener("click", e => {
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
-
-  //grab array from file
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  //grab the primary object index
-
-  //create secondary obj
-  let secondaryName = textName.value.trim();
-  if (secondaryName === "") {
-    warningEmptyAudio.play();
-    ui.showAlert("Please enter a name for the Sub Folder!", "error");
-    return;
-  }
-  let secondaryObject = new SecondaryObj(secondaryName);
-  //check if the name already exists if it does alert and return and set current sub folder to -243
-  //make a variable to return
-  let isTaken = false;
-  primaryArray[mfI].secondaryArray.forEach(element => {
-    if (secondaryName === element.name) {
-      isTaken = true;
-      return;
-    }
-  });
-  if (isTaken) {
-    warningNameTakenAudio.play();
-    ui.showAlert("That name is taken", "error");
-    currentSubFolder = -243;
-    sfI = -243;
-  } else {
-    //push object into array
-    primaryArray[mfI].secondaryArray.push(secondaryObject);
-    // sort secondary array by name
-    sortArrayByName(primaryArray[mfI].secondaryArray);
-    //save array storage
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-
-    addAudio.play();
-    ui.showAlert("A new sub folder was added", "success");
-    //redisplay paint screen
-    ui.clearSubDisplay();
-    currentSubFolder = -243;
-    sfI = -243;
-    ui.clearNoteDisplay();
-    nI = -243;
-    let secondaryArray = primaryArray[mfI].secondaryArray;
-
-    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
-  } //End else statement
-}); //End add sub folder
-
 //************************************************************* */
-
-document.querySelector("#addNote").addEventListener("click", e => {
-  // get current notge index
-
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
-  if (sfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Sub Folder first!", "error");
-    return;
-  }
-  // grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  //create note
-  let noteText = textArea.value.trim();
-  if (noteText === "") {
-    warningEmptyAudio.play();
-    ui.showAlert("Please enter note in the text area!", "error");
-    ui.showAndCheckTextArea();
-    return;
-  }
-  let newNote = new Note(noteText);
-  console.table(newNote);
-  //push note into note array
-  primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
-  //save array storage
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-  addAudio.play();
-  ui.showAlert("A new note was added", "success");
-  //redisplay paint screen
-  ui.clearNoteDisplay();
-  nI = -243;
-  ui.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
-}); //End add note
-//************************************************** */
-
-document.querySelector("#addImage").addEventListener("click", e => {
-  //get current note index
-
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
-  if (sfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Sub Folder first!", "error");
-    return;
-  }
-  if (nI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Note first!", "error");
-    return;
-  }
-
-  //grab current note and add a image path property to it and save back to file
-
-  //get primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
-  //get the image path from the name text field
-  // let fullImagePath = textName.value.trim();
-  let imagePath;
-
-  dialog.showOpenDialog(fileNames => {
-    if (fileNames === undefined) {
-      let message = "No file selected";
-      let msgType = "error";
-      console.log("there is no file");
-      // mainWindow.webContents.send("UI:showAlert", { message, msgType });
-    } else {
-      console.log("got file name");
-      imagePath = fileNames[0];
-      console.log(imagePath);
-      handleFilePath(imagePath);
-    }
-  });
-}); //End add event listener
 
 //**************************************************************** */
 
@@ -442,6 +300,11 @@ fileCabUL.addEventListener("click", e => {
       };
     }
     //End code to set the active class
+
+    // show and hide headings
+    ui.displayBlock(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
 
     //get the index from the html
     let index = e.target.dataset.index;
@@ -496,6 +359,10 @@ mainFolderUL.addEventListener("click", e => {
     mfI = index;
     sfI = -243;
     nI = -243;
+
+    //show and hide headings
+    ui.displayBlock(sfHeading);
+    ui.displayNone(nHeading);
 
     ui.clearNoteDisplay();
     let secondaryArray =
@@ -553,6 +420,10 @@ subFolderUL.addEventListener("click", e => {
   index = parseInt(index);
   sfI = index;
   nI = -243;
+
+  //show and hide headings
+  ui.displayBlock(nHeading);
+
   //send the note array to ui.paintScreenNote()
   ui.paintScreenNote(
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
@@ -585,21 +456,22 @@ subFolderUL.addEventListener("click", e => {
 //****************************************************** */
 // When the user clicks on a note
 noteSection.addEventListener("click", e => {
+  //This gets the data I embedded into the html
+  let dataIndex = e.target.dataset.index;
+  let deleteIndex = parseInt(dataIndex);
+  nI = deleteIndex;
   // event delegation
   if (e.target.classList.contains("myPic")) {
     // remove image
     e.target.remove();
   }
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  nI = index;
+
   console.log(`note index: ${nI}`);
   if (nI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Note first!", "error");
     return;
   }
-  //get the index from the html
 
   // event delegation
   if (e.target.classList.contains("note")) {
@@ -608,22 +480,14 @@ noteSection.addEventListener("click", e => {
       ui.showAlert("Please select a Note first!", "error");
       return;
     }
-    //This gets the data I embedded into the html
-    let dataIndex = e.target.dataset.index;
-    let deleteIndex = parseInt(dataIndex);
-    nI = deleteIndex;
-    console.log(`note index: ${nI}`);
-    //if the note has a image path create elemment and insert into document
 
     //grab array from file
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-    console.log(`note index: ${nI}`);
+
     //see if the note has a imagePath
     let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
-    console.table(selectedNote);
+
     if (selectedNote.imagePath) {
-      console.log("there is an image path");
-      // image path is not R2D2
       let oImg = document.createElement("img");
       oImg.setAttribute("src", selectedNote.imagePath);
       oImg.setAttribute("alt", "na");
@@ -631,10 +495,6 @@ noteSection.addEventListener("click", e => {
       oImg.className = "myPic";
       //insert the image after current note
       noteSection.insertBefore(oImg, e.target.nextSibling);
-    }
-
-    if (selectedNote.imagePath === "R2D2") {
-      // console.log('image path is R2D2');
     }
 
     //check if control was down, if so delete note
@@ -652,7 +512,6 @@ noteSection.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Note deleted!", "success");
       //redisplay notes
-      console.log(`note index: ${nI}`);
       ui.paintScreenNote(
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
           .noteArray
@@ -662,5 +521,204 @@ noteSection.addEventListener("click", e => {
 }); //End event listener
 
 //********************************************* */
+//show forms addEventListener
 
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//Main folder
+addShowFormMain.addEventListener("click", e => {
+  ui.displayBlock(mainFolderForm);
+});
+
+document.querySelector("#mainFolderAdd").addEventListener("click", e => {
+  console.log("You have reached your event");
+  e.preventDefault();
+  if (fcI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a  File Cabinet first!", "error");
+    return;
+  }
+
+  //grab fileCab
+  let fileCab = arrayOfFileCabs[fcI];
+  //grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //create primary object
+  let primaryName = textNameMain.value.trim();
+  if (primaryName === "") {
+    warningEmptyAudio.play();
+    ui.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
+  let primaryObj = new PrimaryObj(primaryName);
+  //check if the name already exists if it does alert and return and set current main folder to -243
+  //make a variable to return
+  let isTaken = false;
+  primaryArray.forEach(element => {
+    if (primaryName === element.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    ui.showAlert("That name is taken", "error");
+    currentMainFolder = -243;
+    mfI = -243;
+  } else {
+    //push primary object into array
+    primaryArray.push(primaryObj);
+    //sort primary array by name
+    sortArrayByName(primaryArray);
+
+    // save file cab
+    fileCab.writeFileCabToHardDisk(fs, ui);
+    addAudio.play();
+    ui.showAlert("A new main folder was added", "success");
+    //Hide form
+    ui.displayNone(mainFolderForm);
+    //redisplay paint screen
+    ui.clearPrimaryDisplay();
+    currentMainFolder = -243;
+    mfI = -243;
+    ui.clearSubDisplay();
+    currentSubFolder = -243;
+    sfI = -243;
+    ui.clearNoteDisplay();
+    nI = -243;
+
+    // mapped primary array
+    ui.paintScreenPrimary(mapNamesOut(primaryArray));
+  } //End else statement
+});
+document.querySelector("#mainFolderCancel").addEventListener("click", e => {
+  //Hide form
+  ui.displayNone(mainFolderForm);
+});
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//Sub folder
+addShowFormSub.addEventListener("click", e => {
+  ui.displayBlock(subFolderForm);
+});
+
+document.querySelector("#subFolderAdd").addEventListener("click", e => {
+  e.preventDefault();
+  console.log("You have reached your event");
+  if (fcI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a File Cabinet first!", "error");
+    return;
+  }
+  if (mfI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Main Folder first!", "error");
+    return;
+  }
+
+  //grab array from file
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //grab the primary object index
+
+  //create secondary obj
+  let secondaryName = textNameSub.value.trim();
+  if (secondaryName === "") {
+    warningEmptyAudio.play();
+    ui.showAlert("Please enter a name for the Sub Folder!", "error");
+    return;
+  }
+  let secondaryObject = new SecondaryObj(secondaryName);
+  //check if the name already exists if it does alert and return and set current sub folder to -243
+  //make a variable to return
+  let isTaken = false;
+  primaryArray[mfI].secondaryArray.forEach(element => {
+    if (secondaryName === element.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    ui.showAlert("That name is taken", "error");
+    currentSubFolder = -243;
+    sfI = -243;
+  } else {
+    //push object into array
+    primaryArray[mfI].secondaryArray.push(secondaryObject);
+    // sort secondary array by name
+    sortArrayByName(primaryArray[mfI].secondaryArray);
+    //save array storage
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+
+    addAudio.play();
+    ui.showAlert("A new sub folder was added", "success");
+    //Hide form
+    ui.displayNone(subFolderForm);
+    //redisplay paint screen
+    ui.clearSubDisplay();
+    currentSubFolder = -243;
+    sfI = -243;
+    ui.clearNoteDisplay();
+    nI = -243;
+    let secondaryArray = primaryArray[mfI].secondaryArray;
+
+    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
+  } //End else statement
+});
+document.querySelector("#subFolderCancel").addEventListener("click", e => {
+  //Hide form
+  ui.displayNone(subFolderForm);
+});
+
+//note
+
+addShowFormNote.addEventListener("click", e => {
+  ui.displayBlock(noteForm);
+});
+
+document.querySelector("#noteAdd").addEventListener("click", e => {
+  e.preventDefault();
+  if (fcI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a File Cabinet first!", "error");
+    return;
+  }
+  if (mfI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Main Folder first!", "error");
+    return;
+  }
+  if (sfI === -243) {
+    warningSelectAudio.play();
+    ui.showAlert("Please select a Sub Folder first!", "error");
+    return;
+  }
+  // grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //create note
+  let noteText = textArea.value.trim();
+  if (noteText === "") {
+    warningEmptyAudio.play();
+    ui.showAlert("Please enter note in the text area!", "error");
+    ui.showAndCheckTextArea();
+    return;
+  }
+  //create new note
+  let newNote = new Note(noteText);
+  //push note into note array
+  primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
+  //save array storage
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+  addAudio.play();
+  ui.showAlert("A new note was added", "success");
+  //Hide form
+  ui.displayNone(noteForm);
+  //redisplay paint screen
+  ui.clearNoteDisplay();
+  nI = -243;
+  ui.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
+});
+
+document.querySelector("#noteCancel").addEventListener("click", e => {
+  //Hide form
+  ui.displayNone(noteForm);
+});
 //End addEventListener

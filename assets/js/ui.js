@@ -14,18 +14,18 @@ class Ui {
     this.currentMF = document.querySelector("#currentMain");
     this.currentSF = document.querySelector("#currentSub");
     //select check box
-    this.myCheckBox = document.querySelector("#myCheckBox");
+    // this.myCheckBox = document.querySelector("#myCheckBox");
 
-    //addEventListeners
-    this.myCheckBox.addEventListener("change", e => {
-      if (this.myCheckBox.checked) {
-        // Checkbox is checked..
-        this.textArea.style.display = "block";
-      } else {
-        // Checkbox is not checked..
-        this.textArea.style.display = "none";
-      }
-    }); //addEventlisener myCheckbox
+    // //addEventListeners
+    // this.myCheckBox.addEventListener("change", e => {
+    //   if (this.myCheckBox.checked) {
+    //     // Checkbox is checked..
+    //     this.textArea.style.display = "block";
+    //   } else {
+    //     // Checkbox is not checked..
+    //     this.textArea.style.display = "none";
+    //   }
+    // }); //addEventlisener myCheckbox
   } //constructor
 
   //*************************************************************************** */
@@ -34,6 +34,16 @@ class Ui {
   showAndCheckTextArea() {
     this.textArea.style.display = "block";
     this.myCheckBox.checked = true;
+  }
+
+  //Method
+  displayNone(element) {
+    element.style.display = "none";
+  }
+
+  //Method
+  displayBlock(element) {
+    element.style.display = "block";
   }
 
   //Method
@@ -127,10 +137,10 @@ class Ui {
     div.appendChild(document.createTextNode(message));
     // Get parent
     const container = document.querySelector("body");
-    // Get form
-    const form = document.querySelector("form");
+    // Get header
+    const header = document.querySelector("header");
     // Insert alert
-    container.insertBefore(div, form);
+    container.insertBefore(div, header);
 
     // Timeout after 4 sec
     setTimeout(function() {
