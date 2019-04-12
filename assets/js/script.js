@@ -289,7 +289,7 @@ fileCabUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelector(".fileCab");
+    var el = document.querySelectorAll(".fileCab");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -341,7 +341,7 @@ mainFolderUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelector(".main");
+    var el = document.querySelectorAll(".main");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -380,6 +380,7 @@ mainFolderUL.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
+
       ui.clearPrimaryDisplay();
       mfI = -243;
       ui.clearSubDisplay();
@@ -402,7 +403,7 @@ subFolderUL.addEventListener("click", e => {
     e.target.classList.add("active");
 
     //The Next code is to set the current tab color white with the active class
-    var el = document.querySelector(".sub");
+    var el = document.querySelectorAll(".sub");
     for (let i = 0; i < el.length; i++) {
       el[i].onclick = function() {
         var c = 0;
@@ -496,6 +497,11 @@ noteSection.addEventListener("click", e => {
       //insert the image after current note
       noteSection.insertBefore(oImg, e.target.nextSibling);
     }
+    //check if the alt Key is held down and add Image to note
+    if (e.altKey) {
+      addImage();
+      return;
+    }
 
     //check if control was down, if so delete note
     if (e.ctrlKey) {
@@ -521,34 +527,48 @@ noteSection.addEventListener("click", e => {
 }); //End event listener
 
 //********************************************* */
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 //show forms addEventListener
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//Main folder
+//Main folder code
+
+//When You click on the + in the main heading
 addShowFormMain.addEventListener("click", e => {
   ui.displayBlock(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
 });
 
+//When You click the add btn in the main folder form
+// document.querySelector("#mainFolderAdd").addEventListener("click", e => {
+//   e.preventDefault();
+//   console.log("hello david");
+// });
+
 document.querySelector("#mainFolderAdd").addEventListener("click", e => {
-  console.log("You have reached your event");
   e.preventDefault();
   if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a  File Cabinet first!", "error");
     return;
   }
-
   //grab fileCab
   let fileCab = arrayOfFileCabs[fcI];
   //grab primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  //create primary object
+  //grab text for primary object
   let primaryName = textNameMain.value.trim();
+  //check if text is empty
+
   if (primaryName === "") {
     warningEmptyAudio.play();
     ui.showAlert("Please enter a name for the Main Folder!", "error");
     return;
   }
+
+  //Create primary object
   let primaryObj = new PrimaryObj(primaryName);
   //check if the name already exists if it does alert and return and set current main folder to -243
   //make a variable to return
@@ -556,9 +576,9 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
   primaryArray.forEach(element => {
     if (primaryName === element.name) {
       isTaken = true;
-      return;
     }
   });
+  //check for taken name
   if (isTaken) {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
@@ -569,13 +589,19 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     primaryArray.push(primaryObj);
     //sort primary array by name
     sortArrayByName(primaryArray);
-
     // save file cab
     fileCab.writeFileCabToHardDisk(fs, ui);
     addAudio.play();
     ui.showAlert("A new main folder was added", "success");
     //Hide form
     ui.displayNone(mainFolderForm);
+    //Hide sub folder heading and form
+    ui.displayNone(sfHeading);
+    // ui.displayNone(subFolderForm);
+    //hide note heading and foem
+    ui.displayNone(nHeading);
+    //reset form
+    mainFolderForm.reset();
     //redisplay paint screen
     ui.clearPrimaryDisplay();
     currentMainFolder = -243;
@@ -585,21 +611,28 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     sfI = -243;
     ui.clearNoteDisplay();
     nI = -243;
-
     // mapped primary array
     ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } //End else statement
-});
+}); //End
+
+//When You click on cancel btn on the main folder form
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(mainFolderForm);
-});
+}); //End
+
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//Sub folder
+//Sub folder code
+
+//When You click + in the subfolder heading
 addShowFormSub.addEventListener("click", e => {
   ui.displayBlock(subFolderForm);
-});
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(noteForm);
+}); //End
 
+//When You click on the add sub folder btn in the sub folder form
 document.querySelector("#subFolderAdd").addEventListener("click", e => {
   e.preventDefault();
   console.log("You have reached your event");
@@ -613,11 +646,8 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     ui.showAlert("Please select a Main Folder first!", "error");
     return;
   }
-
   //grab array from file
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  //grab the primary object index
-
   //create secondary obj
   let secondaryName = textNameSub.value.trim();
   if (secondaryName === "") {
@@ -635,6 +665,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
       return;
     }
   });
+  //check for taken name
   if (isTaken) {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
@@ -645,35 +676,45 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     primaryArray[mfI].secondaryArray.push(secondaryObject);
     // sort secondary array by name
     sortArrayByName(primaryArray[mfI].secondaryArray);
-    //save array storage
+    //save file cab
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //Hide form
     ui.displayNone(subFolderForm);
+    //reset form
+    subFolderForm.reset();
+    //Hide note heading
+    ui.displayNone(nHeading);
     //redisplay paint screen
     ui.clearSubDisplay();
     currentSubFolder = -243;
     sfI = -243;
     ui.clearNoteDisplay();
     nI = -243;
+    //Grab the secondary array
     let secondaryArray = primaryArray[mfI].secondaryArray;
-
+    //Paint the screen
     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
   } //End else statement
-});
+}); //End
+
+//When You click the cancel btn in the sub folder form
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(subFolderForm);
-});
+}); //End
 
-//note
+//Note Code**************************************************
 
+//When You click the + in the Note Heading
 addShowFormNote.addEventListener("click", e => {
   ui.displayBlock(noteForm);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
 });
 
+//When You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", e => {
   e.preventDefault();
   if (fcI === -243) {
@@ -695,6 +736,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //create note
   let noteText = textArea.value.trim();
+  //check if text is empty
   if (noteText === "") {
     warningEmptyAudio.play();
     ui.showAlert("Please enter note in the text area!", "error");
@@ -705,7 +747,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   let newNote = new Note(noteText);
   //push note into note array
   primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
-  //save array storage
+  //save file cab
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
   addAudio.play();
   ui.showAlert("A new note was added", "success");
@@ -715,10 +757,17 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   ui.clearNoteDisplay();
   nI = -243;
   ui.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
-});
+}); //End
 
+// When You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(noteForm);
-});
+}); //End
+
+// When You click the clear btn in the note form
+document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+  //clear the text Area
+  textArea.value = "";
+}); //End
 //End addEventListener

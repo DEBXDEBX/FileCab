@@ -9,6 +9,6 @@ starting: all console.log() go in ternimal for the chrome side. index.js console
 ---
 
 must do later
+
 fiter out file extensions for .deb
-get rid of addfilecab and import and export buttons
-clean up all note code
+css
