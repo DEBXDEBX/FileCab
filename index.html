@@ -32,9 +32,9 @@
     <audio id="addAudio">
       <source src="assets/sound/add.wav" type="audio/wav" />
     </audio>
-    <audio id="addFileCabAudio">
+    <!-- <audio id="addFileCabAudio">
       <source src="assets/sound/addFileCab.wav" type="audio/wav" />
-    </audio>
+    </audio> -->
     <audio id="addImageAudio">
       <source src="assets/sound/addImage.wav" type="audio/wav" />
     </audio>
@@ -50,66 +50,9 @@
     <audio id="warningNameTakenAudio">
       <source src="assets/sound/warningNameTaken.wav" type="audio/wav" />
     </audio>
-    <audio id="warningMaxNumberAudio">
+    <!-- <audio id="warningMaxNumberAudio">
       <source src="assets/sound/warningMaxNumber.wav" type="audio/wav" />
-    </audio>
-
-    <!-- <form id="myForm">
-      <div class="form-row align-items-center">
-        <div class="col-sm-3 my-1">
-          <label class="sr-only" for="inlineFormInputName">Name</label>
-          <input
-            id="name"
-            type="text"
-            class="form-control"
-            id="inlineFormInputName"
-            placeholder="Name"
-          />
-        </div>
-
-        <div class="col-auto my-1">
-          <button id="addFileCab" type="button" class="btn">
-            Add File Cabinet
-          </button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="addMainFolder" type="button" class="btn">
-            Add Main Folder
-          </button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="addSubFolder" type="button" class="btn">
-            Add Sub Folder
-          </button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="addImage" type="button" class="btn">
-            Add Image to Note
-          </button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="addNote" type="button" class="btn">Add Note</button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="exportJSON" type="button" class="btn ">
-            Export JSON
-          </button>
-        </div>
-        <div class="col-auto my-1">
-          <button id="importJSON" type="button" class="btn">Import JSON</button>
-        </div>
-
-        <div class="col-auto my-1">
-          <label>show text area</label>
-          <input type="checkbox" id="myCheckBox" name="feature" />
-        </div>
-
-        <!LOADER -->
-    <!-- <div id="loading">
-              <img  class='centerImage'src="assets/img/loading.gif" alt="">
-            </div> -->
-    <!-- </div>
-    </form>  -->
+    </audio> -->
 
     <header>
       <h6>File Cabinet</h6>
@@ -132,7 +75,6 @@
           id="inlineFormInputName"
           placeholder="Main Folder Name"
         />
-        <!-- <button id="mainFolderAdd" type="button">Add Main Folder</button> -->
         <input id="mainFolderAdd" type="submit" value="Add Main Folder" />
         <button id="mainFolderCancel" type="button">Cancel</button>
       </form>
@@ -185,46 +127,10 @@
       <!-- <h1>Note's go here</h1> -->
     </section>
     <div class="addSpace"></div>
-    <!-- Help  -->
-    <div>
-      <h5 class="text-center">
-        To add a file cabinet or folder, type the name of it in the name text
-        input and click the corresponding button.
-      </h5>
-      <h5 class="text-center">
-        To shift a file cabinet left, hold down shift and click the file cabinet
-        name.
-      </h5>
-      <hr />
-      <h5 class="text-center">
-        To delete a file cabinet, folder or note hold down control key and click
-        it
-      </h5>
-      <hr />
-      <h5 class="text-center">
-        To add an image to a note, place the image in the image folder of this
-        project, type the image Name in the Name text field and press the add
-        image to note button.
-      </h5>
-      <h5 class="text-center">test.png</h5>
-      <h5 class="text-center">webFolder/test.png</h5>
-      <hr />
-      <h5 class="text-center">
-        To export a file cabinet, click the export button and copy and paste the
-        JSON string in the large text area to a JSON file.
-      </h5>
-      <hr />
-      <h5 class="text-center">
-        To import a file cabninet, Add a new file cabinet and click it to select
-        it. copy and paste a JSON string to the large text area. Click the
-        import Button.
-      </h5>
-    </div>
 
     <!-- My JavaScript File -->
     <script type="text/javascript" src="assets/js/fileCabObject.js"></script>
     <script type="text/javascript" src="assets/js/fileCab.js"></script>
-    <script type="text/javascript" src="assets/js/myStorage.js"></script>
     <script type="text/javascript" src="assets/js/note.js"></script>
     <script type="text/javascript" src="assets/js/primaryObj.js"></script>
     <script type="text/javascript" src="assets/js/secondaryObj.js"></script>

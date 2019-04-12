@@ -39,7 +39,7 @@ nav li {
   display: inline;
   background-color: #00ffffbd;
   color: rgb(0, 0, 0);
-  padding: 0px 3px;
+  padding: 3px 3px;
   margin: 0px 10px;
   border-radius: 10px 10px 0px 0px;
 }
@@ -60,62 +60,56 @@ nav li:hover {
   padding: 10px;
   border-radius: 20px;
 }
-#myTextArea {
-  /* display: none; */
-}
-#loading {
-  display: none;
 
-  margin: 5px auto;
-}
 .active {
   color: white;
 }
-#addFileCab {
+/* #addFileCab {
   background-color: blue;
   color: white;
-}
-#addFileCab:hover {
+} */
+
+/* #addFileCab:hover {
   background-color: #5cabda;
   color: black;
-}
-#addMainFolder {
+} */
+/* #addMainFolder {
   background-color: #e51e4c;
   color: white;
-}
-#addMainFolder:hover {
+} */
+/* #addMainFolder:hover {
   background-color: #5cabda;
   color: black;
-}
-#addSubFolder {
+} */
+/* #addSubFolder {
   background-color: #25a425;
   color: white;
-}
-#addSubFolder:hover {
+} */
+/* #addSubFolder:hover {
   background-color: #5cabda;
   color: black;
-}
-#addNote {
+} */
+/* #addNote {
   background-color: #17c2d4;
   color: white;
-}
-#addNote:hover {
+} */
+/* #addNote:hover {
   background-color: #5cabda;
   color: black;
-}
-#addImage {
+} */
+/* #addImage {
   background-color: #108f9d;
   color: white;
 }
 #addImage:hover {
   background-color: #5cabda;
   color: black;
-}
-#exportJSON:hover,
+} */
+/* #exportJSON:hover,
 #importJSON:hover {
   background-color: #dffe09;
   color: #e51e4c;
-}
+} */
 .note {
   white-space: pre;
   border-radius: 20px;
@@ -144,4 +138,22 @@ img {
 }
 .addSpace {
   height: 750px;
+}
+
+/* Start of new css April 12th 2019 */
+/* Hide everything at start up */
+#headingMainFolder,
+#headingSubFolder,
+#headingNote,
+#mainFolderForm,
+#subFolderForm,
+#noteForm {
+  display: none;
+}
+/* working on below */
+form > button {
+  color: aqua;
+}
+li {
+  padding: 2rem, 2rem;
 }

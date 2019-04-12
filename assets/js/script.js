@@ -61,12 +61,12 @@ window.onload = function() {
 //Start Up
 function startUp() {
   // there is nothing that needs to run at start up, it is event driven
-  ui.displayNone(mfHeading);
-  ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
+  // ui.displayNone(mfHeading);
+  // ui.displayNone(sfHeading);
+  // ui.displayNone(nHeading);
+  // ui.displayNone(mainFolderForm);
+  // ui.displayNone(subFolderForm);
+  // ui.displayNone(noteForm);
 }
 
 //*************************************************** */
@@ -107,7 +107,6 @@ function handleFilePath(imagePath) {
   //get primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath = imagePath;
-  console.log(primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath);
   // save file cab
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
   addImageAudio.play();
@@ -152,9 +151,8 @@ function addImage() {
       console.log("there is no file");
       // mainWindow.webContents.send("UI:showAlert", { message, msgType });
     } else {
-      console.log("got file name");
+      //got file name
       imagePath = fileNames[0];
-      console.log(imagePath);
       handleFilePath(imagePath);
     }
   });
@@ -467,7 +465,6 @@ noteSection.addEventListener("click", e => {
     e.target.remove();
   }
 
-  console.log(`note index: ${nI}`);
   if (nI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a Note first!", "error");
@@ -502,13 +499,30 @@ noteSection.addEventListener("click", e => {
       addImage();
       return;
     }
+    //if shift is down remove the current path
+    if (e.shiftKey) {
+      // //grab array from file
+      // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+      selectedNote.imagePath = null;
+      //write to file
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+      //reasign current note
+      nI = -243;
+      deleteAudio.play();
+      ui.showAlert("Removed the image from note!", "success");
+      //redisplay notes
+      ui.paintScreenNote(
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+          .noteArray
+      );
+    }
+    console.log(e);
 
     //check if control was down, if so delete note
     if (e.ctrlKey) {
-      console.log(`note index: ${nI}`);
+      console.log("cnrl key triggered");
       //grab array from file
       let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
       //grab the note array and delete current note
       primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
       //write to file
@@ -541,12 +555,7 @@ addShowFormMain.addEventListener("click", e => {
   ui.displayNone(noteForm);
 });
 
-//When You click the add btn in the main folder form
-// document.querySelector("#mainFolderAdd").addEventListener("click", e => {
-//   e.preventDefault();
-//   console.log("hello david");
-// });
-
+//When you click on the add main folder btn
 document.querySelector("#mainFolderAdd").addEventListener("click", e => {
   e.preventDefault();
   if (fcI === -243) {
