@@ -378,7 +378,10 @@ mainFolderUL.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
-
+      ui.displayNone(sfHeading);
+      ui.displayNone(noteForm);
+      ui.displayNone(subFolderForm);
+      ui.displayNone(mainFolderForm);
       ui.clearPrimaryDisplay();
       mfI = -243;
       ui.clearSubDisplay();
@@ -437,7 +440,10 @@ subFolderUL.addEventListener("click", e => {
     primaryArray[mfI].secondaryArray.splice(sfI, 1);
     //set the primary array back to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-    // myStorage.setArrayToFileName(primaryArray, fileName);
+    ui.displayNone(nHeading);
+    ui.displayNone(noteForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(mainFolderForm);
     deleteAudio.play();
     ui.showAlert("Sub folder deleted!", "success");
     //clear sub folder and notes
@@ -516,11 +522,9 @@ noteSection.addEventListener("click", e => {
           .noteArray
       );
     }
-    console.log(e);
 
     //check if control was down, if so delete note
     if (e.ctrlKey) {
-      console.log("cnrl key triggered");
       //grab array from file
       let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
       //grab the note array and delete current note
@@ -553,6 +557,14 @@ addShowFormMain.addEventListener("click", e => {
   ui.displayBlock(mainFolderForm);
   ui.displayNone(subFolderForm);
   ui.displayNone(noteForm);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.clearPrimaryDisplay();
+  mfI = -243;
+  ui.clearSubDisplay();
+  sfI = -243;
+  ui.clearNoteDisplay();
+  nI = -243;
 });
 
 //When you click on the add main folder btn
@@ -629,6 +641,10 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(mainFolderForm);
+  //redisplay primary
+  ui.paintScreenPrimary(
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
+  );
 }); //End
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -639,6 +655,11 @@ addShowFormSub.addEventListener("click", e => {
   ui.displayBlock(subFolderForm);
   ui.displayNone(mainFolderForm);
   ui.displayNone(noteForm);
+  ui.displayNone(nHeading);
+  ui.clearSubDisplay();
+  sfI = -243;
+  ui.clearNoteDisplay();
+  nI = -243;
 }); //End
 
 //When You click on the add sub folder btn in the sub folder form
@@ -712,6 +733,12 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(subFolderForm);
+  // ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  //redisplay sub
+  ui.paintScreenSecondary(
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
+  );
 }); //End
 
 //Note Code**************************************************
