@@ -14,7 +14,8 @@ must do later
 
 ---
 
-see if there is a way to valid a file path before display it
+see if there is a way to valid a file path before display it try using try and catch
+
 fiter out file extensions for .deb
 css
 

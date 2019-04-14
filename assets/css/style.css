@@ -121,12 +121,15 @@ img {
 .success,
 .error {
   color: white;
-  padding: 5px;
-  margin: 5px 0 15px 0;
-  width: 50%;
+  padding: 20px;
+
   text-align: center;
-  margin: 20px auto;
+  width: 50%;
   border-radius: 25px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .success {

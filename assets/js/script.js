@@ -197,9 +197,9 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
   //redisplay
   fcI = -243;
-  currentMainFolder = -243;
+
   mfI = -243;
-  currentSubFolder = -243;
+
   sfI = -243;
   nI = -243;
   ui.clearFileCabDisplay();
@@ -242,9 +242,9 @@ ipcRenderer.on("fileCab:load", (event, data) => {
 
   //redisplay
   fcI = -243;
-  currentMainFolder = -243;
+
   mfI = -243;
-  currentSubFolder = -243;
+
   sfI = -243;
   nI = -243;
   ui.clearFileCabDisplay();
@@ -309,10 +309,10 @@ fileCabUL.addEventListener("click", e => {
     index = parseInt(index);
     fcI = index;
     ui.clearPrimaryDisplay();
-    currentMainFolder = -243;
+
     mfI = -243;
     ui.clearSubDisplay();
-    currentSubFolder = -243;
+
     sfI = -243;
     ui.clearNoteDisplay();
     nI = -243;
@@ -369,6 +369,7 @@ mainFolderUL.addEventListener("click", e => {
 
     //check if control was down, if so delete
     if (e.ctrlKey) {
+      //delete main folder
       //get primary array
       let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
       //Delete main folder
@@ -433,6 +434,7 @@ subFolderUL.addEventListener("click", e => {
   );
 
   if (e.ctrlKey) {
+    //DELETE sub folder
     //grab array from file
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
@@ -461,6 +463,13 @@ subFolderUL.addEventListener("click", e => {
 //****************************************************** */
 // When the user clicks on a note
 noteSection.addEventListener("click", e => {
+  //This makes sure only one picture at a time shows up in the note area
+  var el = document.querySelectorAll(".myPic");
+  for (let i = 0; i < el.length; i++) {
+    el[i].remove();
+  }
+
+  //  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   //This gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
   let deleteIndex = parseInt(dataIndex);
@@ -496,6 +505,7 @@ noteSection.addEventListener("click", e => {
       oImg.setAttribute("src", selectedNote.imagePath);
       oImg.setAttribute("alt", "na");
       oImg.setAttribute("width", "100%");
+      oImg.setAttribute("data-picIndex", nI);
       oImg.className = "myPic";
       //insert the image after current note
       noteSection.insertBefore(oImg, e.target.nextSibling);
@@ -603,7 +613,6 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
   if (isTaken) {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
-    currentMainFolder = -243;
     mfI = -243;
   } else {
     //push primary object into array
@@ -625,10 +634,10 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     mainFolderForm.reset();
     //redisplay paint screen
     ui.clearPrimaryDisplay();
-    currentMainFolder = -243;
+
     mfI = -243;
     ui.clearSubDisplay();
-    currentSubFolder = -243;
+
     sfI = -243;
     ui.clearNoteDisplay();
     nI = -243;
@@ -665,7 +674,7 @@ addShowFormSub.addEventListener("click", e => {
 //When You click on the add sub folder btn in the sub folder form
 document.querySelector("#subFolderAdd").addEventListener("click", e => {
   e.preventDefault();
-  console.log("You have reached your event");
+
   if (fcI === -243) {
     warningSelectAudio.play();
     ui.showAlert("Please select a File Cabinet first!", "error");
@@ -699,7 +708,6 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
   if (isTaken) {
     warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
-    currentSubFolder = -243;
     sfI = -243;
   } else {
     //push object into array
@@ -718,7 +726,6 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     ui.displayNone(nHeading);
     //redisplay paint screen
     ui.clearSubDisplay();
-    currentSubFolder = -243;
     sfI = -243;
     ui.clearNoteDisplay();
     nI = -243;
