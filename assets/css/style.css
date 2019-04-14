@@ -13,9 +13,7 @@ h4 {
 body {
   background-color: blueviolet;
 }
-form {
-  margin: 10px;
-}
+
 section ul {
   list-style: none;
   padding: 0;
@@ -64,52 +62,7 @@ nav li:hover {
 .active {
   color: white;
 }
-/* #addFileCab {
-  background-color: blue;
-  color: white;
-} */
 
-/* #addFileCab:hover {
-  background-color: #5cabda;
-  color: black;
-} */
-/* #addMainFolder {
-  background-color: #e51e4c;
-  color: white;
-} */
-/* #addMainFolder:hover {
-  background-color: #5cabda;
-  color: black;
-} */
-/* #addSubFolder {
-  background-color: #25a425;
-  color: white;
-} */
-/* #addSubFolder:hover {
-  background-color: #5cabda;
-  color: black;
-} */
-/* #addNote {
-  background-color: #17c2d4;
-  color: white;
-} */
-/* #addNote:hover {
-  background-color: #5cabda;
-  color: black;
-} */
-/* #addImage {
-  background-color: #108f9d;
-  color: white;
-}
-#addImage:hover {
-  background-color: #5cabda;
-  color: black;
-} */
-/* #exportJSON:hover,
-#importJSON:hover {
-  background-color: #dffe09;
-  color: #e51e4c;
-} */
 .note {
   white-space: pre;
   border-radius: 20px;
@@ -122,7 +75,6 @@ img {
 .error {
   color: white;
   padding: 20px;
-
   text-align: center;
   width: 50%;
   border-radius: 25px;
@@ -153,10 +105,21 @@ img {
 #noteForm {
   display: none;
 }
-/* working on below */
-form > button {
-  color: aqua;
+
+h6 > span {
+  font-weight: 900;
+  color: blueviolet;
 }
+#mainFolderForm,
+#subFolderForm {
+  max-width: 70%;
+  margin: 0 auto;
+}
+#noteForm {
+  max-width: 97%;
+  margin: 0 auto;
+}
+/* working on below */
 li {
   padding: 2rem, 2rem;
 }

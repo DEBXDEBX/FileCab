@@ -466,10 +466,10 @@ noteSection.addEventListener("click", e => {
   //This makes sure only one picture at a time shows up in the note area
   var el = document.querySelectorAll(".myPic");
   for (let i = 0; i < el.length; i++) {
+    //remove all elements with the class of .myPic
     el[i].remove();
   }
 
-  //  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   //This gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
   let deleteIndex = parseInt(dataIndex);
@@ -505,7 +505,6 @@ noteSection.addEventListener("click", e => {
       oImg.setAttribute("src", selectedNote.imagePath);
       oImg.setAttribute("alt", "na");
       oImg.setAttribute("width", "100%");
-      oImg.setAttribute("data-picIndex", nI);
       oImg.className = "myPic";
       //insert the image after current note
       noteSection.insertBefore(oImg, e.target.nextSibling);
@@ -783,7 +782,6 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   if (noteText === "") {
     warningEmptyAudio.play();
     ui.showAlert("Please enter note in the text area!", "error");
-    ui.showAndCheckTextArea();
     return;
   }
   //create new note

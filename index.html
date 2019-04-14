@@ -23,6 +23,13 @@
       crossorigin="anonymous"
     ></script>
 
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+
     <!-- My CSS File -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 
@@ -66,17 +73,36 @@
       </nav>
     </header>
     <section>
-      <h6 id="headingMainFolder">Main Folder <span id="mfadd">+</span></h6>
+      <h6 id="headingMainFolder">
+        Main Folder <span id="mfadd"><i class="fas fa-folder-plus"></i></span>
+      </h6>
       <form id="mainFolderForm">
-        <input
-          id="mainFolderName"
-          type="text"
-          class="form-control"
-          id="inlineFormInputName"
-          placeholder="Main Folder Name"
-        />
-        <input id="mainFolderAdd" type="submit" value="Add Main Folder" />
-        <button id="mainFolderCancel" type="button">Cancel</button>
+        <div class="form-group">
+          <input
+            id="mainFolderName"
+            type="text"
+            class="form-control"
+            id="inlineFormInputName"
+            placeholder="Main Folder Name"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            id="mainFolderAdd"
+            class="btn btn-primary form-control"
+            type="submit"
+            value="Add Main Folder"
+          />
+        </div>
+        <div class="form-group">
+          <button
+            id="mainFolderCancel"
+            class="btn btn-warning form-control"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
       <nav>
         <ul id="mainFolderList" class="d-flex justify-content-center">
@@ -88,18 +114,37 @@
       </nav>
     </section>
     <section id="subFolder">
-      <h6 id="headingSubFolder">Sub Folder <span id="sfadd">+</span></h6>
+      <h6 id="headingSubFolder">
+        Sub Folder <span id="sfadd"><i class="fas fa-folder-plus"></i></span>
+      </h6>
       <form id="subFolderForm">
-        <input
-          id="subFolderName"
-          type="text"
-          class="form-control"
-          id="inlineFormInputName"
-          placeholder="Sub Folder Name"
-        />
+        <div class="form-group">
+          <input
+            id="subFolderName"
+            type="text"
+            class="form-control"
+            id="inlineFormInputName"
+            placeholder="Sub Folder Name"
+          />
+        </div>
         <!-- <button id="subFolderAdd" type="button">Add Sub Folder</button> -->
-        <input id="subFolderAdd" type="submit" value="Add Sub Folder" />
-        <button id="subFolderCancel" type="button">Cancel</button>
+        <div class="form-group">
+          <input
+            id="subFolderAdd"
+            class="btn btn-primary form-control"
+            type="submit"
+            value="Add Sub Folder"
+          />
+        </div>
+        <div class="form-group">
+          <button
+            id="subFolderCancel"
+            class="btn btn-warning form-control"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
       <nav>
         <ul id="subFolderList" class="d-flex justify-content-center">
@@ -109,19 +154,48 @@
         </ul>
       </nav>
     </section>
-    <h6 id="headingNote">Notes <span id="nadd">+</span></h6>
+    <h6 id="headingNote">
+      Notes <span id="nadd"><i class="far fa-map"></i></span>
+    </h6>
     <form id="noteForm">
-      <textarea
-        wrap="hard"
-        placeholder="Enter notes here!"
-        id="myTextArea"
-        rows="10"
-        cols="200"
-      ></textarea>
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          wrap="hard"
+          placeholder="Enter notes here!"
+          id="myTextArea"
+          rows="10"
+          cols="200"
+        ></textarea>
+      </div>
 
-      <input id="noteAdd" type="submit" value="Add Note" />
-      <button id="noteClearTextArea" type="button">Clear</button>
-      <button id="noteCancel" type="button">Cancel</button>
+      <div class="form-group">
+        <input
+          id="noteAdd"
+          type="submit"
+          class="btn btn-primary form-control"
+          value="Add Note"
+        />
+      </div>
+
+      <div class="form-group">
+        <button
+          id="noteClearTextArea"
+          class="btn btn-dark form-control"
+          type="button"
+        >
+          Clear
+        </button>
+      </div>
+      <div class="form-group">
+        <button
+          id="noteCancel"
+          class="btn btn-warning form-control"
+          type="button"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
     <section id="noteList">
       <!-- <h1>Note's go here</h1> -->

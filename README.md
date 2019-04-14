@@ -20,6 +20,6 @@ fiter out file extensions for .deb
 css
 
 HELP FILE
-To delete a file cabinet, folder or note hold down control key and click it
-To add an image to a not hold down alt and click on a note, the file picker will promt you for a path
+To delete main folder or subfolder or note hold down control key and click it
+To add an image to a note, hold down alt and click on a note, the file picker will promt you for a path
 To remove an image path that no longer exists hold down shift and click on the note

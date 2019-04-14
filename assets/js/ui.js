@@ -10,9 +10,9 @@ class Ui {
     this.textArea = document.querySelector("#myTextArea");
 
     //select current tabs
-    this.currentFC = document.querySelector("#currentFileCabinet");
-    this.currentMF = document.querySelector("#currentMain");
-    this.currentSF = document.querySelector("#currentSub");
+    // this.currentFC = document.querySelector("#currentFileCabinet");
+    // this.currentMF = document.querySelector("#currentMain");
+    // this.currentSF = document.querySelector("#currentSub");
     //select check box
     // this.myCheckBox = document.querySelector("#myCheckBox");
 
@@ -31,10 +31,10 @@ class Ui {
   //*************************************************************************** */
 
   //Method
-  showAndCheckTextArea() {
-    this.textArea.style.display = "block";
-    this.myCheckBox.checked = true;
-  }
+  // showAndCheckTextArea() {
+  //   this.textArea.style.display = "block";
+  //   this.myCheckBox.checked = true;
+  // }
 
   //Method
   displayNone(element) {
