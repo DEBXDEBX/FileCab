@@ -279,6 +279,9 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 //addEventListener for event delegation
 
 fileCabUL.addEventListener("click", e => {
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     let fileCabName = e.target.textContent;
@@ -333,6 +336,9 @@ fileCabUL.addEventListener("click", e => {
 
 //************************************************************************** */
 mainFolderUL.addEventListener("click", e => {
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   // event delegation
   if (e.target.classList.contains("main")) {
     //set's the current target active
@@ -463,17 +469,28 @@ subFolderUL.addEventListener("click", e => {
 //****************************************************** */
 // When the user clicks on a note
 noteSection.addEventListener("click", e => {
-  //This makes sure only one picture at a time shows up in the note area
-  var el = document.querySelectorAll(".myPic");
-  for (let i = 0; i < el.length; i++) {
-    //remove all elements with the class of .myPic
-    el[i].remove();
-  }
-
   //This gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
   let deleteIndex = parseInt(dataIndex);
   nI = deleteIndex;
+  // //This makes sure only one picture in a note shows up in the note area
+  let picArray = [];
+  let el = document.querySelectorAll(".myPic");
+  //push all pic index's into an array to loop through nex
+  for (let i = 0; i < el.length; i++) {
+    //remove all elements with the class of .myPic
+    let indexP = el[i].getAttribute("data-pIndex");
+    indexP = parseInt(indexP);
+    picArray.push(indexP);
+  }
+  //loop through picArray and return if the picture is already displayed
+  for (let ii = 0; ii < picArray.length; ii++) {
+    if (picArray[ii] === nI) {
+      nI = -243;
+      return;
+    }
+  }
+
   // event delegation
   if (e.target.classList.contains("myPic")) {
     // remove image
@@ -505,6 +522,7 @@ noteSection.addEventListener("click", e => {
       oImg.setAttribute("src", selectedNote.imagePath);
       oImg.setAttribute("alt", "na");
       oImg.setAttribute("width", "100%");
+      oImg.setAttribute("data-pIndex", nI);
       oImg.className = "myPic";
       //insert the image after current note
       noteSection.insertBefore(oImg, e.target.nextSibling);
