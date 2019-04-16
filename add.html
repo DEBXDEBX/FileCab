@@ -4,16 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- My CSS File -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <title>New File Cabinet</title>
   </head>
-  <body>
+  <body id="addWindow">
     <form action="">
-      <div>
-        <label for="">Enter the Name for your file cabinet.</label>
-        <input autofocus type="text" />
-        <button type="submit">Add</button>
+      <div class="form-group">
+        <div class="form-control">
+          <label for="">Enter the Name for your file cabinet.</label>
+          <input autofocus type="text" />
+          <button class="btn btn-primary" type="submit">
+            Add
+          </button>
+        </div>
       </div>
     </form>
+
     <script>
       const electron = require("electron");
       //ipcRender used to comunicate

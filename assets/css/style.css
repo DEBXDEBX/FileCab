@@ -120,6 +120,9 @@ h6 > span {
   margin: 0 auto;
 }
 /* working on below */
+#addWindow {
+  background-color: #00ffffbd;
+}
 li {
   padding: 2rem, 2rem;
 }

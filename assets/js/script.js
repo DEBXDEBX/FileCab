@@ -171,7 +171,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     return;
   }
   if (dataObj.fileNamePath === undefined) {
-    ui.showAlert("You clicked cancel");
+    ui.showAlert("You clicked cancel", "error");
     return;
   }
   // //check if the name already exists if it does alert and return
@@ -206,6 +206,12 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
+  ui.displayNone(mfHeading);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -251,6 +257,12 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
+  ui.displayNone(mfHeading);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -476,7 +488,7 @@ noteSection.addEventListener("click", e => {
   // //This makes sure only one picture in a note shows up in the note area
   let picArray = [];
   let el = document.querySelectorAll(".myPic");
-  //push all pic index's into an array to loop through nex
+  //push all pic index's into an array to loop through next
   for (let i = 0; i < el.length; i++) {
     //remove all elements with the class of .myPic
     let indexP = el[i].getAttribute("data-pIndex");
@@ -667,6 +679,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(mainFolderForm);
+  mainFolderForm.reset();
   //redisplay primary
   ui.paintScreenPrimary(
     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
@@ -759,6 +772,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", e => {
   ui.displayNone(subFolderForm);
   // ui.displayNone(sfHeading);
   ui.displayNone(nHeading);
+  subFolderForm.reset();
   //redisplay sub
   ui.paintScreenSecondary(
     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
@@ -822,6 +836,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 document.querySelector("#noteCancel").addEventListener("click", e => {
   //Hide form
   ui.displayNone(noteForm);
+  mainFolderForm.reset();
 }); //End
 
 // When You click the clear btn in the note form

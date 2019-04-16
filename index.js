@@ -16,6 +16,8 @@ app.on("ready", () => {
   mainWindow = new BrowserWindow({});
   //instruct main window to load html file, from the file system not http:
   mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.maximize();
+  // mainWindow.setFullScreen(true);
   //quit app and close addWindow if main window is closed
   mainWindow.on("closed", () => app.quit());
   //attach menu
@@ -26,7 +28,7 @@ app.on("ready", () => {
 //When you click on create file cab
 function createFileCabinet() {
   addWindow = new BrowserWindow({
-    width: 300,
+    width: 400,
     height: 200,
     title: "Create New File Cabinet"
   });
