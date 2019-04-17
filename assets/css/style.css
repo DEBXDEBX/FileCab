@@ -121,8 +121,6 @@ h6 > span {
 }
 /* working on below */
 #addWindow {
-  background-color: #00ffffbd;
-}
-li {
-  padding: 2rem, 2rem;
+  background-color: blueviolet;
+  margin-top: 40px;
 }

@@ -16,18 +16,19 @@
     <title>New File Cabinet</title>
   </head>
   <body id="addWindow">
-    <form action="">
-      <div class="form-group">
-        <div class="form-control">
-          <label for="">Enter the Name for your file cabinet.</label>
-          <input autofocus type="text" />
-          <button class="btn btn-primary" type="submit">
-            Add
-          </button>
+    <div class="container">
+      <form action="">
+        <div class="form-group">
+          <div class="form-control">
+            <!-- <label for="">Enter the Name for your file cabinet.</label> -->
+            <input autofocus placeholder="Enter a name!" type="text" />
+            <button class="btn btn-primary" type="submit">
+              Add
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-
+      </form>
+    </div>
     <script>
       const electron = require("electron");
       //ipcRender used to comunicate

@@ -14,11 +14,6 @@ must do later
 
 ---
 
-see if there is a way to valid a file path before display it try using try and catch
-
-fiter out file extensions for .deb
-css
-
 HELP FILE
 To delete main folder or subfolder or note hold down control key and click it
 To add an image to a note, hold down alt and click on a note, the file picker will promt you for a path

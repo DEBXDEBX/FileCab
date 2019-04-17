@@ -168,10 +168,46 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (dataObj.name === "") {
     ui.showAlert("You did not enter a name for the File Cabinet!", "error");
     // warningEmptyAudio.play();
+    //redisplay
+    fcI = -243;
+    mfI = -243;
+    sfI = -243;
+    nI = -243;
+    ui.clearFileCabDisplay();
+    ui.clearPrimaryDisplay();
+    ui.clearSubDisplay();
+    ui.clearNoteDisplay();
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+    //Get the names for all the file cabinets
+    //and then send them to the UI
+    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   if (dataObj.fileNamePath === undefined) {
     ui.showAlert("You clicked cancel", "error");
+    //redisplay
+    fcI = -243;
+    mfI = -243;
+    sfI = -243;
+    nI = -243;
+    ui.clearFileCabDisplay();
+    ui.clearPrimaryDisplay();
+    ui.clearSubDisplay();
+    ui.clearNoteDisplay();
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+    //Get the names for all the file cabinets
+    //and then send them to the UI
+    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   // //check if the name already exists if it does alert and return
@@ -180,12 +216,29 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   arrayOfFileCabs.forEach(element => {
     if (element.name === dataObj.name) {
       isTaken = true;
-      return;
     }
   });
   if (isTaken) {
     // warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
+    //redisplay
+    fcI = -243;
+    mfI = -243;
+    sfI = -243;
+    nI = -243;
+    ui.clearFileCabDisplay();
+    ui.clearPrimaryDisplay();
+    ui.clearSubDisplay();
+    ui.clearNoteDisplay();
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+    //Get the names for all the file cabinets
+    //and then send them to the UI
+    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   //create a file cab object
@@ -197,9 +250,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
   //redisplay
   fcI = -243;
-
   mfI = -243;
-
   sfI = -243;
   nI = -243;
   ui.clearFileCabDisplay();
@@ -227,12 +278,29 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   arrayOfFileCabs.forEach(element => {
     if (element.name === data.name) {
       isTaken = true;
-      return;
     }
   });
   if (isTaken) {
     // warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
+    //redisplay
+    fcI = -243;
+    mfI = -243;
+    sfI = -243;
+    nI = -243;
+    ui.clearFileCabDisplay();
+    ui.clearPrimaryDisplay();
+    ui.clearSubDisplay();
+    ui.clearNoteDisplay();
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+    //Get the names for all the file cabinets
+    //and then send them to the UI
+    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   //create a file cab object

@@ -42,8 +42,11 @@ function createFileCabinet() {
 //When You click on load file cab
 function loadFileCabinet() {
   console.log("Start loading file cab....");
-
-  dialog.showOpenDialog(fileNames => {
+  //this is for extsions
+  let myOptions = {
+    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+  };
+  dialog.showOpenDialog(null, myOptions, fileNames => {
     if (fileNames === undefined) {
       let message = "No file selected";
       let msgType = "error";
@@ -94,8 +97,12 @@ function loadFileCabinet() {
 ipcMain.on("fileCab:add", (event, name) => {
   //close the addWindow
   addWindow.close();
+  //this is for extsions
+  let myOptions = {
+    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+  };
   //open save dialog to create a fileNamePath
-  dialog.showSaveDialog(fileNamePath => {
+  dialog.showSaveDialog(null, myOptions, fileNamePath => {
     //Send all info in an object to script.js
     mainWindow.webContents.send("fileCab:add", { fileNamePath, name });
   });

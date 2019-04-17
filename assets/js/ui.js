@@ -8,33 +8,9 @@ class Ui {
     this.noteList = document.querySelector("#noteList");
     //select the text area
     this.textArea = document.querySelector("#myTextArea");
-
-    //select current tabs
-    // this.currentFC = document.querySelector("#currentFileCabinet");
-    // this.currentMF = document.querySelector("#currentMain");
-    // this.currentSF = document.querySelector("#currentSub");
-    //select check box
-    // this.myCheckBox = document.querySelector("#myCheckBox");
-
-    // //addEventListeners
-    // this.myCheckBox.addEventListener("change", e => {
-    //   if (this.myCheckBox.checked) {
-    //     // Checkbox is checked..
-    //     this.textArea.style.display = "block";
-    //   } else {
-    //     // Checkbox is not checked..
-    //     this.textArea.style.display = "none";
-    //   }
-    // }); //addEventlisener myCheckbox
   } //constructor
 
   //*************************************************************************** */
-
-  //Method
-  // showAndCheckTextArea() {
-  //   this.textArea.style.display = "block";
-  //   this.myCheckBox.checked = true;
-  // }
 
   //Method
   displayNone(element) {
