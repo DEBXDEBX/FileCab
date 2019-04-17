@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: filecab-setup-1.0.0.exe
+    sha512: d/gUL91nMygSxS6GKqdWxwTLPyRzno+siAgoB+bhKs8Gbm7WwWn1rGRYqjf4BdsLHrqiViSKc93xJZHosuAzZQ==
+    size: 45825761
+path: filecab-setup-1.0.0.exe
+sha512: d/gUL91nMygSxS6GKqdWxwTLPyRzno+siAgoB+bhKs8Gbm7WwWn1rGRYqjf4BdsLHrqiViSKc93xJZHosuAzZQ==
+releaseDate: '2019-04-17T21:13:10.713Z'
