@@ -12,6 +12,8 @@
   "author": "David Berkheimer",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^4.1.0"
-  }
+    "electron": "^4.1.0",
+    "electron-builder": "^20.39.0"
+  },
+  "dependencies": {}
 }
