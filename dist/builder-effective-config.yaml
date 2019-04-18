@@ -1,8 +1,0 @@
-directories:
-  output: dist
-  buildResources: build
-appId: com.deb.fileCab
-win:
-  target: nsis
-  icon: build/icon.ico
-electronVersion: 4.1.0
