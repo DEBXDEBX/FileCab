@@ -31,13 +31,11 @@ const textArea = document.querySelector("#myTextArea");
 
 //Select audio files
 const addAudio = document.querySelector("#addAudio");
-const addFileCabAudio = document.querySelector("#addFileCabAudio");
 const addImageAudio = document.querySelector("#addImageAudio");
 const deleteAudio = document.querySelector("#deleteAudio");
 const warningEmptyAudio = document.querySelector("#warningEmptyAudio");
 const warningSelectAudio = document.querySelector("#warningSelectAudio");
 const warningNameTakenAudio = document.querySelector("#warningNameTakenAudio");
-const warningMaxNumberAudio = document.querySelector("#warningMaxNumberAudio");
 
 //Global variable's
 //current File Cab Index
@@ -56,17 +54,10 @@ const arrayOfFileCabs = [];
 //The start of program exicution.
 window.onload = function() {
   startUp();
-  // console.log(dialog);
 };
 //Start Up
 function startUp() {
   // there is nothing that needs to run at start up, it is event driven
-  // ui.displayNone(mfHeading);
-  // ui.displayNone(sfHeading);
-  // ui.displayNone(nHeading);
-  // ui.displayNone(mainFolderForm);
-  // ui.displayNone(subFolderForm);
-  // ui.displayNone(noteForm);
 }
 
 //*************************************************** */
@@ -114,34 +105,11 @@ function handleFilePath(imagePath) {
 }
 
 function addImage() {
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
-  if (sfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Sub Folder first!", "error");
-    return;
-  }
-  if (nI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Note first!", "error");
-    return;
-  }
-
   //grab current note and add a image path property to it and save back to file
 
   //get primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
-  //get the image path from the name text field
-  // let fullImagePath = textName.value.trim();
   let imagePath;
 
   dialog.showOpenDialog(fileNames => {
@@ -167,7 +135,6 @@ function addImage() {
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (dataObj.name === "") {
     ui.showAlert("You did not enter a name for the File Cabinet!", "error");
-    // warningEmptyAudio.play();
     //redisplay
     fcI = -243;
     mfI = -243;
@@ -177,12 +144,18 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
+    // ui.displayNone(mfHeading);
+    $(mfHeading).slideUp("slow");
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
+    // ui.displayNone(noteForm);
+    $(noteForm).slideUp("slow");
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -199,12 +172,18 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
+    // ui.displayNone(mfHeading);
+    $(mfHeading).slideUp("slow");
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
+    // ui.displayNone(noteForm);
+    $(noteForm).slideUp("slow");
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -219,7 +198,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     }
   });
   if (isTaken) {
-    // warningNameTakenAudio.play();
     ui.showAlert("That name is taken", "error");
     //redisplay
     fcI = -243;
@@ -230,12 +208,18 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
+    // ui.displayNone(mfHeading);
+    $(mfHeading).slideUp("slow");
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
+    // ui.displayNone(noteForm);
+    $(noteForm).slideUp("slow");
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -257,12 +241,18 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  ui.displayNone(mfHeading);
-  ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
+  // ui.displayNone(mfHeading);
+  $(mfHeading).slideUp("slow");
+  // ui.displayNone(sfHeading);
+  $(sfHeading).slideUp("slow");
+  // ui.displayNone(nHeading);
+  $(nHeading).slideUp("slow");
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -292,12 +282,18 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
+    // ui.displayNone(mfHeading);
+    $(mfHeading).slideUp("slow");
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
+    // ui.displayNone(noteForm);
+    $(noteForm).slideUp("slow");
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -316,21 +312,25 @@ ipcRenderer.on("fileCab:load", (event, data) => {
 
   //redisplay
   fcI = -243;
-
   mfI = -243;
-
   sfI = -243;
   nI = -243;
   ui.clearFileCabDisplay();
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  ui.displayNone(mfHeading);
-  ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
+  // ui.displayNone(mfHeading);
+  $(mfHeading).slideUp("slow");
+  // ui.displayNone(sfHeading);
+  $(sfHeading).slideUp("slow");
+  // ui.displayNone(nHeading);
+  $(nHeading).slideUp("slow");
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -359,9 +359,12 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 //addEventListener for event delegation
 
 fileCabUL.addEventListener("click", e => {
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     let fileCabName = e.target.textContent;
@@ -383,9 +386,12 @@ fileCabUL.addEventListener("click", e => {
     //End code to set the active class
 
     // show and hide headings
-    ui.displayBlock(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
+    // ui.displayBlock(mfHeading);
+    $(mfHeading).slideDown("slow");
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
 
     //get the index from the html
     let index = e.target.dataset.index;
@@ -416,9 +422,12 @@ fileCabUL.addEventListener("click", e => {
 
 //************************************************************************** */
 mainFolderUL.addEventListener("click", e => {
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   // event delegation
   if (e.target.classList.contains("main")) {
     //set's the current target active
@@ -445,8 +454,10 @@ mainFolderUL.addEventListener("click", e => {
     nI = -243;
 
     //show and hide headings
-    ui.displayBlock(sfHeading);
-    ui.displayNone(nHeading);
+    // ui.displayBlock(sfHeading);
+    $(sfHeading).slideDown("slow");
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
 
     ui.clearNoteDisplay();
     let secondaryArray =
@@ -465,10 +476,14 @@ mainFolderUL.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
-      ui.displayNone(sfHeading);
-      ui.displayNone(noteForm);
-      ui.displayNone(subFolderForm);
-      ui.displayNone(mainFolderForm);
+      // ui.displayNone(sfHeading);
+      $(sfHeading).slideUp("slow");
+      // ui.displayNone(noteForm);
+      $(noteForm).slideUp("slow");
+      // ui.displayNone(subFolderForm);
+      $(subFolderForm).slideUp("slow");
+      // ui.displayNone(mainFolderForm);
+      $(mainFolderForm).slideUp("slow");
       ui.clearPrimaryDisplay();
       mfI = -243;
       ui.clearSubDisplay();
@@ -511,7 +526,8 @@ subFolderUL.addEventListener("click", e => {
   nI = -243;
 
   //show and hide headings
-  ui.displayBlock(nHeading);
+  // ui.displayBlock(nHeading);
+  $(nHeading).slideDown("slow");
 
   //send the note array to ui.paintScreenNote()
   ui.paintScreenNote(
@@ -528,10 +544,14 @@ subFolderUL.addEventListener("click", e => {
     primaryArray[mfI].secondaryArray.splice(sfI, 1);
     //set the primary array back to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-    ui.displayNone(nHeading);
-    ui.displayNone(noteForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(mainFolderForm);
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
+    // ui.displayNone(noteForm);
+    $(noteForm).slideUp("slow");
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
     deleteAudio.play();
     ui.showAlert("Sub folder deleted!", "success");
     //clear sub folder and notes
@@ -577,20 +597,8 @@ noteSection.addEventListener("click", e => {
     e.target.remove();
   }
 
-  if (nI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Note first!", "error");
-    return;
-  }
-
   // event delegation
   if (e.target.classList.contains("note")) {
-    if (nI === -243) {
-      warningSelectAudio.play();
-      ui.showAlert("Please select a Note first!", "error");
-      return;
-    }
-
     //grab array from file
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
@@ -661,11 +669,16 @@ noteSection.addEventListener("click", e => {
 
 //When You click on the + in the main heading
 addShowFormMain.addEventListener("click", e => {
-  ui.displayBlock(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
-  ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
+  // ui.displayBlock(mainFolderForm);
+  $(mainFolderForm).slideDown("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
+  // ui.displayNone(sfHeading);
+  $(sfHeading).slideUp("slow");
+  // ui.displayNone(nHeading);
+  $(nHeading).slideUp("slow");
   ui.clearPrimaryDisplay();
   mfI = -243;
   ui.clearSubDisplay();
@@ -677,11 +690,6 @@ addShowFormMain.addEventListener("click", e => {
 //When you click on the add main folder btn
 document.querySelector("#mainFolderAdd").addEventListener("click", e => {
   e.preventDefault();
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a  File Cabinet first!", "error");
-    return;
-  }
   //grab fileCab
   let fileCab = arrayOfFileCabs[fcI];
   //grab primary array
@@ -721,12 +729,16 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     addAudio.play();
     ui.showAlert("A new main folder was added", "success");
     //Hide form
-    ui.displayNone(mainFolderForm);
+    // ui.displayNone(mainFolderForm);
+    $(mainFolderForm).slideUp("slow");
     //Hide sub folder heading and form
-    ui.displayNone(sfHeading);
+    // ui.displayNone(sfHeading);
+    $(sfHeading).slideUp("slow");
     // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
     //hide note heading and foem
-    ui.displayNone(nHeading);
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
     //reset form
     mainFolderForm.reset();
     //redisplay paint screen
@@ -746,7 +758,8 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 //When You click on cancel btn on the main folder form
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   //Hide form
-  ui.displayNone(mainFolderForm);
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
   mainFolderForm.reset();
   //redisplay primary
   ui.paintScreenPrimary(
@@ -759,10 +772,14 @@ document.querySelector("#mainFolderCancel").addEventListener("click", e => {
 
 //When You click + in the subfolder heading
 addShowFormSub.addEventListener("click", e => {
-  ui.displayBlock(subFolderForm);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(noteForm);
-  ui.displayNone(nHeading);
+  // ui.displayBlock(subFolderForm);
+  $(subFolderForm).slideDown("slow");
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
+  // ui.displayNone(nHeading);
+  $(nHeading).slideUp("slow");
   ui.clearSubDisplay();
   sfI = -243;
   ui.clearNoteDisplay();
@@ -772,17 +789,6 @@ addShowFormSub.addEventListener("click", e => {
 //When You click on the add sub folder btn in the sub folder form
 document.querySelector("#subFolderAdd").addEventListener("click", e => {
   e.preventDefault();
-
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
   //grab array from file
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //create secondary obj
@@ -817,11 +823,13 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //Hide form
-    ui.displayNone(subFolderForm);
+    // ui.displayNone(subFolderForm);
+    $(subFolderForm).slideUp("slow");
     //reset form
     subFolderForm.reset();
     //Hide note heading
-    ui.displayNone(nHeading);
+    // ui.displayNone(nHeading);
+    $(nHeading).slideUp("slow");
     //redisplay paint screen
     ui.clearSubDisplay();
     sfI = -243;
@@ -837,9 +845,10 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
 //When You click the cancel btn in the sub folder form
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
   //Hide form
-  ui.displayNone(subFolderForm);
-  // ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
+  // ui.displayNone(nHeading);
+  $(nHeading).slideUp("slow");
   subFolderForm.reset();
   //redisplay sub
   ui.paintScreenSecondary(
@@ -851,29 +860,17 @@ document.querySelector("#subFolderCancel").addEventListener("click", e => {
 
 //When You click the + in the Note Heading
 addShowFormNote.addEventListener("click", e => {
-  ui.displayBlock(noteForm);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
+  // ui.displayBlock(noteForm);
+  $(noteForm).slideDown("slow");
+  // ui.displayNone(mainFolderForm);
+  $(mainFolderForm).slideUp("slow");
+  // ui.displayNone(subFolderForm);
+  $(subFolderForm).slideUp("slow");
 });
 
 //When You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", e => {
   e.preventDefault();
-  if (fcI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a File Cabinet first!", "error");
-    return;
-  }
-  if (mfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Main Folder first!", "error");
-    return;
-  }
-  if (sfI === -243) {
-    warningSelectAudio.play();
-    ui.showAlert("Please select a Sub Folder first!", "error");
-    return;
-  }
   // grab primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   //create note
@@ -893,7 +890,8 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   addAudio.play();
   ui.showAlert("A new note was added", "success");
   //Hide form
-  ui.displayNone(noteForm);
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   //redisplay paint screen
   ui.clearNoteDisplay();
   nI = -243;
@@ -903,7 +901,8 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 // When You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", e => {
   //Hide form
-  ui.displayNone(noteForm);
+  // ui.displayNone(noteForm);
+  $(noteForm).slideUp("slow");
   mainFolderForm.reset();
 }); //End
 
