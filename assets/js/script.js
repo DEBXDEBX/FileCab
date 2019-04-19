@@ -47,7 +47,7 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 //Create ui object
-const ui = new Ui();
+const ui = new Ui($);
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
 
@@ -144,18 +144,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    // ui.displayNone(mfHeading);
-    $(mfHeading).slideUp("slow");
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
-    // ui.displayNone(noteForm);
-    $(noteForm).slideUp("slow");
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -172,18 +167,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    // ui.displayNone(mfHeading);
-    $(mfHeading).slideUp("slow");
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
-    // ui.displayNone(noteForm);
-    $(noteForm).slideUp("slow");
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -208,18 +198,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    // ui.displayNone(mfHeading);
-    $(mfHeading).slideUp("slow");
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
-    // ui.displayNone(noteForm);
-    $(noteForm).slideUp("slow");
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -241,18 +226,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  // ui.displayNone(mfHeading);
-  $(mfHeading).slideUp("slow");
-  // ui.displayNone(sfHeading);
-  $(sfHeading).slideUp("slow");
-  // ui.displayNone(nHeading);
-  $(nHeading).slideUp("slow");
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(mfHeading);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
+
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -282,18 +262,13 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     ui.clearPrimaryDisplay();
     ui.clearSubDisplay();
     ui.clearNoteDisplay();
-    // ui.displayNone(mfHeading);
-    $(mfHeading).slideUp("slow");
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
-    // ui.displayNone(noteForm);
-    $(noteForm).slideUp("slow");
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+
     //Get the names for all the file cabinets
     //and then send them to the UI
     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -319,18 +294,12 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   ui.clearPrimaryDisplay();
   ui.clearSubDisplay();
   ui.clearNoteDisplay();
-  // ui.displayNone(mfHeading);
-  $(mfHeading).slideUp("slow");
-  // ui.displayNone(sfHeading);
-  $(sfHeading).slideUp("slow");
-  // ui.displayNone(nHeading);
-  $(nHeading).slideUp("slow");
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(mfHeading);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   //Get the names for all the file cabinets
   //and then send them to the UI
   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
@@ -359,12 +328,10 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
 //addEventListener for event delegation
 
 fileCabUL.addEventListener("click", e => {
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
+
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     let fileCabName = e.target.textContent;
@@ -386,12 +353,9 @@ fileCabUL.addEventListener("click", e => {
     //End code to set the active class
 
     // show and hide headings
-    // ui.displayBlock(mfHeading);
-    $(mfHeading).slideDown("slow");
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
+    ui.displayBlock(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
 
     //get the index from the html
     let index = e.target.dataset.index;
@@ -422,12 +386,9 @@ fileCabUL.addEventListener("click", e => {
 
 //************************************************************************** */
 mainFolderUL.addEventListener("click", e => {
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
   // event delegation
   if (e.target.classList.contains("main")) {
     //set's the current target active
@@ -454,10 +415,8 @@ mainFolderUL.addEventListener("click", e => {
     nI = -243;
 
     //show and hide headings
-    // ui.displayBlock(sfHeading);
-    $(sfHeading).slideDown("slow");
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
+    ui.displayBlock(sfHeading);
+    ui.displayNone(nHeading);
 
     ui.clearNoteDisplay();
     let secondaryArray =
@@ -476,14 +435,10 @@ mainFolderUL.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Main folder deleted!", "success");
       //clear main folder, sub folder and notes
-      // ui.displayNone(sfHeading);
-      $(sfHeading).slideUp("slow");
-      // ui.displayNone(noteForm);
-      $(noteForm).slideUp("slow");
-      // ui.displayNone(subFolderForm);
-      $(subFolderForm).slideUp("slow");
-      // ui.displayNone(mainFolderForm);
-      $(mainFolderForm).slideUp("slow");
+      ui.displayNone(sfHeading);
+      ui.displayNone(noteForm);
+      ui.displayNone(subFolderForm);
+      ui.displayNone(mainFolderForm);
       ui.clearPrimaryDisplay();
       mfI = -243;
       ui.clearSubDisplay();
@@ -493,7 +448,6 @@ mainFolderUL.addEventListener("click", e => {
       //redisplay main folder
       //mapped primary array
       ui.paintScreenPrimary(mapNamesOut(primaryArray));
-      // ui.paintScreenPrimary(fcI);
     } //End control key down
   }
 });
@@ -526,8 +480,7 @@ subFolderUL.addEventListener("click", e => {
   nI = -243;
 
   //show and hide headings
-  // ui.displayBlock(nHeading);
-  $(nHeading).slideDown("slow");
+  ui.displayBlock(nHeading);
 
   //send the note array to ui.paintScreenNote()
   ui.paintScreenNote(
@@ -544,14 +497,10 @@ subFolderUL.addEventListener("click", e => {
     primaryArray[mfI].secondaryArray.splice(sfI, 1);
     //set the primary array back to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
-    // ui.displayNone(noteForm);
-    $(noteForm).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
+    ui.displayNone(nHeading);
+    ui.displayNone(noteForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(mainFolderForm);
     deleteAudio.play();
     ui.showAlert("Sub folder deleted!", "success");
     //clear sub folder and notes
@@ -669,16 +618,11 @@ noteSection.addEventListener("click", e => {
 
 //When You click on the + in the main heading
 addShowFormMain.addEventListener("click", e => {
-  // ui.displayBlock(mainFolderForm);
-  $(mainFolderForm).slideDown("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
-  // ui.displayNone(sfHeading);
-  $(sfHeading).slideUp("slow");
-  // ui.displayNone(nHeading);
-  $(nHeading).slideUp("slow");
+  ui.displayBlock(mainFolderForm);
+  ui.displayNone(subFolderForm);
+  ui.displayNone(noteForm);
+  ui.displayNone(sfHeading);
+  ui.displayNone(nHeading);
   ui.clearPrimaryDisplay();
   mfI = -243;
   ui.clearSubDisplay();
@@ -729,16 +673,12 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     addAudio.play();
     ui.showAlert("A new main folder was added", "success");
     //Hide form
-    // ui.displayNone(mainFolderForm);
-    $(mainFolderForm).slideUp("slow");
+    ui.displayNone(mainFolderForm);
     //Hide sub folder heading and form
-    // ui.displayNone(sfHeading);
-    $(sfHeading).slideUp("slow");
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
+    ui.displayNone(sfHeading);
+    ui.displayNone(subFolderForm);
     //hide note heading and foem
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
+    ui.displayNone(nHeading);
     //reset form
     mainFolderForm.reset();
     //redisplay paint screen
@@ -758,8 +698,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 //When You click on cancel btn on the main folder form
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   //Hide form
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
+  ui.displayNone(mainFolderForm);
   mainFolderForm.reset();
   //redisplay primary
   ui.paintScreenPrimary(
@@ -772,14 +711,10 @@ document.querySelector("#mainFolderCancel").addEventListener("click", e => {
 
 //When You click + in the subfolder heading
 addShowFormSub.addEventListener("click", e => {
-  // ui.displayBlock(subFolderForm);
-  $(subFolderForm).slideDown("slow");
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
-  // ui.displayNone(nHeading);
-  $(nHeading).slideUp("slow");
+  ui.displayBlock(subFolderForm);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(noteForm);
+  ui.displayNone(nHeading);
   ui.clearSubDisplay();
   sfI = -243;
   ui.clearNoteDisplay();
@@ -823,13 +758,11 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     addAudio.play();
     ui.showAlert("A new sub folder was added", "success");
     //Hide form
-    // ui.displayNone(subFolderForm);
-    $(subFolderForm).slideUp("slow");
+    ui.displayNone(subFolderForm);
     //reset form
     subFolderForm.reset();
     //Hide note heading
-    // ui.displayNone(nHeading);
-    $(nHeading).slideUp("slow");
+    ui.displayNone(nHeading);
     //redisplay paint screen
     ui.clearSubDisplay();
     sfI = -243;
@@ -845,10 +778,8 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
 //When You click the cancel btn in the sub folder form
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
   //Hide form
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
-  // ui.displayNone(nHeading);
-  $(nHeading).slideUp("slow");
+  ui.displayNone(subFolderForm);
+  ui.displayNone(nHeading);
   subFolderForm.reset();
   //redisplay sub
   ui.paintScreenSecondary(
@@ -860,12 +791,9 @@ document.querySelector("#subFolderCancel").addEventListener("click", e => {
 
 //When You click the + in the Note Heading
 addShowFormNote.addEventListener("click", e => {
-  // ui.displayBlock(noteForm);
-  $(noteForm).slideDown("slow");
-  // ui.displayNone(mainFolderForm);
-  $(mainFolderForm).slideUp("slow");
-  // ui.displayNone(subFolderForm);
-  $(subFolderForm).slideUp("slow");
+  ui.displayBlock(noteForm);
+  ui.displayNone(mainFolderForm);
+  ui.displayNone(subFolderForm);
 });
 
 //When You click the add note btn in the note form
@@ -890,8 +818,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   addAudio.play();
   ui.showAlert("A new note was added", "success");
   //Hide form
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(noteForm);
   //redisplay paint screen
   ui.clearNoteDisplay();
   nI = -243;
@@ -901,8 +828,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 // When You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", e => {
   //Hide form
-  // ui.displayNone(noteForm);
-  $(noteForm).slideUp("slow");
+  ui.displayNone(noteForm);
   mainFolderForm.reset();
 }); //End
 

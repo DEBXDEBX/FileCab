@@ -1,6 +1,6 @@
 //Ui class start
 class Ui {
-  constructor() {
+  constructor($) {
     //select the lists
     this.fileCabList = document.querySelector("#fileCabList");
     this.mainFolderList = document.querySelector("#mainFolderList");
@@ -8,18 +8,20 @@ class Ui {
     this.noteList = document.querySelector("#noteList");
     //select the text area
     this.textArea = document.querySelector("#myTextArea");
+    //JQuery
+    this.$ = $;
   } //constructor
 
   //*************************************************************************** */
 
   //Method
   displayNone(element) {
-    element.style.display = "none";
+    this.$(element).slideUp("slow");
   }
 
   //Method
   displayBlock(element) {
-    element.style.display = "block";
+    this.$(element).slideDown("slow");
   }
 
   //Method

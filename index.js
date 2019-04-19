@@ -9,6 +9,7 @@ console.log(
 //You have to do this declaraiton for scoping issues
 let mainWindow;
 let addWindow;
+let helpWindow;
 //watch the app object and wait for a ready event
 app.on("ready", () => {
   //function to run when the app is ready
@@ -36,6 +37,19 @@ function createFileCabinet() {
   //the following is for garbage collection
   addWindow.on("closed", () => {
     addWindow = null;
+  });
+}
+//When you click on help
+function loadHelp() {
+  helpWindow = new BrowserWindow({
+    width: 800,
+    height: 400,
+    title: "Help"
+  });
+  helpWindow.loadURL(`file://${__dirname}/help.html`);
+  //the following is for garbage collection
+  helpWindow.on("closed", () => {
+    helpWindow = null;
   });
 }
 
@@ -125,6 +139,12 @@ const menuTemplate = [
         accelerator: process.platform === "darwin" ? "Command+O" : "Ctrl+O",
         click() {
           loadFileCabinet();
+        }
+      },
+      {
+        label: "Help",
+        click() {
+          loadHelp();
         }
       },
       {
