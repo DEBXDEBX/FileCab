@@ -1,8 +1,15 @@
-h6 {
+h6,
+h3 {
   margin: 10px;
   text-align: center;
   background-color: aqua;
   border-radius: 15px;
+}
+p {
+  background-color: blanchedalmond;
+  text-align: center;
+  border-radius: 10px;
+  margin: 10px;
 }
 /* the note section */
 h4 {

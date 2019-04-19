@@ -43,7 +43,7 @@ function createFileCabinet() {
 function loadHelp() {
   helpWindow = new BrowserWindow({
     width: 800,
-    height: 400,
+    height: 720,
     title: "Help"
   });
   helpWindow.loadURL(`file://${__dirname}/help.html`);
@@ -162,22 +162,26 @@ if (process.platform === "darwin") {
   //add empty object to the front of the array
   menuTemplate.unshift({});
 }
+
 //check for NODE_ENV => prodution, development, staging, test
-if (process.env.NODE_ENV !== "production") {
-  // add object to end of array menu
-  menuTemplate.push({
-    label: "View",
-    submenu: [
-      //predefined role
-      { role: "reload" },
-      {
-        label: "Toggle Developer Tools",
-        accelerator:
-          process.platform === "darwin" ? "Command+Alt+I" : "Ctrl+Shift+I",
-        click(item, focusedWindow) {
-          focusedWindow.toggleDevTools();
-        }
-      }
-    ]
-  });
-}
+//This does not work coment it out before you build
+
+//DEVELOPER TOOLS
+// if (process.env.NODE_ENV !== "production") {
+//   // add object to end of array menu
+//   menuTemplate.push({
+//     label: "View",
+//     submenu: [
+//       //predefined role
+//       { role: "reload" },
+//       {
+//         label: "Toggle Developer Tools",
+//         accelerator:
+//           process.platform === "darwin" ? "Command+Alt+I" : "Ctrl+Shift+I",
+//         click(item, focusedWindow) {
+//           focusedWindow.toggleDevTools();
+//         }
+//       }
+//     ]
+//   });
+// }

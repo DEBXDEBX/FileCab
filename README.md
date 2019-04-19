@@ -12,7 +12,7 @@ starting: all console.log() go in ternimal for the chrome side. index.js console
 
 must do later
 
----
+get rid of developer tools before you build
 
 HELP FILE
 To delete main folder or subfolder or note hold down control key and click it
