@@ -120,12 +120,13 @@ h6 > span {
 #mainFolderForm,
 #subFolderForm {
   max-width: 70%;
-  margin: 0 auto;
+  margin: 14px auto;
 }
 #noteForm {
   max-width: 97%;
   margin: 0 auto;
 }
+
 /* working on below */
 #addWindow {
   background-color: blueviolet;

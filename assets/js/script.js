@@ -481,6 +481,7 @@ subFolderUL.addEventListener("click", e => {
 
   //show and hide headings
   ui.displayBlock(nHeading);
+  ui.displayNone(subFolderForm);
 
   //send the note array to ui.paintScreenNote()
   ui.paintScreenNote(
@@ -581,6 +582,7 @@ noteSection.addEventListener("click", e => {
       deleteAudio.play();
       ui.showAlert("Removed the image from note!", "success");
       //redisplay notes
+      ui.clearNoteDisplay();
       ui.paintScreenNote(
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
           .noteArray
@@ -623,7 +625,7 @@ addShowFormMain.addEventListener("click", e => {
   ui.displayNone(noteForm);
   ui.displayNone(sfHeading);
   ui.displayNone(nHeading);
-  ui.clearPrimaryDisplay();
+  // ui.clearPrimaryDisplay();
   mfI = -243;
   ui.clearSubDisplay();
   sfI = -243;
@@ -715,7 +717,7 @@ addShowFormSub.addEventListener("click", e => {
   ui.displayNone(mainFolderForm);
   ui.displayNone(noteForm);
   ui.displayNone(nHeading);
-  ui.clearSubDisplay();
+  // ui.clearSubDisplay();
   sfI = -243;
   ui.clearNoteDisplay();
   nI = -243;
