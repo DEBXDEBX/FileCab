@@ -85,6 +85,7 @@ class Ui {
 
   //Method
   paintScreenNote(noteArray) {
+    this.displayNone(this.noteList);
     //clear the div
     this.noteList.innerHTML = "";
     //build div
@@ -93,6 +94,7 @@ class Ui {
       this.createNoteElement(note.text, index);
       //create a new div for each bookmark
     });
+    this.displayBlock(this.noteList);
   } //end paint screen note
   //******************************************************************** */
 

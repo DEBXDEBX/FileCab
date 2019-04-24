@@ -479,11 +479,19 @@ subFolderUL.addEventListener("click", e => {
   sfI = index;
   nI = -243;
 
+  //Bug fix
+  if (isNaN(sfI)) {
+    // ui.paintScreenNote will throw an error, when you click outside the subfolder items
+    //if it's not a number return
+    return;
+  }
+
   //show and hide headings
   ui.displayBlock(nHeading);
   ui.displayNone(subFolderForm);
 
   //send the note array to ui.paintScreenNote()
+
   ui.paintScreenNote(
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
       .noteArray
