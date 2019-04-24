@@ -30,9 +30,13 @@ app.on("ready", () => {
 function createFileCabinet() {
   addWindow = new BrowserWindow({
     width: 400,
-    height: 200,
-    title: "Create New File Cabinet"
+    height: 300,
+    title: "Create New File Cabinet",
+    parent: mainWindow,
+    modal: true,
+    show: true
   });
+  addWindow.setMenu(null);
   addWindow.loadURL(`file://${__dirname}/add.html`);
   //the following is for garbage collection
   addWindow.on("closed", () => {
@@ -120,6 +124,12 @@ ipcMain.on("fileCab:add", (event, name) => {
     //Send all info in an object to script.js
     mainWindow.webContents.send("fileCab:add", { fileNamePath, name });
   });
+});
+
+//this listens for the addWindow cancel btn
+ipcMain.on("addForm:cancel", event => {
+  addWindow.close();
+  console.log("cancel clicked");
 });
 
 // Top Menu

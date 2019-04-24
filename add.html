@@ -17,18 +17,35 @@
   </head>
   <body id="addWindow">
     <div class="container">
-      <form action="">
+      <form>
         <div class="form-group">
-          <div class="form-control">
-            <!-- <label for="">Enter the Name for your file cabinet.</label> -->
-            <input autofocus placeholder="Enter a name!" type="text" />
-            <button class="btn btn-primary" type="submit">
-              Add
-            </button>
-          </div>
+          <input
+            type="text"
+            autofocus
+            class="form-control"
+            id="name"
+            placeholder="File Cabinet Name"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            class="btn btn-primary form-control"
+            type="submit"
+            value="Add Main Folder"
+          />
+        </div>
+        <div class="form-group">
+          <button
+            id="cancel"
+            class="btn btn-warning form-control"
+            type="button"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>
+
     <script>
       const electron = require("electron");
       //ipcRender used to comunicate
@@ -36,9 +53,13 @@
 
       document.querySelector("form").addEventListener("submit", event => {
         event.preventDefault();
-        let { value } = document.querySelector("input");
+        let { value } = document.querySelector("#name");
         value = value.trim();
         ipcRenderer.send("fileCab:add", value);
+      });
+
+      document.querySelector("#cancel").addEventListener("click", event => {
+        ipcRenderer.send("addForm:cancel");
       });
     </script>
   </body>

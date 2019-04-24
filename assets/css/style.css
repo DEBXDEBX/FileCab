@@ -21,9 +21,10 @@ body {
   background-color: blueviolet;
 }
 
-section ul {
+nav ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   list-style: none;
   padding: 3px;
   margin: 3px;
@@ -33,7 +34,7 @@ nav ul li {
   list-style: none;
   background-color: #00ffffbd;
   color: rgb(0, 0, 0);
-  padding: 3px 3px;
+  padding: 3px 10px;
   margin: 4px 10px;
   border-radius: 10px 10px 0px 0px;
 }
