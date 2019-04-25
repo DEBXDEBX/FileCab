@@ -46,6 +46,8 @@ let mfI = -243;
 let sfI = -243;
 // current note Index
 let nI = -243;
+//Delete Mode
+let deleteMode = false;
 //Create ui object
 const ui = new Ui($);
 // This is the Main array that holds all the file cab objects
@@ -312,6 +314,16 @@ ipcRenderer.on("UI:showAlert", (event, dataObj) => {
   ui.showAlert(dataObj.message, dataObj.msgType);
 }); //End ipcRenderer.on("UI:showAlert"
 
+//listen for index.js to set deletemade
+ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  deleteMode = deleteModeBool;
+  if (deleteMode) {
+    ui.showAlert("You have entered delete mode", "success");
+  } else {
+    ui.showAlert("You Have exited delete mode", "success");
+  }
+});
+
 //End IPC**************************************
 
 //************************************************************************* */
@@ -353,6 +365,7 @@ fileCabUL.addEventListener("click", e => {
     //End code to set the active class
 
     // show and hide headings
+    ui.displayNone(mfHeading);
     ui.displayBlock(mfHeading);
     ui.displayNone(sfHeading);
     ui.displayNone(nHeading);
@@ -415,6 +428,7 @@ mainFolderUL.addEventListener("click", e => {
     nI = -243;
 
     //show and hide headings
+    ui.displayNone(sfHeading);
     ui.displayBlock(sfHeading);
     ui.displayNone(nHeading);
 
@@ -425,29 +439,37 @@ mainFolderUL.addEventListener("click", e => {
 
     //check if control was down, if so delete
     if (e.ctrlKey) {
-      //delete main folder
-      //get primary array
-      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-      //Delete main folder
-      primaryArray.splice(mfI, 1);
-      // save file cab
-      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-      deleteAudio.play();
-      ui.showAlert("Main folder deleted!", "success");
-      //clear main folder, sub folder and notes
-      ui.displayNone(sfHeading);
-      ui.displayNone(noteForm);
-      ui.displayNone(subFolderForm);
-      ui.displayNone(mainFolderForm);
-      ui.clearPrimaryDisplay();
-      mfI = -243;
-      ui.clearSubDisplay();
-      sfI = -243;
-      ui.clearNoteDisplay();
-      nI = -243;
-      //redisplay main folder
-      //mapped primary array
-      ui.paintScreenPrimary(mapNamesOut(primaryArray));
+      if (deleteMode) {
+        //delete main folder
+        //get primary array
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        //Delete main folder
+        primaryArray.splice(mfI, 1);
+        // save file cab
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+        deleteAudio.play();
+        ui.showAlert("Main folder deleted!", "success");
+        //clear main folder, sub folder and notes
+        ui.displayNone(sfHeading);
+        ui.displayNone(noteForm);
+        ui.displayNone(subFolderForm);
+        ui.displayNone(mainFolderForm);
+        ui.clearPrimaryDisplay();
+        mfI = -243;
+        ui.clearSubDisplay();
+        sfI = -243;
+        ui.clearNoteDisplay();
+        nI = -243;
+        //redisplay main folder
+        //mapped primary array
+        ui.paintScreenPrimary(mapNamesOut(primaryArray));
+      } else {
+        warningEmptyAudio.play();
+        ui.showAlert(
+          "You have to select delete mode in menu to make a deletion",
+          "error"
+        );
+      }
     } //End control key down
   }
 });
@@ -487,6 +509,7 @@ subFolderUL.addEventListener("click", e => {
   }
 
   //show and hide headings
+  ui.displayNone(nHeading);
   ui.displayBlock(nHeading);
   ui.displayNone(subFolderForm);
 
@@ -498,29 +521,37 @@ subFolderUL.addEventListener("click", e => {
   );
 
   if (e.ctrlKey) {
-    //DELETE sub folder
-    //grab array from file
-    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+    if (deleteMode) {
+      //DELETE sub folder
+      //grab array from file
+      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
-    //grab the secondary array and delete sub folder
-    primaryArray[mfI].secondaryArray.splice(sfI, 1);
-    //set the primary array back to file
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-    ui.displayNone(nHeading);
-    ui.displayNone(noteForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(mainFolderForm);
-    deleteAudio.play();
-    ui.showAlert("Sub folder deleted!", "success");
-    //clear sub folder and notes
-    ui.clearSubDisplay();
-    sfI = -243;
-    ui.clearNoteDisplay();
-    nI = -243;
-    //redisplay sub folder
-    let secondaryArray =
-      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-    ui.paintScreenSecondary(mapNamesOut(secondaryArray));
+      //grab the secondary array and delete sub folder
+      primaryArray[mfI].secondaryArray.splice(sfI, 1);
+      //set the primary array back to file
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+      ui.displayNone(nHeading);
+      ui.displayNone(noteForm);
+      ui.displayNone(subFolderForm);
+      ui.displayNone(mainFolderForm);
+      deleteAudio.play();
+      ui.showAlert("Sub folder deleted!", "success");
+      //clear sub folder and notes
+      ui.clearSubDisplay();
+      sfI = -243;
+      ui.clearNoteDisplay();
+      nI = -243;
+      //redisplay sub folder
+      let secondaryArray =
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
+      ui.paintScreenSecondary(mapNamesOut(secondaryArray));
+    } else {
+      warningEmptyAudio.play();
+      ui.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+    }
   } //End control key down
 }); //End
 
@@ -599,21 +630,29 @@ noteSection.addEventListener("click", e => {
 
     //check if control was down, if so delete note
     if (e.ctrlKey) {
-      //grab array from file
-      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-      //grab the note array and delete current note
-      primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
-      //write to file
-      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-      //reasign current note
-      nI = -243;
-      deleteAudio.play();
-      ui.showAlert("Note deleted!", "success");
-      //redisplay notes
-      ui.paintScreenNote(
-        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-          .noteArray
-      );
+      if (deleteMode) {
+        //grab array from file
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        //grab the note array and delete current note
+        primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
+        //write to file
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+        //reasign current note
+        nI = -243;
+        deleteAudio.play();
+        ui.showAlert("Note deleted!", "success");
+        //redisplay notes
+        ui.paintScreenNote(
+          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+            .noteArray
+        );
+      } else {
+        warningEmptyAudio.play();
+        ui.showAlert(
+          "You have to select delete mode in menu to make a deletion",
+          "error"
+        );
+      }
     } //End control key down
   } //End class name contains note
 }); //End event listener

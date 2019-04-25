@@ -109,7 +109,17 @@ function loadFileCabinet() {
       }
     });
   }
-}
+} //end
+
+function setDeleteModeFalse() {
+  let deleteMode = false;
+  mainWindow.webContents.send("deleteMode:set", deleteMode);
+} //End
+
+function setDeleteModeTrue() {
+  let deleteMode = true;
+  mainWindow.webContents.send("deleteMode:set", deleteMode);
+} //End
 
 //this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
@@ -162,6 +172,25 @@ const menuTemplate = [
         accelerator: process.platform === "darwin" ? "Command+Q" : "Ctrl+Q",
         click() {
           app.quit();
+        }
+      }
+    ]
+  },
+  {
+    label: "Mode",
+    submenu: [
+      {
+        label: "Read and Write",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+L",
+        click() {
+          setDeleteModeFalse();
+        }
+      },
+      {
+        label: "Read Write Delete",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+D",
+        click() {
+          setDeleteModeTrue();
         }
       }
     ]
