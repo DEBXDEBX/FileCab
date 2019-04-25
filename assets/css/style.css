@@ -94,6 +94,7 @@ img {
 
 /* Start of new css April 12th 2019 */
 /* Hide everything at start up */
+#renameFileCabForm,
 #headingMainFolder,
 #headingSubFolder,
 #headingNote,
@@ -108,7 +109,8 @@ h6 > span {
   color: blueviolet;
 }
 #mainFolderForm,
-#subFolderForm {
+#subFolderForm,
+#renameFileCabForm {
   max-width: 70%;
   margin: 14px auto;
 }

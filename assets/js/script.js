@@ -17,6 +17,7 @@ const mfHeading = document.querySelector("#headingMainFolder");
 const sfHeading = document.querySelector("#headingSubFolder");
 const nHeading = document.querySelector("#headingNote");
 //Select forms
+
 const mainFolderForm = document.querySelector("#mainFolderForm");
 const subFolderForm = document.querySelector("#subFolderForm");
 const noteForm = document.querySelector("#noteForm");
@@ -25,6 +26,7 @@ const addShowFormMain = document.querySelector("#mfadd");
 const addShowFormSub = document.querySelector("#sfadd");
 const addShowFormNote = document.querySelector("#nadd");
 //Select textName and textArea
+const textRenameFileCabForm = document.querySelector("#newFileCabName");
 const textNameMain = document.querySelector("#mainFolderName");
 const textNameSub = document.querySelector("#subFolderName");
 const textArea = document.querySelector("#myTextArea");
@@ -386,12 +388,24 @@ fileCabUL.addEventListener("click", e => {
     ui.paintScreenPrimary(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
-  //if shift is held down move file cab left
+  //if shift is held down rename fileCab
   if (e.shiftKey) {
     console.log("Shift key is held down");
+    // hide everything but file cab ul
+    ui.clearPrimaryDisplay();
+    ui.clearSubDisplay();
+    ui.clearNoteDisplay();
+    ui.displayNone(mfHeading);
+    ui.displayNone(sfHeading);
+    ui.displayNone(nHeading);
+    ui.displayNone(mainFolderForm);
+    ui.displayNone(subFolderForm);
+    ui.displayNone(noteForm);
+    //show form to rename file cab
+    ui.displayBlock(renameFileCabForm);
   }
 
-  //if control is held down delete file cabinet and move files down one
+  //if control is held down
   if (e.ctrlKey) {
     console.log("control key held down");
   }
@@ -886,4 +900,23 @@ document.querySelector("#noteClearTextArea").addEventListener("click", e => {
   //clear the text Area
   textArea.value = "";
 }); //End
+
+//When You click on the rename File Cab rename Btn
+document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
+  e.preventDefault();
+  //change file cabinet name
+  arrayOfFileCabs[fcI].name = textRenameFileCabForm.value;
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+  //redisplay
+  ui.displayNone(renameFileCabForm);
+  ui.clearFileCabDisplay();
+  ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
+//When You click on the rename File Cab cancel Btn
+document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
+  //redisplay
+  ui.displayNone(renameFileCabForm);
+  ui.clearFileCabDisplay();
+  ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
 //End addEventListener
