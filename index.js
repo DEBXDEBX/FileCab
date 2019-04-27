@@ -47,10 +47,12 @@ function createFileCabinet() {
 function loadHelp() {
   helpWindow = new BrowserWindow({
     width: 800,
-    height: 720,
+    height: 800,
     title: "Help"
   });
+  helpWindow.setMenu(null);
   helpWindow.loadURL(`file://${__dirname}/help.html`);
+  helpWindow.maximize();
   //the following is for garbage collection
   helpWindow.on("closed", () => {
     helpWindow = null;
@@ -161,12 +163,7 @@ const menuTemplate = [
           loadFileCabinet();
         }
       },
-      {
-        label: "Help",
-        click() {
-          loadHelp();
-        }
-      },
+
       {
         label: "Quit",
         accelerator: process.platform === "darwin" ? "Command+Q" : "Ctrl+Q",
@@ -194,6 +191,17 @@ const menuTemplate = [
         }
       }
     ]
+  },
+  {
+    label: "Help",
+    submenu: [
+      {
+        label: "Help",
+        click() {
+          loadHelp();
+        }
+      }
+    ]
   }
 ];
 //Check for mac os
@@ -203,7 +211,7 @@ if (process.platform === "darwin") {
 }
 
 //check for NODE_ENV => prodution, development, staging, test
-//This does not work coment it out before you build
+//This does not work comment it out before you build
 
 //DEVELOPER TOOLS
 if (process.env.NODE_ENV !== "production") {
