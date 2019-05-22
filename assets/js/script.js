@@ -1,3 +1,4 @@
+"use strict";
 // Used to access file system
 let app = require("electron").remote;
 let { dialog } = app;
@@ -54,7 +55,10 @@ let deleteMode = false;
 const ui = new Ui($);
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
-
+//This ina enables JQuery ToolTips
+$(document).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 //The start of program exicution.
 window.onload = function() {
   startUp();

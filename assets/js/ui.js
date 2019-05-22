@@ -6,6 +6,7 @@ class Ui {
     this.mainFolderList = document.querySelector("#mainFolderList");
     this.subFolderList = document.querySelector("#subFolderList");
     this.noteList = document.querySelector("#noteList");
+    this.noteHeader = document.querySelector("#headingNote");
     //select the text area
     this.textArea = document.querySelector("#myTextArea");
     //JQuery
@@ -117,10 +118,8 @@ class Ui {
     div.appendChild(document.createTextNode(message));
     // Get parent
     const container = document.querySelector("body");
-    // Get header
-    const header = document.querySelector("header");
-    // Insert alert
-    container.insertBefore(div, header);
+    // Insert alert other element
+    container.insertBefore(div, this.noteHeader);
 
     // Timeout after 4 sec
     setTimeout(function() {
