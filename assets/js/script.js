@@ -877,7 +877,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   //save file cab
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
   addAudio.play();
-  ui.showAlert("A new note was added", "success");
+  ui.showAlert("A new note was added", "success", 1500);
   //Hide form
   ui.displayNone(noteForm);
   //redisplay paint screen

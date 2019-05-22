@@ -1,5 +1,12 @@
-h6,
 h3 {
+  margin: 30px auto;
+  padding: 10px;
+  text-align: center;
+  background-color: aqua;
+  border-radius: 5px;
+  width: 70%;
+}
+h6 {
   margin: 10px;
   text-align: center;
   background-color: aqua;
@@ -122,4 +129,11 @@ h6 > span {
 #addWindow {
   background-color: blueviolet;
   margin-top: 40px;
+}
+p {
+  width: 60%;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
 }
