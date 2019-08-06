@@ -1,14 +1,7 @@
 //Ui class start
-class Ui {
-  constructor($) {
-    //select the lists
-    this.fileCabList = document.querySelector("#fileCabList");
-    this.mainFolderList = document.querySelector("#mainFolderList");
-    this.subFolderList = document.querySelector("#subFolderList");
-    this.noteList = document.querySelector("#noteList");
-    this.noteHeader = document.querySelector("#headingNote");
-    //select the text area
-    this.textArea = document.querySelector("#myTextArea");
+class Display {
+  constructor(elements, $) {
+    this.elements = elements;
     //JQuery
     this.$ = $;
   } //constructor
