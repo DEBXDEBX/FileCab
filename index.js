@@ -70,7 +70,7 @@ function loadFileCabinet() {
     if (fileNames === undefined) {
       let message = "No file selected";
       let msgType = "error";
-      mainWindow.webContents.send("UI:showAlert", { message, msgType });
+      mainWindow.webContents.send("Display:showAlert", { message, msgType });
     } else {
       readFileContents(fileNames[0]);
     }
@@ -81,7 +81,7 @@ function loadFileCabinet() {
       if (err) {
         let message = "An error occured reading the file.";
         let msgType = "error";
-        mainWindow.webContents.send("UI:showAlert", { message, msgType });
+        mainWindow.webContents.send("Display:showAlert", { message, msgType });
         return;
       } else {
         try {
@@ -89,7 +89,10 @@ function loadFileCabinet() {
         } catch {
           let message = "Can not parse data";
           let msgType = "error";
-          mainWindow.webContents.send("UI:showAlert", { message, msgType });
+          mainWindow.webContents.send("Display:showAlert", {
+            message,
+            msgType
+          });
           return;
         }
 
@@ -105,7 +108,10 @@ function loadFileCabinet() {
           } else {
             let message = "This is not a valid ElectronFileCab2019April file";
             let msgType = "error";
-            mainWindow.webContents.send("UI:showAlert", { message, msgType });
+            mainWindow.webContents.send("Display:showAlert", {
+              message,
+              msgType
+            });
           }
         }
       }

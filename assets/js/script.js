@@ -148,47 +148,17 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (dataObj.name === "") {
     ui.showAlert("You did not enter a name for the File Cabinet!", "error");
     //redisplay
-    fcI = -243;
-    mfI = -243;
-    sfI = -243;
-    nI = -243;
-    ui.clearFileCabDisplay();
-    ui.clearPrimaryDisplay();
-    ui.clearSubDisplay();
-    ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
-
     //Get the names for all the file cabinets
-    //and then send them to the UI
-    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+    //and then send them to the Display
+    display.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   if (dataObj.fileNamePath === undefined) {
-    ui.showAlert("You clicked cancel", "error");
+    display.showAlert("You clicked cancel", "error");
     //redisplay
-    fcI = -243;
-    mfI = -243;
-    sfI = -243;
-    nI = -243;
-    ui.clearFileCabDisplay();
-    ui.clearPrimaryDisplay();
-    ui.clearSubDisplay();
-    ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
-
     //Get the names for all the file cabinets
-    //and then send them to the UI
-    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+    //and then send them to the Display
+    display.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   // //check if the name already exists if it does alert and return
@@ -202,24 +172,9 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (isTaken) {
     ui.showAlert("That name is taken", "error");
     //redisplay
-    fcI = -243;
-    mfI = -243;
-    sfI = -243;
-    nI = -243;
-    ui.clearFileCabDisplay();
-    ui.clearPrimaryDisplay();
-    ui.clearSubDisplay();
-    ui.clearNoteDisplay();
-    ui.displayNone(mfHeading);
-    ui.displayNone(sfHeading);
-    ui.displayNone(nHeading);
-    ui.displayNone(mainFolderForm);
-    ui.displayNone(subFolderForm);
-    ui.displayNone(noteForm);
-
     //Get the names for all the file cabinets
-    //and then send them to the UI
-    ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+    //and then send them to the Display
+    display.paintScreen(mapNamesOut(arrayOfFileCabs));
     return;
   }
   //create a file cab object
@@ -227,112 +182,68 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   //push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
   //Write the file cab object to disk
-  newfileCab.writeFileCabToHardDisk(fs, ui);
-
+  newfileCab.writeFileCabToHardDisk(fs, display);
   //redisplay
-  fcI = -243;
-  mfI = -243;
-  sfI = -243;
-  nI = -243;
-  ui.clearFileCabDisplay();
-  ui.clearPrimaryDisplay();
-  ui.clearSubDisplay();
-  ui.clearNoteDisplay();
-  ui.displayNone(mfHeading);
-  ui.displayNone(sfHeading);
-  ui.displayNone(nHeading);
-  ui.displayNone(mainFolderForm);
-  ui.displayNone(subFolderForm);
-  ui.displayNone(noteForm);
-
   //Get the names for all the file cabinets
   //and then send them to the UI
-  ui.paintScreen(mapNamesOut(arrayOfFileCabs));
+  display.paintScreen(mapNamesOut(arrayOfFileCabs));
 });
 // End ipcRenderer.on("fileCab:add"********************
 //*************************************************** */
 
-// //listen for inedex.js to send data
-// ipcRenderer.on("fileCab:load", (event, data) => {
-//   // check if the name already exists if it does alert and return
-//   // make a variable to return
-//   let isTaken = false;
-//   arrayOfFileCabs.forEach(element => {
-//     if (element.name === data.name) {
-//       isTaken = true;
-//     }
-//   });
-//   if (isTaken) {
-//     // warningNameTakenAudio.play();
-//     ui.showAlert("That name is taken", "error");
-//     //redisplay
-//     fcI = -243;
-//     mfI = -243;
-//     sfI = -243;
-//     nI = -243;
-//     ui.clearFileCabDisplay();
-//     ui.clearPrimaryDisplay();
-//     ui.clearSubDisplay();
-//     ui.clearNoteDisplay();
-//     ui.displayNone(mfHeading);
-//     ui.displayNone(sfHeading);
-//     ui.displayNone(nHeading);
-//     ui.displayNone(mainFolderForm);
-//     ui.displayNone(subFolderForm);
-//     ui.displayNone(noteForm);
+//listen for inedex.js to send data
+ipcRenderer.on("fileCab:load", (event, data) => {
+  // check if the name already exists if it does alert and return
+  // make a variable to return
+  let isTaken = false;
+  arrayOfFileCabs.forEach(element => {
+    if (element.name === data.name) {
+      isTaken = true;
+    }
+  });
+  if (isTaken) {
+    // warningNameTakenAudio.play();
+    ui.showAlert("That name is taken", "error");
+    //redisplay
 
-//     //Get the names for all the file cabinets
-//     //and then send them to the UI
-//     ui.paintScreen(mapNamesOut(arrayOfFileCabs));
-//     return;
-//   }
-//   //create a file cab object
-//   let newfileCab = new FileCabObject(
-//     data.name,
-//     data.fileNamePath,
-//     data.arrayOfPrimaryObjects
-//   );
-//   //push the file cab obj into the array of file cabinets
-//   arrayOfFileCabs.push(newfileCab);
-//   //Write the file cab object to disk
-//   newfileCab.writeFileCabToHardDisk(fs, ui);
+    //Get the names for all the file cabinets
+    //and then send them to the Display
+    display.paintScreen(mapNamesOut(arrayOfFileCabs));
+    return;
+  }
+  //create a file cab object
+  let newfileCab = new FileCabObject(
+    data.name,
+    data.fileNamePath,
+    data.arrayOfPrimaryObjects
+  );
+  //push the file cab obj into the array of file cabinets
+  arrayOfFileCabs.push(newfileCab);
+  //Write the file cab object to disk
+  newfileCab.writeFileCabToHardDisk(fs, display);
 
-//   //redisplay
-//   fcI = -243;
-//   mfI = -243;
-//   sfI = -243;
-//   nI = -243;
-//   ui.clearFileCabDisplay();
-//   ui.clearPrimaryDisplay();
-//   ui.clearSubDisplay();
-//   ui.clearNoteDisplay();
-//   ui.displayNone(mfHeading);
-//   ui.displayNone(sfHeading);
-//   ui.displayNone(nHeading);
-//   ui.displayNone(mainFolderForm);
-//   ui.displayNone(subFolderForm);
-//   ui.displayNone(noteForm);
-//   //Get the names for all the file cabinets
-//   //and then send them to the UI
-//   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
-// });
-// //End ipcRenderer.on("fileCab:load"*****************************
-// // ***********************************************************
+  //redisplay
+  //Get the names for all the file cabinets
+  //and then send them to the Display
+  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
+//End ipcRenderer.on("fileCab:load"*****************************
+// ***********************************************************
 
-// //listen for inedex.js to send data
-// ipcRenderer.on("UI:showAlert", (event, dataObj) => {
-//   ui.showAlert(dataObj.message, dataObj.msgType);
-// }); //End ipcRenderer.on("UI:showAlert"
+//listen for inedex.js to send data
+ipcRenderer.on("Display:showAlert", (event, dataObj) => {
+  display.showAlert(dataObj.message, dataObj.msgType);
+}); //End ipcRenderer.on("UI:showAlert"
 
-// //listen for index.js to set deletemade
-// ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
-//   deleteMode = deleteModeBool;
-//   if (deleteMode) {
-//     ui.showAlert("You have entered delete mode", "success");
-//   } else {
-//     ui.showAlert("You Have exited delete mode", "success");
-//   }
-// });
+//listen for index.js to set deletemode
+ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  deleteMode = deleteModeBool;
+  if (deleteMode) {
+    display.showAlert("You have entered delete mode", "success");
+  } else {
+    display.showAlert("You Have exited delete mode", "success");
+  }
+});
 
 //End IPC**************************************
 

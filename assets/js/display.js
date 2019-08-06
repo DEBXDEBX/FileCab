@@ -20,30 +20,42 @@ class Display {
 
   //Method
   clearFileCabDisplay() {
-    this.fileCabList.innerHTML = "";
+    this.elements.fileCabList.innerHTML = "";
   } //End clearFileCabDisplay()
   //************************************************************************ */
 
   //Method
   clearPrimaryDisplay() {
-    this.mainFolderList.innerHTML = "";
+    this.elements.mainFolderList.innerHTML = "";
   } //End clearMainDisplay()
   //********************************************************************** */
 
   //Method
   clearSubDisplay() {
-    this.subFolderList.innerHTML = "";
+    this.elements.subFolderList.innerHTML = "";
   } //End clearSubDisplay()
   //********************************************************************** */
 
   //Method
   clearNoteDisplay() {
-    this.noteList.innerHTML = "";
+    this.elements.noteList.innerHTML = "";
   } //End clearNoteDisplay()
   //************************************************************************ */
 
   // Method
   paintScreen(mapedArray) {
+    // do this first
+    console.log("paint screen called");
+    this.clearFileCabDisplay();
+    this.clearPrimaryDisplay();
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
     //this will paint all file cabinets tabs
     // make var for html
     let html = "";
@@ -51,7 +63,7 @@ class Display {
       html += `<li data-index="${index}" class="fileCab">${element}</li>`;
     });
 
-    this.fileCabList.innerHTML = html;
+    this.elements.fileCabList.innerHTML = html;
   } // end paintScreen
   //******************************************************************************* */
 
@@ -112,7 +124,7 @@ class Display {
     // Get parent
     const container = document.querySelector("body");
     // Insert alert other element
-    container.insertBefore(div, this.nHeading);
+    container.insertBefore(div, this.elements.nHeading);
 
     // Timeout after 4 sec
     setTimeout(function() {

@@ -26,3 +26,7 @@ HELP FILE
 To delete main folder or subfolder or note hold down control key and click it
 To add an image to a note, hold down alt and click on a note, the file picker will promt you for a path
 To remove an image path that no longer exists hold down shift and click on the note
+
+---
+
+start at 262 script add eventListeners
