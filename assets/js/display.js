@@ -45,7 +45,6 @@ class Display {
   // Method
   paintScreen(mapedArray) {
     // do this first
-    console.log("paint screen called");
     this.clearFileCabDisplay();
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
@@ -69,38 +68,78 @@ class Display {
 
   // Method
   paintScreenPrimary(mapedArray) {
+    this.clearPrimaryDisplay();
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayBlock(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+
     let html = "";
     mapedArray.forEach((element, index) => {
       html += `<li data-index="${index}" class="main">${element}</li>`;
     });
 
-    this.mainFolderList.innerHTML = html;
+    this.elements.mainFolderList.innerHTML = html;
   } //end paintScreenPrimary
   //********************************************************************************* */
 
+  //Method
+  showRenameFileCabForm() {
+    this.clearPrimaryDisplay();
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayBlock(this.elements.renameFileCabForm);
+  }
   // Method
   paintScreenSecondary(mappedSecondaryArray) {
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayBlock(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayBlock(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+
     //Make var for html
     let html = "";
     mappedSecondaryArray.forEach((element, index) => {
       html += `<li data-index="${index}" class="sub">${element}</li>`;
     });
-    this.subFolderList.innerHTML = html;
+    this.elements.subFolderList.innerHTML = html;
   } //end paint screen secondary
   //******************************************************************************* */
 
   //Method
   paintScreenNote(noteArray) {
-    this.displayNone(this.noteList);
+    this.displayNone(this.elements.nHeading);
+    this.displayBlock(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.noteList);
     //clear the div
-    this.noteList.innerHTML = "";
+    this.elements.noteList.innerHTML = "";
     //build div
     noteArray.forEach((note, index) => {
       // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);
       this.createNoteElement(note.text, index);
       //create a new div for each bookmark
     });
-    this.displayBlock(this.noteList);
+    this.displayBlock(this.elements.noteList);
   } //end paint screen note
   //******************************************************************** */
 
@@ -109,7 +148,7 @@ class Display {
     newElement.className = "note";
     newElement.setAttribute("data-index", `${index}`);
     newElement.appendChild(document.createTextNode(`${text}`));
-    this.noteList.appendChild(newElement);
+    this.elements.noteList.appendChild(newElement);
   } //End createNoteElement
 
   //********************************************************************* */

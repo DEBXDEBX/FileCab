@@ -102,7 +102,7 @@ function sortArrayByName(array) {
 function handleFilePath(imagePath) {
   if (imagePath === "") {
     warningEmptyAudio.play();
-    ui.showAlert("Please enter a path in the name area!", "error");
+    display.showAlert("Please enter a path in the name area!", "error");
     return;
   }
 
@@ -111,9 +111,9 @@ function handleFilePath(imagePath) {
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath = imagePath;
   // save file cab
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
   addImageAudio.play();
-  ui.showAlert("A new image was added to the note", "success");
+  display.showAlert("A new image was added to the note", "success");
 }
 
 function addImage() {
@@ -260,227 +260,169 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 // //********************************************** */
 // //addEventListener for event delegation
 
-// fileCabUL.addEventListener("click", e => {
-//   ui.displayNone(mainFolderForm);
-//   ui.displayNone(subFolderForm);
-//   ui.displayNone(noteForm);
+el.fileCabList.addEventListener("click", e => {
+  // event delegation
+  if (e.target.classList.contains("fileCab")) {
+    let fileCabName = e.target.textContent;
 
-//   // event delegation
-//   if (e.target.classList.contains("fileCab")) {
-//     let fileCabName = e.target.textContent;
+    //set's the current target active
+    e.target.classList.add("active");
 
-//     //set's the current target active
-//     e.target.classList.add("active");
+    //The Next code is to set the current tab color white with the active class
+    var el = document.querySelectorAll(".fileCab");
+    for (let i = 0; i < el.length; i++) {
+      el[i].onclick = function() {
+        var c = 0;
+        while (c < el.length) {
+          el[c++].className = "fileCab";
+        }
+        el[i].className = "fileCab active";
+      };
+    }
+    //End code to set the active class
 
-//     //The Next code is to set the current tab color white with the active class
-//     var el = document.querySelectorAll(".fileCab");
-//     for (let i = 0; i < el.length; i++) {
-//       el[i].onclick = function() {
-//         var c = 0;
-//         while (c < el.length) {
-//           el[c++].className = "fileCab";
-//         }
-//         el[i].className = "fileCab active";
-//       };
-//     }
-//     //End code to set the active class
+    //get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    fcI = index;
 
-//     // show and hide headings
-//     ui.displayNone(mfHeading);
-//     ui.displayBlock(mfHeading);
-//     ui.displayNone(sfHeading);
-//     ui.displayNone(nHeading);
+    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+    display.paintScreenPrimary(mapNamesOut(primaryArray));
+  } // end contains 'fileCab
 
-//     //get the index from the html
-//     let index = e.target.dataset.index;
-//     index = parseInt(index);
-//     fcI = index;
-//     ui.clearPrimaryDisplay();
+  //if shift is held down rename fileCab
+  if (e.shiftKey) {
+    display.showRenameFileCabForm();
+  } //End shift Key down
+});
 
-//     mfI = -243;
-//     ui.clearSubDisplay();
+//************************************************************************** */
+el.mainFolderList.addEventListener("click", e => {
+  // event delegation
+  if (e.target.classList.contains("main")) {
+    //set's the current target active
+    e.target.classList.add("active");
 
-//     sfI = -243;
-//     ui.clearNoteDisplay();
-//     nI = -243;
-//     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//     ui.paintScreenPrimary(mapNamesOut(primaryArray));
-//   } // end contains 'fileCab
+    //The Next code is to set the current tab color white with the active class
+    var el = document.querySelectorAll(".main");
+    for (let i = 0; i < el.length; i++) {
+      el[i].onclick = function() {
+        var c = 0;
+        while (c < el.length) {
+          el[c++].className = "main";
+        }
+        el[i].className = "main active";
+      };
+    }
+    //End code to set the active class
 
-//   //if shift is held down rename fileCab
-//   if (e.shiftKey) {
-//     // hide everything but file cab ul
-//     ui.clearPrimaryDisplay();
-//     ui.clearSubDisplay();
-//     ui.clearNoteDisplay();
-//     ui.displayNone(mfHeading);
-//     ui.displayNone(sfHeading);
-//     ui.displayNone(nHeading);
-//     ui.displayNone(mainFolderForm);
-//     ui.displayNone(subFolderForm);
-//     ui.displayNone(noteForm);
-//     //show form to rename file cab
-//     ui.displayBlock(renameFileCabForm);
-//   } //End shift Key down
-// });
+    //get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    mfI = index;
 
-// //************************************************************************** */
-// mainFolderUL.addEventListener("click", e => {
-//   ui.displayNone(mainFolderForm);
-//   ui.displayNone(subFolderForm);
-//   ui.displayNone(noteForm);
-//   // event delegation
-//   if (e.target.classList.contains("main")) {
-//     //set's the current target active
-//     e.target.classList.add("active");
+    let secondaryArray =
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
+    display.paintScreenSecondary(mapNamesOut(secondaryArray));
 
-//     //The Next code is to set the current tab color white with the active class
-//     var el = document.querySelectorAll(".main");
-//     for (let i = 0; i < el.length; i++) {
-//       el[i].onclick = function() {
-//         var c = 0;
-//         while (c < el.length) {
-//           el[c++].className = "main";
-//         }
-//         el[i].className = "main active";
-//       };
-//     }
-//     //End code to set the active class
+    //check if control was down, if so delete
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        //delete main folder
+        //get primary array
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        //Delete main folder
+        primaryArray.splice(mfI, 1);
+        // save file cab
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+        deleteAudio.play();
+        display.showAlert("Main folder deleted!", "success");
+        display.paintScreenPrimary(mapNamesOut(primaryArray));
+      } else {
+        warningEmptyAudio.play();
+        display.showAlert(
+          "You have to select delete mode in menu to make a deletion",
+          "error"
+        );
+      }
+    } //End control key down
+  }
+});
 
-//     //get the index from the html
-//     let index = e.target.dataset.index;
-//     index = parseInt(index);
-//     mfI = index;
-//     sfI = -243;
-//     nI = -243;
+//************************************************************************ */
+el.subFolderList.addEventListener("click", e => {
+  // event delegation
+  if (e.target.classList.contains("sub")) {
+    //set's the current target active
+    e.target.classList.add("active");
 
-//     //show and hide headings
-//     ui.displayNone(sfHeading);
-//     ui.displayBlock(sfHeading);
-//     ui.displayNone(nHeading);
+    //The Next code is to set the current tab color white with the active class
+    var el = document.querySelectorAll(".sub");
+    for (let i = 0; i < el.length; i++) {
+      el[i].onclick = function() {
+        var c = 0;
+        while (c < el.length) {
+          el[c++].className = "sub";
+        }
+        el[i].className = "sub active";
+      };
+    }
+    //End code to set the active class
+  }
 
-//     ui.clearNoteDisplay();
-//     let secondaryArray =
-//       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-//     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
+  //get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  sfI = index;
 
-//     //check if control was down, if so delete
-//     if (e.ctrlKey) {
-//       if (deleteMode) {
-//         //delete main folder
-//         //get primary array
-//         let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//         //Delete main folder
-//         primaryArray.splice(mfI, 1);
-//         // save file cab
-//         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//         deleteAudio.play();
-//         ui.showAlert("Main folder deleted!", "success");
-//         //clear main folder, sub folder and notes
-//         ui.displayNone(sfHeading);
-//         ui.displayNone(noteForm);
-//         ui.displayNone(subFolderForm);
-//         ui.displayNone(mainFolderForm);
-//         ui.clearPrimaryDisplay();
-//         mfI = -243;
-//         ui.clearSubDisplay();
-//         sfI = -243;
-//         ui.clearNoteDisplay();
-//         nI = -243;
-//         //redisplay main folder
-//         //mapped primary array
-//         ui.paintScreenPrimary(mapNamesOut(primaryArray));
-//       } else {
-//         warningEmptyAudio.play();
-//         ui.showAlert(
-//           "You have to select delete mode in menu to make a deletion",
-//           "error"
-//         );
-//       }
-//     } //End control key down
-//   }
-// });
+  //Bug fix
+  if (isNaN(sfI)) {
+    // ui.paintScreenNote will throw an error, when you click outside the subfolder items
+    //if it's not a number return
+    return;
+  }
 
-// //************************************************************************ */
-// subFolderUL.addEventListener("click", e => {
-//   // event delegation
-//   if (e.target.classList.contains("sub")) {
-//     //set's the current target active
-//     e.target.classList.add("active");
+  //send the note array to the Display
 
-//     //The Next code is to set the current tab color white with the active class
-//     var el = document.querySelectorAll(".sub");
-//     for (let i = 0; i < el.length; i++) {
-//       el[i].onclick = function() {
-//         var c = 0;
-//         while (c < el.length) {
-//           el[c++].className = "sub";
-//         }
-//         el[i].className = "sub active";
-//       };
-//     }
-//     //End code to set the active class
-//   }
+  display.paintScreenNote(
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray
+  );
 
-//   //get the index from the html
-//   let index = e.target.dataset.index;
-//   index = parseInt(index);
-//   sfI = index;
-//   nI = -243;
+  if (e.ctrlKey) {
+    if (deleteMode) {
+      //DELETE sub folder
+      //grab array from file
+      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
-//   //Bug fix
-//   if (isNaN(sfI)) {
-//     // ui.paintScreenNote will throw an error, when you click outside the subfolder items
-//     //if it's not a number return
-//     return;
-//   }
-
-//   //show and hide headings
-//   ui.displayNone(nHeading);
-//   ui.displayBlock(nHeading);
-//   ui.displayNone(subFolderForm);
-
-//   //send the note array to ui.paintScreenNote()
-
-//   ui.paintScreenNote(
-//     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-//       .noteArray
-//   );
-
-//   if (e.ctrlKey) {
-//     if (deleteMode) {
-//       //DELETE sub folder
-//       //grab array from file
-//       let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
-//       //grab the secondary array and delete sub folder
-//       primaryArray[mfI].secondaryArray.splice(sfI, 1);
-//       //set the primary array back to file
-//       arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//       ui.displayNone(nHeading);
-//       ui.displayNone(noteForm);
-//       ui.displayNone(subFolderForm);
-//       ui.displayNone(mainFolderForm);
-//       deleteAudio.play();
-//       ui.showAlert("Sub folder deleted!", "success");
-//       //clear sub folder and notes
-//       ui.clearSubDisplay();
-//       sfI = -243;
-//       ui.clearNoteDisplay();
-//       nI = -243;
-//       //redisplay sub folder
-//       let secondaryArray =
-//         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-//       ui.paintScreenSecondary(mapNamesOut(secondaryArray));
-//     } else {
-//       warningEmptyAudio.play();
-//       ui.showAlert(
-//         "You have to select delete mode in menu to make a deletion",
-//         "error"
-//       );
-//     }
-//   } //End control key down
-// }); //End
+      //grab the secondary array and delete sub folder
+      primaryArray[mfI].secondaryArray.splice(sfI, 1);
+      //set the primary array back to file
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+      // ui.displayNone(nHeading);
+      // ui.displayNone(noteForm);
+      // ui.displayNone(subFolderForm);
+      // ui.displayNone(mainFolderForm);
+      deleteAudio.play();
+      display.showAlert("Sub folder deleted!", "success");
+      //clear sub folder and notes
+      // ui.clearSubDisplay();
+      // sfI = -243;
+      // ui.clearNoteDisplay();
+      // nI = -243;
+      //redisplay sub folder
+      let secondaryArray =
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
+      display.paintScreenSecondary(mapNamesOut(secondaryArray));
+    } else {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+    }
+  } //End control key down
+}); //End
 
 // //****************************************************** */
 // // When the user clicks on a note
