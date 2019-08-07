@@ -55,6 +55,7 @@ class Display {
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.renameFileCabForm);
     //this will paint all file cabinets tabs
     // make var for html
     let html = "";
@@ -101,6 +102,34 @@ class Display {
     this.displayNone(this.elements.noteForm);
     this.displayBlock(this.elements.renameFileCabForm);
   }
+
+  //Method
+  showMainFolderForm() {
+    this.displayBlock(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+  }
+
+  //Method
+  showSubFolderForm() {
+    this.displayBlock(this.elements.subFolderForm);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.nHeading);
+    this.clearNoteDisplay();
+  }
+
+  //Method
+  showNoteForm() {
+    this.displayBlock(this.elements.noteForm);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+  }
+
   // Method
   paintScreenSecondary(mappedSecondaryArray) {
     this.clearSubDisplay();
@@ -132,7 +161,7 @@ class Display {
     this.displayNone(this.elements.noteForm);
     this.displayNone(this.elements.noteList);
     //clear the div
-    this.elements.noteList.innerHTML = "";
+    this.clearNoteDisplay();
     //build div
     noteArray.forEach((note, index) => {
       // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);

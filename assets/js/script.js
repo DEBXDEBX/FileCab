@@ -68,7 +68,6 @@ window.onload = function() {
 };
 //Start Up
 function startUp() {
-  console.log(el.textArea);
   // there is nothing that needs to run at start up, it is event driven
 }
 
@@ -126,9 +125,10 @@ function addImage() {
 
   dialog.showOpenDialog(fileNames => {
     if (fileNames === undefined) {
-      let message = "No file selected";
-      let msgType = "error";
+      // let message = "No file selected";
+      // let msgType = "error";
       console.log("there is no file");
+      display.showAlert("No file selected", "error");
       // mainWindow.webContents.send("UI:showAlert", { message, msgType });
     } else {
       //got file name
@@ -233,7 +233,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
 //listen for inedex.js to send data
 ipcRenderer.on("Display:showAlert", (event, dataObj) => {
   display.showAlert(dataObj.message, dataObj.msgType);
-}); //End ipcRenderer.on("UI:showAlert"
+}); //End ipcRenderer.on("Display:showAlert"
 
 //listen for index.js to set deletemode
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
@@ -334,7 +334,7 @@ el.mainFolderList.addEventListener("click", e => {
         //Delete main folder
         primaryArray.splice(mfI, 1);
         // save file cab
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
         deleteAudio.play();
         display.showAlert("Main folder deleted!", "success");
         display.paintScreenPrimary(mapNamesOut(primaryArray));
@@ -367,8 +367,8 @@ el.subFolderList.addEventListener("click", e => {
         el[i].className = "sub active";
       };
     }
-    //End code to set the active class
   }
+  //End code to set the active class
 
   //get the index from the html
   let index = e.target.dataset.index;
@@ -383,7 +383,6 @@ el.subFolderList.addEventListener("click", e => {
   }
 
   //send the note array to the Display
-
   display.paintScreenNote(
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
       .noteArray
@@ -394,25 +393,16 @@ el.subFolderList.addEventListener("click", e => {
       //DELETE sub folder
       //grab array from file
       let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
       //grab the secondary array and delete sub folder
       primaryArray[mfI].secondaryArray.splice(sfI, 1);
       //set the primary array back to file
-      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-      // ui.displayNone(nHeading);
-      // ui.displayNone(noteForm);
-      // ui.displayNone(subFolderForm);
-      // ui.displayNone(mainFolderForm);
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
       deleteAudio.play();
       display.showAlert("Sub folder deleted!", "success");
-      //clear sub folder and notes
-      // ui.clearSubDisplay();
-      // sfI = -243;
-      // ui.clearNoteDisplay();
-      // nI = -243;
       //redisplay sub folder
       let secondaryArray =
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
+      //send the note array to the Display
       display.paintScreenSecondary(mapNamesOut(secondaryArray));
     } else {
       warningEmptyAudio.play();
@@ -424,107 +414,112 @@ el.subFolderList.addEventListener("click", e => {
   } //End control key down
 }); //End
 
-// //****************************************************** */
-// // When the user clicks on a note
-// noteSection.addEventListener("click", e => {
-//   //This gets the data I embedded into the html
-//   let dataIndex = e.target.dataset.index;
-//   let deleteIndex = parseInt(dataIndex);
-//   nI = deleteIndex;
-//   // //This makes sure only one picture in a note shows up in the note area
-//   let picArray = [];
-//   let el = document.querySelectorAll(".myPic");
-//   //push all pic index's into an array to loop through next
-//   for (let i = 0; i < el.length; i++) {
-//     //remove all elements with the class of .myPic
-//     let indexP = el[i].getAttribute("data-pIndex");
-//     indexP = parseInt(indexP);
-//     picArray.push(indexP);
-//   }
-//   //loop through picArray and return if the picture is already displayed
-//   for (let ii = 0; ii < picArray.length; ii++) {
-//     if (picArray[ii] === nI) {
-//       nI = -243;
-//       return;
-//     }
-//   }
+//****************************************************** */
+// When the user clicks on a note
+el.noteList.addEventListener("click", e => {
+  //This gets the data I embedded into the html
+  let dataIndex = e.target.dataset.index;
+  let deleteIndex = parseInt(dataIndex);
+  nI = deleteIndex;
+  // //This makes sure only one picture in a note shows up in the note area
+  let picArray = [];
+  let el = document.querySelectorAll(".myPic");
+  //push all pic index's into an array to loop through next
+  for (let i = 0; i < el.length; i++) {
+    //remove all elements with the class of .myPic
+    let indexP = el[i].getAttribute("data-pIndex");
+    indexP = parseInt(indexP);
+    picArray.push(indexP);
+  }
+  //loop through picArray and return if the picture is already displayed
+  for (let ii = 0; ii < picArray.length; ii++) {
+    if (picArray[ii] === nI) {
+      nI = -243;
+      return;
+    }
+  }
 
-//   // event delegation
-//   if (e.target.classList.contains("myPic")) {
-//     // remove image
-//     e.target.remove();
-//   }
+  // event delegation
+  if (e.target.classList.contains("myPic")) {
+    // remove image
+    e.target.remove();
+  }
 
-//   // event delegation
-//   if (e.target.classList.contains("note")) {
-//     //grab array from file
-//     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  // event delegation
+  if (e.target.classList.contains("note")) {
+    //grab array from file
+    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
 
-//     //see if the note has a imagePath
-//     let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
+    //see if the note has a imagePath
+    let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
 
-//     if (selectedNote.imagePath) {
-//       let oImg = document.createElement("img");
-//       oImg.setAttribute("src", selectedNote.imagePath);
-//       oImg.setAttribute("alt", "na");
-//       oImg.setAttribute("width", "100%");
-//       oImg.setAttribute("data-pIndex", nI);
-//       oImg.className = "myPic";
-//       //insert the image after current note
-//       noteSection.insertBefore(oImg, e.target.nextSibling);
-//     }
-//     //check if the alt Key is held down and add Image to note
-//     if (e.altKey) {
-//       addImage();
-//       return;
-//     }
-//     //if shift is down remove the current path
-//     if (e.shiftKey) {
-//       // //grab array from file
-//       // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//       selectedNote.imagePath = null;
-//       //write to file
-//       arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//       //reasign current note
-//       nI = -243;
-//       deleteAudio.play();
-//       ui.showAlert("Removed the image from note!", "success");
-//       //redisplay notes
-//       ui.clearNoteDisplay();
-//       ui.paintScreenNote(
-//         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-//           .noteArray
-//       );
-//     }
+    if (selectedNote.imagePath) {
+      let oImg = document.createElement("img");
+      oImg.setAttribute("src", selectedNote.imagePath);
+      oImg.setAttribute("alt", "na");
+      oImg.setAttribute("width", "100%");
+      oImg.setAttribute("data-pIndex", nI);
+      oImg.className = "myPic";
+      //insert the image after current note
 
-//     //check if control was down, if so delete note
-//     if (e.ctrlKey) {
-//       if (deleteMode) {
-//         //grab array from file
-//         let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//         //grab the note array and delete current note
-//         primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
-//         //write to file
-//         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//         //reasign current note
-//         nI = -243;
-//         deleteAudio.play();
-//         ui.showAlert("Note deleted!", "success");
-//         //redisplay notes
-//         ui.paintScreenNote(
-//           arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-//             .noteArray
-//         );
-//       } else {
-//         warningEmptyAudio.play();
-//         ui.showAlert(
-//           "You have to select delete mode in menu to make a deletion",
-//           "error"
-//         );
-//       }
-//     } //End control key down
-//   } //End class name contains note
-// }); //End event listener
+      // You can not use el.noteList because you are in the addeventListener for el.noteList
+      noteList.insertBefore(oImg, e.target.nextSibling);
+      // 2ND fix: just reselect the element, both will work
+      // document
+      //   .querySelector("#noteList")
+      //   .insertBefore(oImg, e.target.nextSibling);
+    }
+    //check if the alt Key is held down and add Image to note
+    if (e.altKey) {
+      addImage();
+      return;
+    }
+    //if shift is down remove the current path
+    if (e.shiftKey) {
+      // //grab array from file
+      // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+      selectedNote.imagePath = null;
+      //write to file
+      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+      //reasign current note
+      nI = -243;
+      deleteAudio.play();
+      display.showAlert("Removed the image from note!", "success");
+      //send note array to display
+      display.paintScreenNote(
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+          .noteArray
+      );
+    }
+
+    //check if control was down, if so delete note
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        //grab array from file
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        //grab the note array and delete current note
+        primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
+        //write to file
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+        //reasign current note
+        nI = -243;
+        deleteAudio.play();
+        display.showAlert("Note deleted!", "success");
+        //send note array to display
+        display.paintScreenNote(
+          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+            .noteArray
+        );
+      } else {
+        warningEmptyAudio.play();
+        display.showAlert(
+          "You have to select delete mode in menu to make a deletion",
+          "error"
+        );
+      }
+    } //End control key down
+  } //End class name contains note
+}); //End event listener
 
 // //********************************************* */
 
@@ -535,255 +530,203 @@ el.subFolderList.addEventListener("click", e => {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //Main folder code
 
-// //When You click on the + in the main heading
-// addShowFormMain.addEventListener("click", e => {
-//   ui.displayBlock(mainFolderForm);
-//   ui.displayNone(subFolderForm);
-//   ui.displayNone(noteForm);
-//   ui.displayNone(sfHeading);
-//   ui.displayNone(nHeading);
-//   // ui.clearPrimaryDisplay();
-//   mfI = -243;
-//   ui.clearSubDisplay();
-//   sfI = -243;
-//   ui.clearNoteDisplay();
-//   nI = -243;
-// });
+//When You click on the + in the main foleder heading
+el.addShowFormMain.addEventListener("click", e => {
+  display.showMainFolderForm();
+});
 
-// //When you click on the add main folder btn
-// document.querySelector("#mainFolderAdd").addEventListener("click", e => {
-//   e.preventDefault();
-//   //grab fileCab
-//   let fileCab = arrayOfFileCabs[fcI];
-//   //grab primary array
-//   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//   //grab text for primary object
-//   let primaryName = textNameMain.value.trim();
-//   //check if text is empty
+//When you click on the add main folder btn
+document.querySelector("#mainFolderAdd").addEventListener("click", e => {
+  e.preventDefault();
+  //grab fileCab
+  let fileCab = arrayOfFileCabs[fcI];
+  //grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //grab text for primary object
+  let primaryName = el.textNameMain.value.trim();
+  //check if text is empty
 
-//   if (primaryName === "") {
-//     warningEmptyAudio.play();
-//     ui.showAlert("Please enter a name for the Main Folder!", "error");
-//     return;
-//   }
+  if (primaryName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
 
-//   //Create primary object
-//   let primaryObj = new PrimaryObj(primaryName);
-//   //check if the name already exists if it does alert and return and set current main folder to -243
-//   //make a variable to return
-//   let isTaken = false;
-//   primaryArray.forEach(element => {
-//     if (primaryName === element.name) {
-//       isTaken = true;
-//     }
-//   });
-//   //check for taken name
-//   if (isTaken) {
-//     warningNameTakenAudio.play();
-//     ui.showAlert("That name is taken", "error");
-//     mfI = -243;
-//   } else {
-//     //push primary object into array
-//     primaryArray.push(primaryObj);
-//     //sort primary array by name
-//     sortArrayByName(primaryArray);
-//     // save file cab
-//     fileCab.writeFileCabToHardDisk(fs, ui);
-//     addAudio.play();
-//     ui.showAlert("A new main folder was added", "success");
-//     //Hide form
-//     ui.displayNone(mainFolderForm);
-//     //Hide sub folder heading and form
-//     ui.displayNone(sfHeading);
-//     ui.displayNone(subFolderForm);
-//     //hide note heading and foem
-//     ui.displayNone(nHeading);
-//     //reset form
-//     mainFolderForm.reset();
-//     //redisplay paint screen
-//     ui.clearPrimaryDisplay();
+  //Create primary object
+  let primaryObj = new PrimaryObj(primaryName);
+  //check if the name already exists if it does alert and return and set current main folder to -243
+  //make a variable to return
+  let isTaken = false;
+  primaryArray.forEach(element => {
+    if (primaryName === element.name) {
+      isTaken = true;
+    }
+  });
+  //check for taken name
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+    mfI = -243;
+  } else {
+    //push primary object into array
+    primaryArray.push(primaryObj);
+    //sort primary array by name
+    sortArrayByName(primaryArray);
+    // save file cab
+    fileCab.writeFileCabToHardDisk(fs, display);
+    addAudio.play();
+    display.showAlert("A new main folder was added", "success");
+    //Hide form
 
-//     mfI = -243;
-//     ui.clearSubDisplay();
+    //reset form
+    el.mainFolderForm.reset();
 
-//     sfI = -243;
-//     ui.clearNoteDisplay();
-//     nI = -243;
-//     // mapped primary array
-//     ui.paintScreenPrimary(mapNamesOut(primaryArray));
-//   } //End else statement
-// }); //End
+    // send main folder array to display
+    display.paintScreenPrimary(mapNamesOut(primaryArray));
+  } //End else statement
+}); //End
 
-// //When You click on cancel btn on the main folder form
-// document.querySelector("#mainFolderCancel").addEventListener("click", e => {
-//   //Hide form
-//   ui.displayNone(mainFolderForm);
-//   mainFolderForm.reset();
-//   //redisplay primary
-//   ui.paintScreenPrimary(
-//     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
-//   );
-// }); //End
+//When You click on cancel btn on the main folder form
+document.querySelector("#mainFolderCancel").addEventListener("click", e => {
+  // reset form
+  el.mainFolderForm.reset();
+  //send main folder array to display
+  display.paintScreenPrimary(
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
+  );
+}); //End
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //Sub folder code
 
-// //When You click + in the subfolder heading
-// addShowFormSub.addEventListener("click", e => {
-//   ui.displayBlock(subFolderForm);
-//   ui.displayNone(mainFolderForm);
-//   ui.displayNone(noteForm);
-//   ui.displayNone(nHeading);
-//   // ui.clearSubDisplay();
-//   sfI = -243;
-//   ui.clearNoteDisplay();
-//   nI = -243;
-// }); //End
+//When You click + in the subfolder heading
+el.addShowFormSub.addEventListener("click", e => {
+  display.showSubFolderForm();
+}); //End
 
-// //When You click on the add sub folder btn in the sub folder form
-// document.querySelector("#subFolderAdd").addEventListener("click", e => {
-//   e.preventDefault();
-//   //grab array from file
-//   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//   //create secondary obj
-//   let secondaryName = textNameSub.value.trim();
-//   if (secondaryName === "") {
-//     warningEmptyAudio.play();
-//     ui.showAlert("Please enter a name for the Sub Folder!", "error");
-//     return;
-//   }
-//   let secondaryObject = new SecondaryObj(secondaryName);
-//   //check if the name already exists if it does alert and return and set current sub folder to -243
-//   //make a variable to return
-//   let isTaken = false;
-//   primaryArray[mfI].secondaryArray.forEach(element => {
-//     if (secondaryName === element.name) {
-//       isTaken = true;
-//       return;
-//     }
-//   });
-//   //check for taken name
-//   if (isTaken) {
-//     warningNameTakenAudio.play();
-//     ui.showAlert("That name is taken", "error");
-//     sfI = -243;
-//   } else {
-//     //push object into array
-//     primaryArray[mfI].secondaryArray.push(secondaryObject);
-//     // sort secondary array by name
-//     sortArrayByName(primaryArray[mfI].secondaryArray);
-//     //save file cab
-//     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//     addAudio.play();
-//     ui.showAlert("A new sub folder was added", "success");
-//     //Hide form
-//     ui.displayNone(subFolderForm);
-//     //reset form
-//     subFolderForm.reset();
-//     //Hide note heading
-//     ui.displayNone(nHeading);
-//     //redisplay paint screen
-//     ui.clearSubDisplay();
-//     sfI = -243;
-//     ui.clearNoteDisplay();
-//     nI = -243;
-//     //Grab the secondary array
-//     let secondaryArray = primaryArray[mfI].secondaryArray;
-//     //Paint the screen
-//     ui.paintScreenSecondary(mapNamesOut(secondaryArray));
-//   } //End else statement
-// }); //End
+//When You click on the add sub folder btn in the sub folder form
+document.querySelector("#subFolderAdd").addEventListener("click", e => {
+  e.preventDefault();
+  //grab array from file
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //create secondary obj
+  let secondaryName = el.textNameSub.value.trim();
+  if (secondaryName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Sub Folder!", "error");
+    return;
+  }
+  let secondaryObject = new SecondaryObj(secondaryName);
+  //check if the name already exists if it does alert and return and set current sub folder to -243
+  //make a variable to return
+  let isTaken = false;
+  primaryArray[mfI].secondaryArray.forEach(element => {
+    if (secondaryName === element.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  //check for taken name
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+  } else {
+    //push object into array
+    primaryArray[mfI].secondaryArray.push(secondaryObject);
+    // sort secondary array by name
+    sortArrayByName(primaryArray[mfI].secondaryArray);
+    //save file cab
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+    addAudio.play();
+    display.showAlert("A new sub folder was added", "success");
+    //reset form
+    subFolderForm.reset();
+    //Grab the secondary array
+    let secondaryArray = primaryArray[mfI].secondaryArray;
+    //Paint the screen
+    display.paintScreenSecondary(mapNamesOut(secondaryArray));
+  } //End else statement
+}); //End
 
-// //When You click the cancel btn in the sub folder form
-// document.querySelector("#subFolderCancel").addEventListener("click", e => {
-//   //Hide form
-//   ui.displayNone(subFolderForm);
-//   ui.displayNone(nHeading);
-//   subFolderForm.reset();
-//   //redisplay sub
-//   ui.paintScreenSecondary(
-//     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
-//   );
-// }); //End
+//When You click the cancel btn in the sub folder form
+document.querySelector("#subFolderCancel").addEventListener("click", e => {
+  el.subFolderForm.reset();
+  //send sub folder array to display
+  display.paintScreenSecondary(
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
+  );
+}); //End
 
 //Note Code**************************************************
 
-// //When You click the + in the Note Heading
-// addShowFormNote.addEventListener("click", e => {
-//   ui.displayBlock(noteForm);
-//   ui.displayNone(mainFolderForm);
-//   ui.displayNone(subFolderForm);
-// });
+//When You click the + in the Note Heading
+el.addShowFormNote.addEventListener("click", e => {
+  display.showNoteForm();
+});
 
-// //When You click the add note btn in the note form
-// document.querySelector("#noteAdd").addEventListener("click", e => {
-//   e.preventDefault();
-//   // grab primary array
-//   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-//   //create note
-//   let noteText = textArea.value.trim();
-//   //check if text is empty
-//   if (noteText === "") {
-//     warningEmptyAudio.play();
-//     ui.showAlert("Please enter note in the text area!", "error");
-//     return;
-//   }
-//   //create new note
-//   let newNote = new Note(noteText);
-//   //push note into note array
-//   primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
-//   //save file cab
-//   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//   addAudio.play();
-//   ui.showAlert("A new note was added", "success", 1500);
-//   //Hide form
-//   ui.displayNone(noteForm);
-//   //redisplay paint screen
-//   ui.clearNoteDisplay();
-//   nI = -243;
-//   ui.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
-// }); //End
+//When You click the add note btn in the note form
+document.querySelector("#noteAdd").addEventListener("click", e => {
+  e.preventDefault();
+  // grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  //create note
+  let noteText = el.textArea.value.trim();
+  //check if text is empty
+  if (noteText === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter note in the text area!", "error");
+    return;
+  }
+  //create new note
+  let newNote = new Note(noteText);
+  //push note into note array
+  primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
+  //save file cab
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+  addAudio.play();
+  display.showAlert("A new note was added", "success", 1500);
+  nI = -243;
+  display.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
+}); //End
 
-// // When You click the cancel btn in the note form
-// document.querySelector("#noteCancel").addEventListener("click", e => {
-//   //Hide form
-//   ui.displayNone(noteForm);
-//   mainFolderForm.reset();
-// }); //End
+// When You click the cancel btn in the note form
+document.querySelector("#noteCancel").addEventListener("click", e => {
+  el.noteForm.reset();
+  display.paintScreenNote(
+    arrayOfFileCabs[fcI].primaryArray[mfI].secondaryArray[sfI].noteArray
+  );
+}); //End
 
-// // When You click the clear btn in the note form
-// document.querySelector("#noteClearTextArea").addEventListener("click", e => {
-//   //clear the text Area
-//   textArea.value = "";
-// }); //End
+// When You click the clear btn in the note form
+document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+  //clear the text Area
+  el.textArea.value = "";
+}); //End
 
-// //When you click on the add Date btn in the note form
-// document.querySelector("#noteDate").addEventListener("click", e => {
-//   let date = new Date();
-//   textArea.value = date.toDateString();
-// });
+//When you click on the add Date btn in the note form
+document.querySelector("#noteDate").addEventListener("click", e => {
+  let date = new Date();
+  el.textArea.value = date.toDateString();
+});
 
-// //When You click on the rename File Cab rename Btn
-// document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
-//   e.preventDefault();
-//   //change file cabinet name
-//   arrayOfFileCabs[fcI].name = textRenameFileCab.value;
-//   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, ui);
-//   //redisplay
-//   ui.displayNone(renameFileCabForm);
-//   renameFileCabForm.reset();
-//   ui.clearFileCabDisplay();
-//   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
-// });
+//When You click on the rename File Cab rename Btn
+document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
+  e.preventDefault();
+  //change file cabinet name
+  arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+  //reset form
+  renameFileCabForm.reset();
+  //send file cabinets array to display
+  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
 
-// //When You click on the rename File Cab cancel Btn
-// document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
-//   //redisplay
-//   ui.displayNone(renameFileCabForm);
-//   //reset form
-//   renameFileCabForm.reset();
-//   ui.clearFileCabDisplay();
-//   ui.paintScreen(mapNamesOut(arrayOfFileCabs));
-// });
+//When You click on the rename File Cab cancel Btn
+document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
+  //reset form
+  el.renameFileCabForm.reset();
+  //send file cabinets array to display
+  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+});
 
 //End addE
