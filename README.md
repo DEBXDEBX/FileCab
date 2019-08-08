@@ -28,3 +28,19 @@ To add an image to a note, hold down alt and click on a note, the file picker wi
 To remove an image path that no longer exists hold down shift and click on the note
 
 ---
+
+dark theme
+body{
+background color = black
+font-weigth = 500
+}
+note{
+background color = #0f1313
+}
+headings[filecab main sub note]{
+color = white
+background color = #045ba0
+}
+li{
+color = black
+background color = #d0215cbd

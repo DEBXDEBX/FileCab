@@ -46,6 +46,11 @@ window.onload = function() {
 //Start Up
 function startUp() {
   // there is nothing that needs to run at start up, it is event driven
+  let myVar = true;
+  if (myVar) {
+    document.querySelector("#blank").href = "assets/css/dark.css";
+  }
+  // document.querySelector("body").style.backgroundColor = "black";
 }
 
 //*************************************************** */
