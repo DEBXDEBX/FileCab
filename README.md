@@ -28,5 +28,3 @@ To add an image to a note, hold down alt and click on a note, the file picker wi
 To remove an image path that no longer exists hold down shift and click on the note
 
 ---
-
-start at 262 script add eventListeners

@@ -88,8 +88,6 @@ class Display {
   paintSubFolderTabs(mappedSecondaryArray) {
     this.clearSubDisplay();
     this.clearNoteDisplay();
-    this.displayNone(this.elements.mfHeading);
-    this.displayBlock(this.elements.mfHeading);
     this.displayNone(this.elements.sfHeading);
     this.displayBlock(this.elements.sfHeading);
     this.displayNone(this.elements.nHeading);

@@ -33,10 +33,12 @@ const display = new Display(el, $);
 
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
+
 //This ina enables JQuery ToolTips
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });
+
 //The start of program exicution.
 window.onload = function() {
   startUp();
@@ -214,7 +216,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   } else {
     display.showAlert("You Have exited delete mode", "success");
   }
-});
+}); //End ipcRenderer.on("deleteMode:set"
 
 //End IPC**************************************
 
@@ -258,14 +260,14 @@ el.fileCabList.addEventListener("click", e => {
     fcI = index;
 
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-    display.paintFileCabTabsPrimary(mapNamesOut(primaryArray));
+    display.paintMainFolderTabs(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
   //if shift is held down rename fileCab
   if (e.shiftKey) {
     display.showRenameFileCabForm();
   } //End shift Key down
-});
+}); //End el.fileCabList.addEventListener
 
 //************************************************************************** */
 el.mainFolderList.addEventListener("click", e => {
@@ -318,7 +320,7 @@ el.mainFolderList.addEventListener("click", e => {
       }
     } //End control key down
   }
-});
+}); //End el.mainFolderList.addEventListener
 
 //************************************************************************ */
 el.subFolderList.addEventListener("click", e => {
@@ -383,7 +385,7 @@ el.subFolderList.addEventListener("click", e => {
       );
     }
   } //End control key down
-}); //End
+}); //End el.subFolderList.addEventListener
 
 //****************************************************** */
 // When the user clicks on a note
@@ -434,7 +436,8 @@ el.noteList.addEventListener("click", e => {
       //insert the image after current note
 
       // You can not use el.noteList because you are in the addeventListener for el.noteList
-      noteList.insertBefore(oImg, e.target.nextSibling);
+      //use this.noteList
+      this.noteList.insertBefore(oImg, e.target.nextSibling);
       // 2ND fix: just reselect the element, both will work
       // document
       //   .querySelector("#noteList")
@@ -490,7 +493,7 @@ el.noteList.addEventListener("click", e => {
       }
     } //End control key down
   } //End class name contains note
-}); //End event listener
+}); //End el.noteList.addEventListener
 
 // //********************************************* */
 
@@ -504,7 +507,7 @@ el.noteList.addEventListener("click", e => {
 //When You click on the + in the main foleder heading
 el.addShowFormMain.addEventListener("click", e => {
   display.showMainFolderForm();
-});
+}); // End el.addShowFormMain.addEventListener
 
 //When you click on the add main folder btn
 document.querySelector("#mainFolderAdd").addEventListener("click", e => {
@@ -630,7 +633,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", e => {
 //When You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", e => {
   display.showNoteForm();
-});
+}); //End
 
 //When You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", e => {
@@ -673,7 +676,7 @@ document.querySelector("#noteClearTextArea").addEventListener("click", e => {
 document.querySelector("#noteDate").addEventListener("click", e => {
   let date = new Date();
   el.textArea.value = date.toDateString();
-});
+}); //End
 
 //When You click on the rename File Cab rename Btn
 document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
@@ -685,7 +688,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   renameFileCabForm.reset();
   //send file cabinets array to display
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
-});
+}); //End
 
 //When You click on the rename File Cab cancel Btn
 document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
@@ -693,6 +696,4 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
   el.renameFileCabForm.reset();
   //hide form
   display.displayNone(el.renameFileCabForm);
-});
-
-//End addE
+}); //End
