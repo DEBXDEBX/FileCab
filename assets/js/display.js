@@ -4,7 +4,7 @@ class Display {
     this.elements = elements;
     //JQuery
     this.$ = $;
-  } //constructor
+  } // End constructor
 
   //*************************************************************************** */
 
@@ -21,30 +21,25 @@ class Display {
   //Method
   clearFileCabDisplay() {
     this.elements.fileCabList.innerHTML = "";
-  } //End clearFileCabDisplay()
-  //************************************************************************ */
+  }
 
   //Method
   clearPrimaryDisplay() {
     this.elements.mainFolderList.innerHTML = "";
-  } //End clearMainDisplay()
-  //********************************************************************** */
+  }
 
   //Method
   clearSubDisplay() {
     this.elements.subFolderList.innerHTML = "";
-  } //End clearSubDisplay()
-  //********************************************************************** */
+  }
 
   //Method
   clearNoteDisplay() {
     this.elements.noteList.innerHTML = "";
-  } //End clearNoteDisplay()
-  //************************************************************************ */
+  }
 
   // Method
-  paintScreen(mapedArray) {
-    // do this first
+  paintFileCabTabs(mapedArray) {
     this.clearFileCabDisplay();
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
@@ -56,7 +51,7 @@ class Display {
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
     this.displayNone(this.elements.renameFileCabForm);
-    //this will paint all file cabinets tabs
+    // this will paint all file cabinets tabs
     // make var for html
     let html = "";
     mapedArray.forEach((element, index) => {
@@ -64,11 +59,11 @@ class Display {
     });
 
     this.elements.fileCabList.innerHTML = html;
-  } // end paintScreen
+  } // end paintFileCabTabs()
   //******************************************************************************* */
 
   // Method
-  paintScreenPrimary(mapedArray) {
+  paintMainFolderTabs(mapedArray) {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
@@ -86,8 +81,58 @@ class Display {
     });
 
     this.elements.mainFolderList.innerHTML = html;
-  } //end paintScreenPrimary
+  } //end paintMainFolderTabs()
   //********************************************************************************* */
+
+  // Method
+  paintSubFolderTabs(mappedSecondaryArray) {
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayBlock(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayBlock(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+
+    //Make var for html
+    let html = "";
+    mappedSecondaryArray.forEach((element, index) => {
+      html += `<li data-index="${index}" class="sub">${element}</li>`;
+    });
+    this.elements.subFolderList.innerHTML = html;
+  } //end paintSubFolderTabs
+  //******************************************************************************* */
+
+  //Method
+  paintNotes(noteArray) {
+    this.displayNone(this.elements.nHeading);
+    this.displayBlock(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.noteList);
+    //clear the div
+    this.clearNoteDisplay();
+    //build div
+    noteArray.forEach((note, index) => {
+      // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);
+      this.createNoteElement(note.text, index);
+      //create a new div for each bookmark
+    });
+    this.displayBlock(this.elements.noteList);
+  } //end paintNotes()
+  //******************************************************************** */
+
+  createNoteElement(text, index) {
+    let newElement = document.createElement("h4");
+    newElement.className = "note";
+    newElement.setAttribute("data-index", `${index}`);
+    newElement.appendChild(document.createTextNode(`${text}`));
+    this.elements.noteList.appendChild(newElement);
+  } //End createNoteElement
 
   //Method
   showRenameFileCabForm() {
@@ -130,56 +175,6 @@ class Display {
     this.displayNone(this.elements.subFolderForm);
   }
 
-  // Method
-  paintScreenSecondary(mappedSecondaryArray) {
-    this.clearSubDisplay();
-    this.clearNoteDisplay();
-    this.displayNone(this.elements.mfHeading);
-    this.displayBlock(this.elements.mfHeading);
-    this.displayNone(this.elements.sfHeading);
-    this.displayBlock(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
-    this.displayNone(this.elements.mainFolderForm);
-    this.displayNone(this.elements.subFolderForm);
-    this.displayNone(this.elements.noteForm);
-
-    //Make var for html
-    let html = "";
-    mappedSecondaryArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="sub">${element}</li>`;
-    });
-    this.elements.subFolderList.innerHTML = html;
-  } //end paint screen secondary
-  //******************************************************************************* */
-
-  //Method
-  paintScreenNote(noteArray) {
-    this.displayNone(this.elements.nHeading);
-    this.displayBlock(this.elements.nHeading);
-    this.displayNone(this.elements.mainFolderForm);
-    this.displayNone(this.elements.subFolderForm);
-    this.displayNone(this.elements.noteForm);
-    this.displayNone(this.elements.noteList);
-    //clear the div
-    this.clearNoteDisplay();
-    //build div
-    noteArray.forEach((note, index) => {
-      // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);
-      this.createNoteElement(note.text, index);
-      //create a new div for each bookmark
-    });
-    this.displayBlock(this.elements.noteList);
-  } //end paint screen note
-  //******************************************************************** */
-
-  createNoteElement(text, index) {
-    let newElement = document.createElement("h4");
-    newElement.className = "note";
-    newElement.setAttribute("data-index", `${index}`);
-    newElement.appendChild(document.createTextNode(`${text}`));
-    this.elements.noteList.appendChild(newElement);
-  } //End createNoteElement
-
   //********************************************************************* */
   // Method
   showAlert(message, className, displayTime = 4000) {
@@ -198,5 +193,5 @@ class Display {
     setTimeout(function() {
       document.querySelector(".alert").remove();
     }, displayTime);
-  }
+  } // End showAlert()
 } // End class

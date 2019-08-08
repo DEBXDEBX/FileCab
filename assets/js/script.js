@@ -7,31 +7,6 @@ let fs = require("fs");
 const electron = require("electron");
 const { ipcRenderer } = electron;
 
-// //Select ul's
-// const fileCabUL = document.querySelector("#fileCabList");
-// const mainFolderUL = document.querySelector("#mainFolderList");
-// const subFolderUL = document.querySelector("#subFolderList");
-// const noteSection = document.querySelector("#noteList");
-
-// //Select headings
-// const mfHeading = document.querySelector("#headingMainFolder");
-// const sfHeading = document.querySelector("#headingSubFolder");
-// const nHeading = document.querySelector("#headingNote");
-// //Select forms
-// const renameFileCabForm = document.querySelector("#renameFileCabForm");
-// const mainFolderForm = document.querySelector("#mainFolderForm");
-// const subFolderForm = document.querySelector("#subFolderForm");
-// const noteForm = document.querySelector("#noteForm");
-// //Select add show forms +
-// const addShowFormMain = document.querySelector("#mfadd");
-// const addShowFormSub = document.querySelector("#sfadd");
-// const addShowFormNote = document.querySelector("#nadd");
-// //Select textName and textArea
-// const textRenameFileCab = document.querySelector("#newFileCabName");
-// const textNameMain = document.querySelector("#mainFolderName");
-// const textNameSub = document.querySelector("#subFolderName");
-// const textArea = document.querySelector("#myTextArea");
-
 //Select audio files
 const addAudio = document.querySelector("#addAudio");
 const addImageAudio = document.querySelector("#addImageAudio");
@@ -125,11 +100,7 @@ function addImage() {
 
   dialog.showOpenDialog(fileNames => {
     if (fileNames === undefined) {
-      // let message = "No file selected";
-      // let msgType = "error";
-      console.log("there is no file");
       display.showAlert("No file selected", "error");
-      // mainWindow.webContents.send("UI:showAlert", { message, msgType });
     } else {
       //got file name
       imagePath = fileNames[0];
@@ -150,7 +121,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
-    display.paintScreen(mapNamesOut(arrayOfFileCabs));
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
   if (dataObj.fileNamePath === undefined) {
@@ -158,7 +129,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
-    display.paintScreen(mapNamesOut(arrayOfFileCabs));
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
   // //check if the name already exists if it does alert and return
@@ -174,7 +145,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
-    display.paintScreen(mapNamesOut(arrayOfFileCabs));
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
   //create a file cab object
@@ -186,7 +157,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   //redisplay
   //Get the names for all the file cabinets
   //and then send them to the UI
-  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 // End ipcRenderer.on("fileCab:add"********************
 //*************************************************** */
@@ -208,7 +179,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
 
     //Get the names for all the file cabinets
     //and then send them to the Display
-    display.paintScreen(mapNamesOut(arrayOfFileCabs));
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
   //create a file cab object
@@ -225,7 +196,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   //redisplay
   //Get the names for all the file cabinets
   //and then send them to the Display
-  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 //End ipcRenderer.on("fileCab:load"*****************************
 // ***********************************************************
@@ -287,7 +258,7 @@ el.fileCabList.addEventListener("click", e => {
     fcI = index;
 
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-    display.paintScreenPrimary(mapNamesOut(primaryArray));
+    display.paintFileCabTabsPrimary(mapNamesOut(primaryArray));
   } // end contains 'fileCab
 
   //if shift is held down rename fileCab
@@ -323,7 +294,7 @@ el.mainFolderList.addEventListener("click", e => {
 
     let secondaryArray =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-    display.paintScreenSecondary(mapNamesOut(secondaryArray));
+    display.paintSubFolderTabs(mapNamesOut(secondaryArray));
 
     //check if control was down, if so delete
     if (e.ctrlKey) {
@@ -337,7 +308,7 @@ el.mainFolderList.addEventListener("click", e => {
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
         deleteAudio.play();
         display.showAlert("Main folder deleted!", "success");
-        display.paintScreenPrimary(mapNamesOut(primaryArray));
+        display.paintMainFolderTabs(mapNamesOut(primaryArray));
       } else {
         warningEmptyAudio.play();
         display.showAlert(
@@ -377,13 +348,13 @@ el.subFolderList.addEventListener("click", e => {
 
   //Bug fix
   if (isNaN(sfI)) {
-    // ui.paintScreenNote will throw an error, when you click outside the subfolder items
+    //  display.paintNotes will throw an error, when you click outside the subfolder items
     //if it's not a number return
     return;
   }
 
   //send the note array to the Display
-  display.paintScreenNote(
+  display.paintNotes(
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
       .noteArray
   );
@@ -403,7 +374,7 @@ el.subFolderList.addEventListener("click", e => {
       let secondaryArray =
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
       //send the note array to the Display
-      display.paintScreenSecondary(mapNamesOut(secondaryArray));
+      display.paintSubFolderTabs(mapNamesOut(secondaryArray));
     } else {
       warningEmptyAudio.play();
       display.showAlert(
@@ -486,7 +457,7 @@ el.noteList.addEventListener("click", e => {
       deleteAudio.play();
       display.showAlert("Removed the image from note!", "success");
       //send note array to display
-      display.paintScreenNote(
+      display.paintNotes(
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
           .noteArray
       );
@@ -506,7 +477,7 @@ el.noteList.addEventListener("click", e => {
         deleteAudio.play();
         display.showAlert("Note deleted!", "success");
         //send note array to display
-        display.paintScreenNote(
+        display.paintNotes(
           arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
             .noteArray
         );
@@ -582,7 +553,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     el.mainFolderForm.reset();
 
     // send main folder array to display
-    display.paintScreenPrimary(mapNamesOut(primaryArray));
+    display.paintMainFolderTabs(mapNamesOut(primaryArray));
   } //End else statement
 }); //End
 
@@ -590,10 +561,8 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
   // reset form
   el.mainFolderForm.reset();
-  //send main folder array to display
-  display.paintScreenPrimary(
-    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
-  );
+  // hide form
+  display.displayNone(el.mainFolderForm);
 }); //End
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -644,17 +613,16 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     //Grab the secondary array
     let secondaryArray = primaryArray[mfI].secondaryArray;
     //Paint the screen
-    display.paintScreenSecondary(mapNamesOut(secondaryArray));
+    display.paintSubFolderTabs(mapNamesOut(secondaryArray));
   } //End else statement
 }); //End
 
 //When You click the cancel btn in the sub folder form
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
+  //reset form
   el.subFolderForm.reset();
-  //send sub folder array to display
-  display.paintScreenSecondary(
-    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
-  );
+  //hide form
+  display.displayNone(el.subFolderForm);
 }); //End
 
 //Note Code**************************************************
@@ -686,15 +654,13 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   addAudio.play();
   display.showAlert("A new note was added", "success", 1500);
   nI = -243;
-  display.paintScreenNote(primaryArray[mfI].secondaryArray[sfI].noteArray);
+  display.paintNotes(primaryArray[mfI].secondaryArray[sfI].noteArray);
 }); //End
 
 // When You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", e => {
   el.noteForm.reset();
-  display.paintScreenNote(
-    arrayOfFileCabs[fcI].primaryArray[mfI].secondaryArray[sfI].noteArray
-  );
+  display.displayNone(el.noteForm);
 }); //End
 
 // When You click the clear btn in the note form
@@ -718,15 +684,15 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   //reset form
   renameFileCabForm.reset();
   //send file cabinets array to display
-  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 
 //When You click on the rename File Cab cancel Btn
 document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
   //reset form
   el.renameFileCabForm.reset();
-  //send file cabinets array to display
-  display.paintScreen(mapNamesOut(arrayOfFileCabs));
+  //hide form
+  display.displayNone(el.renameFileCabForm);
 });
 
 //End addE
