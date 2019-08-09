@@ -29,18 +29,4 @@ To remove an image path that no longer exists hold down shift and click on the n
 
 ---
 
-dark theme
-body{
-background color = black
-font-weigth = 500
-}
-note{
-background color = #0f1313
-}
-headings[filecab main sub note]{
-color = white
-background color = #045ba0
-}
-li{
-color = black
-background color = #d0215cbd
+

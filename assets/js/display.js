@@ -55,7 +55,7 @@ class Display {
     // make var for html
     let html = "";
     mapedArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="fileCab">${element}</li>`;
+      html += `<li data-index="${index}" class="fileCab tab">${element}</li>`;
     });
 
     this.elements.fileCabList.innerHTML = html;
@@ -77,7 +77,7 @@ class Display {
 
     let html = "";
     mapedArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="main">${element}</li>`;
+      html += `<li data-index="${index}" class="main tab">${element}</li>`;
     });
 
     this.elements.mainFolderList.innerHTML = html;
@@ -98,9 +98,11 @@ class Display {
     //Make var for html
     let html = "";
     mappedSecondaryArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="sub">${element}</li>`;
+      html += `<li data-index="${index}" class="sub tab">${element}</li>`;
     });
     this.elements.subFolderList.innerHTML = html;
+
+    this.colorAllTabs();
   } //end paintSubFolderTabs
   //******************************************************************************* */
 
@@ -173,6 +175,16 @@ class Display {
     this.displayNone(this.elements.subFolderForm);
   }
 
+  //Method
+  colorAllTabs() {
+    console.log("color all tabs called");
+    var allTabs = document.getElementsByClassName("tab");
+    console.log(allTabs);
+
+    for (let i = 0; allTabs.length; i++) {
+      allTabs[i].style.backgroundColor = "red";
+    }
+  }
   //********************************************************************* */
   // Method
   showAlert(message, className, displayTime = 4000) {
