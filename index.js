@@ -129,6 +129,15 @@ function setDeleteModeTrue() {
   mainWindow.webContents.send("deleteMode:set", deleteMode);
 } //End
 
+function setThemeClasic() {
+  let myThemeString = "Clasic";
+  mainWindow.webContents.send("Theme:set", myThemeString);
+}
+function setThemeDark() {
+  let myThemeString = "Dark";
+  mainWindow.webContents.send("Theme:set", myThemeString);
+}
+
 //this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
   //close the addWindow
@@ -194,6 +203,25 @@ const menuTemplate = [
         accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+D",
         click() {
           setDeleteModeTrue();
+        }
+      }
+    ]
+  },
+  {
+    label: "Theme",
+    submenu: [
+      {
+        label: "Clasic",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+W",
+        click() {
+          setThemeClasic();
+        }
+      },
+      {
+        label: "Dark",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+E",
+        click() {
+          setThemeDark();
         }
       }
     ]

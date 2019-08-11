@@ -9,8 +9,9 @@ h3 {
 h6 {
   margin: 10px;
   text-align: center;
-  background-color: aqua;
+  background-color: #4e5357;
   border-radius: 15px;
+  padding: 0.45rem;
 }
 p {
   background-color: blanchedalmond;
@@ -21,11 +22,12 @@ p {
 
 h4 {
   margin: 2px;
-  background-color: aqua;
+  background-color: #0f1313;
   padding: 3px;
+  color: #2de11d;
 }
 body {
-  background-color: blueviolet;
+  background-color: black;
 }
 
 nav ul {
@@ -39,7 +41,7 @@ nav ul {
 
 nav ul li {
   list-style: none;
-  background-color: #00ffffbd;
+  background-color: #d0215cbd;
   color: rgb(0, 0, 0);
   padding: 3px 10px;
   margin: 4px 10px;
@@ -115,7 +117,7 @@ img {
 
 h6 > span {
   font-weight: 900;
-  color: blueviolet;
+  color: #2de11d;
 }
 #mainFolderForm,
 #subFolderForm,

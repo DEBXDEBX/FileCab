@@ -49,10 +49,14 @@ window.onload = function() {
 //Start Up
 function startUp() {
   // there is nothing that needs to run at start up, it is event driven
-  let myVar = true;
-  if (myVar) {
-    document.querySelector("#blank").href = "assets/css/dark.css";
-  }
+  // let dark = true;
+  // let classic = true;
+  // if (dark) {
+  //   document.querySelector("#blank").href = "assets/css/dark.css";
+  // }
+  // if (classic) {
+  //   document.querySelector("#blank").href = "assets/css/classic.css";
+  // }
   // document.querySelector("body").style.backgroundColor = "black";
 }
 
@@ -229,7 +233,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
         myBody.style.backgroundColor = "black";
         break;
       case "Classic":
-        myBody.style.backgroundColor = "purple";
+        myBody.style.backgroundColor = "blueviolet";
         break;
       case "Light":
         myBody.style.backgroundColor = "white";
@@ -239,6 +243,27 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   }
 }); //End ipcRenderer.on("deleteMode:set"
 
+//listen for index.js to set theme
+ipcRenderer.on("Theme:set", (event, theme) => {
+  console.log(theme);
+  currentTheme = theme;
+  switch (theme) {
+    case "Dark":
+      document.querySelector("#blank").href = "assets/css/dark.css";
+      document.querySelector("body").style.backgroundColor = "black";
+      deleteMode = false;
+      break;
+    case "Clasic":
+      document.querySelector("#blank").href = "assets/css/classic.css";
+      document.querySelector("body").style.backgroundColor = "white";
+      deleteMode = false;
+      break;
+    default:
+      console.log("No valid option");
+    // code block
+  }
+});
+// End ipcRenderer.on("Theme:set"
 //End IPC**************************************
 
 //************************************************************************* */
@@ -676,7 +701,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   //save file cab
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
   addAudio.play();
-  display.showAlert("A new note was added", "success", 1500);
+  display.showAlert("A new note was added", "success", 900);
   nI = -243;
   display.paintNotes(primaryArray[mfI].secondaryArray[sfI].noteArray);
 }); //End

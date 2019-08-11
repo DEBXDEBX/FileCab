@@ -35,7 +35,4 @@ Things to do
 
 ---
 
-note color array
-notecolorindex
-
 settings.deb
