@@ -4,6 +4,8 @@ class Display {
     this.elements = elements;
     //JQuery
     this.$ = $;
+    this.tabColorIndex = 0;
+
     //************************ */
   } // End constructor
 
@@ -198,17 +200,16 @@ class Display {
       "#17abf5",
       "#4c69bd"
     ];
-    let tabColorIndex = 0;
-
+    console.log(this.tabColors);
     let newArray = Array.from(tabList);
-    newArray.forEach(function(item) {
-      item.style.backgroundColor = tabColors[tabColorIndex];
-      if (tabColorIndex === tabColors.length - 1) {
-        tabColorIndex = 0;
+    for (let i = 0; i < newArray.length; i++) {
+      newArray[i].style.backgroundColor = tabColors[this.tabColorIndex];
+      if (this.tabColorIndex === tabColors.length - 1) {
+        this.tabColorIndex = 0;
       } else {
-        tabColorIndex++;
+        this.tabColorIndex++;
       }
-    });
+    }
   }
   //********************************************************************* */
   // Method
