@@ -200,7 +200,7 @@ class Display {
       "#17abf5",
       "#4c69bd"
     ];
-    console.log(this.tabColors);
+
     let newArray = Array.from(tabList);
     for (let i = 0; i < newArray.length; i++) {
       newArray[i].style.backgroundColor = tabColors[this.tabColorIndex];

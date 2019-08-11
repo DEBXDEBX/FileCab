@@ -24,6 +24,9 @@ let mfI = -243;
 let sfI = -243;
 // current note Index
 let nI = -243;
+let myBody = document.getElementsByTagName("BODY")[0];
+//Theme
+let currentTheme = "Dark";
 //Delete Mode
 let deleteMode = false;
 // create elements object
@@ -218,8 +221,21 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   deleteMode = deleteModeBool;
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
+    myBody.style.backgroundColor = "#d3369c";
   } else {
     display.showAlert("You Have exited delete mode", "success");
+    switch (currentTheme) {
+      case "Dark":
+        myBody.style.backgroundColor = "black";
+        break;
+      case "Classic":
+        myBody.style.backgroundColor = "purple";
+        break;
+      case "Light":
+        myBody.style.backgroundColor = "white";
+      default:
+        console.log("No Match");
+    }
   }
 }); //End ipcRenderer.on("deleteMode:set"
 
