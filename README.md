@@ -29,4 +29,13 @@ To remove an image path that no longer exists hold down shift and click on the n
 
 ---
 
+---
 
+Things to do
+
+---
+
+note color array
+notecolorindex
+
+settings.deb

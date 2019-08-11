@@ -4,6 +4,7 @@ class Display {
     this.elements = elements;
     //JQuery
     this.$ = $;
+    //************************ */
   } // End constructor
 
   //*************************************************************************** */
@@ -55,10 +56,13 @@ class Display {
     // make var for html
     let html = "";
     mapedArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="fileCab tab">${element}</li>`;
+      html += `<li data-index="${index}" class="fileCab">${element}</li>`;
     });
-
+    //paint file cab tabs
     this.elements.fileCabList.innerHTML = html;
+    // color tabs
+    let tabList = document.getElementsByClassName("fileCab");
+    this.colorSetOfTabs(tabList);
   } // end paintFileCabTabs()
   //******************************************************************************* */
 
@@ -77,10 +81,13 @@ class Display {
 
     let html = "";
     mapedArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="main tab">${element}</li>`;
+      html += `<li data-index="${index}" class="main">${element}</li>`;
     });
-
+    // paint main folder tabs
     this.elements.mainFolderList.innerHTML = html;
+    // color tabs
+    let tabList = document.getElementsByClassName("main");
+    this.colorSetOfTabs(tabList);
   } //end paintMainFolderTabs()
   //********************************************************************************* */
 
@@ -98,11 +105,13 @@ class Display {
     //Make var for html
     let html = "";
     mappedSecondaryArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="sub tab">${element}</li>`;
+      html += `<li data-index="${index}" class="sub">${element}</li>`;
     });
     this.elements.subFolderList.innerHTML = html;
 
-    this.colorAllTabs();
+    // color tabs
+    let tabList = document.getElementsByClassName("sub");
+    this.colorSetOfTabs(tabList);
   } //end paintSubFolderTabs
   //******************************************************************************* */
 
@@ -176,14 +185,30 @@ class Display {
   }
 
   //Method
-  colorAllTabs() {
-    console.log("color all tabs called");
-    var allTabs = document.getElementsByClassName("tab");
-    console.log(allTabs);
+  colorSetOfTabs(tabList) {
+    let tabColors = [
+      "#2de11d",
+      "#4848e8",
+      "#e84d4d",
+      "Orange",
+      "Violet",
+      "#820ee8",
+      "#8e7fc7",
+      "#ff008b",
+      "#17abf5",
+      "#4c69bd"
+    ];
+    let tabColorIndex = 0;
 
-    for (let i = 0; allTabs.length; i++) {
-      allTabs[i].style.backgroundColor = "red";
-    }
+    let newArray = Array.from(tabList);
+    newArray.forEach(function(item) {
+      item.style.backgroundColor = tabColors[tabColorIndex];
+      if (tabColorIndex === tabColors.length - 1) {
+        tabColorIndex = 0;
+      } else {
+        tabColorIndex++;
+      }
+    });
   }
   //********************************************************************* */
   // Method
