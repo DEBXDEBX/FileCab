@@ -25,7 +25,7 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 let myBody = document.getElementsByTagName("BODY")[0];
-//Theme
+//Theme current
 let currentTheme = "Dark";
 //Delete Mode
 let deleteMode = false;
@@ -37,7 +37,7 @@ const display = new Display(el, $);
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
 
-//This ina enables JQuery ToolTips
+//This enables JQuery ToolTips
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip();
 });
@@ -48,15 +48,66 @@ window.onload = function() {
 };
 //Start Up
 function startUp() {
+  // myBody.style.background = "linear-gradient(#000000, #ff0000)";
+  // fs.writeFile(__dirname + "settings.deb", "test", function(err) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  // });
+  // const path = __dirname + "settings.deb";
+  // const filepath = path;
+  // try {
+  //   if (fs.existsSync(path)) {
+  //     //file exists
+  //     console.log("the file settings exists");
+  //   }
+  // } catch (err) {
+  //   console.error(err);
+  // }
+  // //###############################################################
+  // const filepath = path;
+  // fs.readFile(filepath, "utf-8", (err, data) => {
+  //   if (err) {
+  //     let message = "An error occured reading the file.";
+  //     let msgType = "error";
+  //     mainWindow.webContents.send("Display:showAlert", { message, msgType });
+  //     return;
+  //   } else {
+  //     try {
+  //       data = JSON.parse(data);
+  //     } catch {
+  //       let message = "Can not parse data";
+  //       let msgType = "error";
+  //       mainWindow.webContents.send("Display:showAlert", {
+  //         message,
+  //         msgType
+  //       });
+  //       return;
+  //     }
+  //     if (data) {
+  //       if (data.fileType === "ElectronFileCab2019April") {
+  //         console.log("This is a valid file");
+  //         //set filepath: This is in case you moved your file
+  //         data.fileNamePath = filepath;
+  //         //laod file cab
+  //         console.log("sending data to script.js");
+  //         //data is an object to be converted to an file cab object
+  //         mainWindow.webContents.send("fileCab:load", data);
+  //       } else {
+  //         let message = "This is not a valid ElectronFileCab2019April file";
+  //         let msgType = "error";
+  //         mainWindow.webContents.send("Display:showAlert", {
+  //           message,
+  //           msgType
+  //         });
+  //       }
+  //     }
+  //   }
+  // });
+  // ############################################################
   // there is nothing that needs to run at start up, it is event driven
-  // let dark = true;
-  // let classic = true;
-  // if (dark) {
   //   document.querySelector("#blank").href = "assets/css/dark.css";
-  // }
-  // if (classic) {
   //   document.querySelector("#blank").href = "assets/css/classic.css";
-  // }
   // document.querySelector("body").style.backgroundColor = "black";
 }
 
@@ -226,14 +277,17 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
+    myBody.style.background = "linear-gradient(#000000, #ff0000)";
   } else {
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {
       case "Dark":
+        myBody.style.background = "none";
         myBody.style.backgroundColor = "black";
         break;
-      case "Classic":
-        myBody.style.backgroundColor = "blueviolet";
+      case "Clasic":
+        myBody.style.background = "none";
+        myBody.style.backgroundColor = "white";
         break;
       case "Light":
         myBody.style.backgroundColor = "white";
@@ -245,6 +299,16 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
 //listen for index.js to set theme
 ipcRenderer.on("Theme:set", (event, theme) => {
+  if (deleteMode) {
+    deleteMode = false;
+    myBody.style.background = "none";
+    if (currentTheme === "Dark") {
+      myBody.style.backgroundColor = "black";
+    }
+    if (currentTheme === "Clasic") {
+      myBody.style.backgroundColor = "white";
+    }
+  }
   console.log(theme);
   currentTheme = theme;
   switch (theme) {
