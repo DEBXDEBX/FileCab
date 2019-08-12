@@ -178,6 +178,21 @@ function addImage() {
   });
 }
 
+function turnOffDeleteMode() {
+  deleteMode = false;
+  switch (currentTheme) {
+    case "Dark":
+      myBody.style.background = "none";
+      myBody.style.backgroundColor = "black";
+      break;
+    case "Light":
+      myBody.style.background = "none";
+      myBody.style.backgroundColor = "white";
+      break;
+    default:
+      console.log("No Match");
+  }
+}
 //End Helper functions********************************
 
 //************************************************ */
@@ -186,12 +201,7 @@ function addImage() {
 //listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (deleteMode) {
-    display.showAlert(
-      "Please exit delete mode before you add a new File Cabinet",
-      "error",
-      7000
-    );
-    return;
+    turnOffDeleteMode();
   }
   if (dataObj.name === "") {
     ui.showAlert("You did not enter a name for the File Cabinet!", "error");
@@ -242,12 +252,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 //listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
   if (deleteMode) {
-    display.showAlert(
-      "Please exit delete mode before you load a new File Cabinet",
-      "error",
-      7000
-    );
-    return;
+    turnOffDeleteMode();
   }
 
   // check if the name already exists if it does alert and return
@@ -678,7 +683,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     // save file cab
     fileCab.writeFileCabToHardDisk(fs, display);
     addAudio.play();
-    display.showAlert("A new main folder was added", "success");
+    display.showAlert("A new main folder was added", "success", 1500);
     //Hide form
 
     //reset form
@@ -739,7 +744,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     //save file cab
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
     addAudio.play();
-    display.showAlert("A new sub folder was added", "success");
+    display.showAlert("A new sub folder was added", "success", 1500);
     //reset form
     subFolderForm.reset();
     //Grab the secondary array
@@ -825,4 +830,4 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
   el.renameFileCabForm.reset();
   //hide form
   display.displayNone(el.renameFileCabForm);
-}); //End
+});
