@@ -129,8 +129,8 @@ function setDeleteModeTrue() {
   mainWindow.webContents.send("deleteMode:set", deleteMode);
 } //End
 
-function setThemeClasic() {
-  let myThemeString = "Clasic";
+function setThemeLight() {
+  let myThemeString = "Light";
   mainWindow.webContents.send("Theme:set", myThemeString);
 }
 function setThemeDark() {
@@ -211,10 +211,10 @@ const menuTemplate = [
     label: "Theme",
     submenu: [
       {
-        label: "Clasic",
+        label: "Light",
         accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+W",
         click() {
-          setThemeClasic();
+          setThemeLight();
         }
       },
       {

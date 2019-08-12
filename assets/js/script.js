@@ -24,7 +24,7 @@ let mfI = -243;
 let sfI = -243;
 // current note Index
 let nI = -243;
-let myBody = document.getElementsByTagName("BODY")[0];
+let myBody = document.querySelector("body");
 //Theme current
 let currentTheme = "Dark";
 //Delete Mode
@@ -48,7 +48,11 @@ window.onload = function() {
 };
 //Start Up
 function startUp() {
-  // myBody.style.background = "linear-gradient(#000000, #ff0000)";
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // increase font size
+  // let root = document.querySelector(":root");
+  // root.style.fontSize = "24px";
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // fs.writeFile(__dirname + "settings.deb", "test", function(err) {
   //   if (err) {
   //     console.log(err);
@@ -181,6 +185,14 @@ function addImage() {
 //************************************************ */
 //listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
+  if (deleteMode) {
+    display.showAlert(
+      "Please exit delete mode before you add a new File Cabinet",
+      "error",
+      7000
+    );
+    return;
+  }
   if (dataObj.name === "") {
     ui.showAlert("You did not enter a name for the File Cabinet!", "error");
     //redisplay
@@ -229,6 +241,15 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
 //listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
+  if (deleteMode) {
+    display.showAlert(
+      "Please exit delete mode before you load a new File Cabinet",
+      "error",
+      7000
+    );
+    return;
+  }
+
   // check if the name already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -285,12 +306,10 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
         myBody.style.background = "none";
         myBody.style.backgroundColor = "black";
         break;
-      case "Clasic":
+      case "Light":
         myBody.style.background = "none";
         myBody.style.backgroundColor = "white";
         break;
-      case "Light":
-        myBody.style.backgroundColor = "white";
       default:
         console.log("No Match");
     }
@@ -305,11 +324,11 @@ ipcRenderer.on("Theme:set", (event, theme) => {
     if (currentTheme === "Dark") {
       myBody.style.backgroundColor = "black";
     }
-    if (currentTheme === "Clasic") {
+    if (currentTheme === "Light") {
       myBody.style.backgroundColor = "white";
     }
   }
-  console.log(theme);
+
   currentTheme = theme;
   switch (theme) {
     case "Dark":
@@ -317,7 +336,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
       document.querySelector("body").style.backgroundColor = "black";
       deleteMode = false;
       break;
-    case "Clasic":
+    case "Light":
       document.querySelector("#blank").href = "assets/css/classic.css";
       document.querySelector("body").style.backgroundColor = "white";
       deleteMode = false;
