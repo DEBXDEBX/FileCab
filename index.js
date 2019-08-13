@@ -137,7 +137,9 @@ function setThemeDark() {
   let myThemeString = "Dark";
   mainWindow.webContents.send("Theme:set", myThemeString);
 }
-
+function showSettingsForm() {
+  mainWindow.webContents.send("SettingsForm:show");
+}
 //this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
   //close the addWindow
@@ -222,6 +224,18 @@ const menuTemplate = [
         accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+E",
         click() {
           setThemeDark();
+        }
+      }
+    ]
+  },
+  {
+    label: "Settings",
+    submenu: [
+      {
+        label: "form",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+S",
+        click() {
+          showSettingsForm();
         }
       }
     ]

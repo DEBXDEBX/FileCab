@@ -111,7 +111,8 @@ img {
 #headingNote,
 #mainFolderForm,
 #subFolderForm,
-#noteForm {
+#noteForm,
+#settingsForm {
   display: none;
 }
 
@@ -121,7 +122,8 @@ h6 > span {
 }
 #mainFolderForm,
 #subFolderForm,
-#renameFileCabForm {
+#renameFileCabForm,
+#settingsForm {
   max-width: 70%;
   margin: 14px auto;
 }

@@ -352,6 +352,12 @@ ipcRenderer.on("Theme:set", (event, theme) => {
   }
 });
 // End ipcRenderer.on("Theme:set"
+
+//listen for index.js to set theme
+ipcRenderer.on("SettingsForm:show", event => {
+  console.log("Show settings form");
+  display.showSettingsForm();
+});
 //End IPC**************************************
 
 //************************************************************************* */
@@ -830,4 +836,17 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
   el.renameFileCabForm.reset();
   //hide form
   display.displayNone(el.renameFileCabForm);
+});
+//settings
+//When You click on save settings Btn
+document.querySelector("#settingsAdd").addEventListener("click", e => {
+  e.preventDefault();
+  console.log("saving setings");
+}); //End
+//When You click on settings form cancel Btn
+document.querySelector("#settingsCancel").addEventListener("click", e => {
+  //reset form
+  el.settingsForm.reset();
+  //hide form
+  display.displayNone(el.settingsForm);
 });

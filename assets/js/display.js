@@ -230,4 +230,21 @@ class Display {
       document.querySelector(".alert").remove();
     }, displayTime);
   } // End showAlert()
+
+  // Settings
+  //Method
+  showSettingsForm() {
+    this.clearPrimaryDisplay();
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.mfHeading);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.renameFileCabForm);
+    //show settings form
+    this.displayBlock(this.elements.settingsForm);
+  }
 } // End class
