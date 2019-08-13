@@ -53,6 +53,19 @@ function startUp() {
   // let root = document.querySelector(":root");
   // root.style.fontSize = "24px";
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  let settingsStorage = new SettingsStorage();
+  let settings = settingsStorage.getSettingsFromFile();
+  console.log(`start up function: the object is ${settings}`);
+  console.log(settings);
+  if (settings.type === "fileCab") {
+    // loadsettings
+    // check fo settings.type
+    console.log("settings loading");
+  }
+
+  if (settings.type === "noSettingsFound") {
+    console.log("No valid settings on file");
+  }
   // fs.writeFile(__dirname + "settings.deb", "test", function(err) {
   //   if (err) {
   //     console.log(err);
@@ -842,9 +855,24 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
 document.querySelector("#settingsAdd").addEventListener("click", e => {
   e.preventDefault();
   console.log("saving setings");
+  //reset form
+  el.settingsForm.reset();
+  //hide form
+  display.displayNone(el.settingsForm);
 }); //End
+
+//When You click on settings form cancel Btn
+document.querySelector("#settingsReset").addEventListener("click", e => {
+  console.log("resetting default setttings");
+  //reset form
+  el.settingsForm.reset();
+  //hide form
+  display.displayNone(el.settingsForm);
+});
+
 //When You click on settings form cancel Btn
 document.querySelector("#settingsCancel").addEventListener("click", e => {
+  console.log("cancel btn clicked");
   //reset form
   el.settingsForm.reset();
   //hide form
