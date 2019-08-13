@@ -342,7 +342,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
       deleteMode = false;
       break;
     case "Light":
-      document.querySelector("#blank").href = "assets/css/classic.css";
+      document.querySelector("#blank").href = "assets/css/white.css";
       document.querySelector("body").style.backgroundColor = "white";
       deleteMode = false;
       break;
