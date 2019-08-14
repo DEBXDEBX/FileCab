@@ -232,7 +232,7 @@ const menuTemplate = [
     label: "Settings",
     submenu: [
       {
-        label: "form",
+        label: "Show Settings Form",
         accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+S",
         click() {
           showSettingsForm();

@@ -234,6 +234,7 @@ class Display {
   // Settings
   //Method
   showSettingsForm() {
+    this.clearFileCabDisplay();
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();

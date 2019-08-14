@@ -25,6 +25,7 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 let myBody = document.querySelector("body");
+let root = document.querySelector(":root");
 //Theme current
 let currentTheme = "Dark";
 //Delete Mode
@@ -48,6 +49,7 @@ window.onload = function() {
 };
 //Start Up
 function startUp() {
+  console.log(root.style.fontSize);
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // increase font size
   // let root = document.querySelector(":root");
@@ -59,68 +61,13 @@ function startUp() {
   console.log(settings);
   if (settings.type === "fileCab") {
     // loadsettings
-    // check fo settings.type
-    console.log("settings loading");
+    applySettings(settings);
   }
 
   if (settings.type === "noSettingsFound") {
     console.log("No valid settings on file");
   }
-  // fs.writeFile(__dirname + "settings.deb", "test", function(err) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  // });
-  // const path = __dirname + "settings.deb";
-  // const filepath = path;
-  // try {
-  //   if (fs.existsSync(path)) {
-  //     //file exists
-  //     console.log("the file settings exists");
-  //   }
-  // } catch (err) {
-  //   console.error(err);
-  // }
-  // //###############################################################
-  // const filepath = path;
-  // fs.readFile(filepath, "utf-8", (err, data) => {
-  //   if (err) {
-  //     let message = "An error occured reading the file.";
-  //     let msgType = "error";
-  //     mainWindow.webContents.send("Display:showAlert", { message, msgType });
-  //     return;
-  //   } else {
-  //     try {
-  //       data = JSON.parse(data);
-  //     } catch {
-  //       let message = "Can not parse data";
-  //       let msgType = "error";
-  //       mainWindow.webContents.send("Display:showAlert", {
-  //         message,
-  //         msgType
-  //       });
-  //       return;
-  //     }
-  //     if (data) {
-  //       if (data.fileType === "ElectronFileCab2019April") {
-  //         console.log("This is a valid file");
-  //         //set filepath: This is in case you moved your file
-  //         data.fileNamePath = filepath;
-  //         //laod file cab
-  //         console.log("sending data to script.js");
-  //         //data is an object to be converted to an file cab object
-  //         mainWindow.webContents.send("fileCab:load", data);
-  //       } else {
-  //         let message = "This is not a valid ElectronFileCab2019April file";
-  //         let msgType = "error";
-  //         mainWindow.webContents.send("Display:showAlert", {
-  //           message,
-  //           msgType
-  //         });
-  //       }
-  //     }
-  //   }
-  // });
+
   // ############################################################
   // there is nothing that needs to run at start up, it is event driven
   //   document.querySelector("#blank").href = "assets/css/dark.css";
@@ -131,6 +78,54 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
+//applySettings(settings)
+function applySettings(settings) {
+  // root.style.fontSize = "10px";
+  console.log("settings loading: applySettings()");
+  //10px x-small
+  //12px small
+  //16px normal
+  //20px large
+  //24px X-large
+
+  switch (settings.fontSize) {
+    case "x-small":
+      root.style.fontSize = "10px";
+      break;
+    case "small":
+      root.style.fontSize = "12px";
+      break;
+    case "normal":
+      root.style.fontSize = "16px";
+      break;
+    case "large":
+      root.style.fontSize = "20px";
+      break;
+    case "x-large":
+      root.style.fontSize = "24px";
+      break;
+    default:
+      console.log("No valid font-size");
+  }
+
+  //Set the theme
+  switch (settings.theme) {
+    case "Dark":
+      document.querySelector("#blank").href = "assets/css/dark.css";
+      document.querySelector("body").style.backgroundColor = "black";
+      deleteMode = false;
+      break;
+    case "Light":
+      document.querySelector("#blank").href = "assets/css/white.css";
+      document.querySelector("body").style.backgroundColor = "white";
+      deleteMode = false;
+      break;
+    default:
+      console.log("No valid option");
+    // code block
+  }
+}
+
 // Create a new array with only the items name
 function mapNamesOut(array) {
   let mapedArray = array.map(item => {
@@ -852,22 +847,32 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
 });
 //settings
 //When You click on save settings Btn
-document.querySelector("#settingsAdd").addEventListener("click", e => {
+document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
   console.log("saving setings");
+  //Get form data to create a settings object
+
+  //create settings object
+  let settingsObj = new SettingsObj("Light", "x-large");
+  let settingsStorage = new SettingsStorage();
+  settingsStorage.saveSettings(settingsObj);
   //reset form
   el.settingsForm.reset();
   //hide form
   display.displayNone(el.settingsForm);
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }); //End
 
 //When You click on settings form cancel Btn
 document.querySelector("#settingsReset").addEventListener("click", e => {
   console.log("resetting default setttings");
+  let settingsStorage = new settingsStorage();
+  settingsStorage.clearFileFromLocalStroage();
   //reset form
   el.settingsForm.reset();
   //hide form
   display.displayNone(el.settingsForm);
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 
 //When You click on settings form cancel Btn
@@ -877,4 +882,5 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   el.settingsForm.reset();
   //hide form
   display.displayNone(el.settingsForm);
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
