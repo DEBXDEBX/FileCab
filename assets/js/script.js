@@ -114,11 +114,13 @@ function applySettings(settings) {
       document.querySelector("#blank").href = "assets/css/dark.css";
       document.querySelector("body").style.backgroundColor = "black";
       deleteMode = false;
+      currentTheme = "Dark";
       break;
     case "Light":
       document.querySelector("#blank").href = "assets/css/white.css";
       document.querySelector("body").style.backgroundColor = "white";
       deleteMode = false;
+      currentTheme = "Light";
       break;
     default:
       console.log("No valid option");
@@ -212,7 +214,10 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     turnOffDeleteMode();
   }
   if (dataObj.name === "") {
-    ui.showAlert("You did not enter a name for the File Cabinet!", "error");
+    display.showAlert(
+      "You did not enter a name for the File Cabinet!",
+      "error"
+    );
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
@@ -227,16 +232,16 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
-  // //check if the name already exists if it does alert and return
+  // //check if the fileNamePath already exists if it does alert and return
   //make a variable to return
   let isTaken = false;
   arrayOfFileCabs.forEach(element => {
-    if (element.name === dataObj.name) {
+    if (element.fileNamePath === dataObj.fileNamePath) {
       isTaken = true;
     }
   });
   if (isTaken) {
-    ui.showAlert("That name is taken", "error");
+    display.showAlert("That file is already loaded", "error");
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
@@ -263,17 +268,17 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     turnOffDeleteMode();
   }
 
-  // check if the name already exists if it does alert and return
+  // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
   arrayOfFileCabs.forEach(element => {
-    if (element.name === data.name) {
+    if (element.fileNamePath === data.fileNamePath) {
       isTaken = true;
     }
   });
   if (isTaken) {
     // warningNameTakenAudio.play();
-    ui.showAlert("That name is taken", "error");
+    display.showAlert("That file is already loaded", "error");
     //redisplay
 
     //Get the names for all the file cabinets
