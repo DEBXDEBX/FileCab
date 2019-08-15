@@ -371,6 +371,28 @@ ipcRenderer.on("SettingsForm:show", event => {
   console.log("Show settings form");
   display.showSettingsForm();
 });
+//listem for index.js to change font size
+ipcRenderer.on("FontSize:change", (event, fontSize) => {
+  switch (fontSize) {
+    case "x-small":
+      root.style.fontSize = "10px";
+      break;
+    case "small":
+      root.style.fontSize = "12px";
+      break;
+    case "normal":
+      root.style.fontSize = "16px";
+      break;
+    case "large":
+      root.style.fontSize = "20px";
+      break;
+    case "x-large":
+      root.style.fontSize = "24px";
+      break;
+    default:
+      console.log("No valid font-size");
+  }
+});
 //End IPC**************************************
 
 //************************************************************************* */

@@ -140,6 +140,9 @@ function setThemeDark() {
 function showSettingsForm() {
   mainWindow.webContents.send("SettingsForm:show");
 }
+function setFontSize(fontSize) {
+  mainWindow.webContents.send("FontSize:change", fontSize);
+}
 //this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
   //close the addWindow
@@ -210,29 +213,59 @@ const menuTemplate = [
     ]
   },
   {
-    label: "Theme",
+    label: "Settings",
     submenu: [
       {
-        label: "Light",
+        label: "Font-size: x-small",
+        accelerator: process.platform === "darwin" ? "Command+1" : "Ctrl+1",
+        click() {
+          setFontSize("x-small");
+        }
+      },
+      {
+        label: "Font-size: small",
+        accelerator: process.platform === "darwin" ? "Command+2" : "Ctrl+2",
+        click() {
+          setFontSize("small");
+        }
+      },
+      {
+        label: "Font-size: normal",
+        accelerator: process.platform === "darwin" ? "Command+3" : "Ctrl+3",
+        click() {
+          setFontSize("normal");
+        }
+      },
+      {
+        label: "Font-size: large",
+        accelerator: process.platform === "darwin" ? "Command+4" : "Ctrl+4",
+        click() {
+          setFontSize("large");
+        }
+      },
+      {
+        label: "Font-size: x-large",
+        accelerator: process.platform === "darwin" ? "Command+5" : "Ctrl+5",
+        click() {
+          setFontSize("x-large");
+        }
+      },
+      {
+        label: "Light Theme",
         accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+W",
         click() {
           setThemeLight();
         }
       },
       {
-        label: "Dark",
+        label: "Dark Theme",
         accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+E",
         click() {
           setThemeDark();
         }
-      }
-    ]
-  },
-  {
-    label: "Settings",
-    submenu: [
+      },
       {
-        label: "Show Settings Form",
+        label: "Start Up Settings Form",
         accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+S",
         click() {
           showSettingsForm();
