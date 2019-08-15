@@ -872,7 +872,10 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
   //hide form
   display.displayNone(el.renameFileCabForm);
 });
+
+// ***********************************************************
 //settings
+// *************************************************************
 //When You click on save settings Btn
 document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
@@ -883,7 +886,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   // get list of radio buttons with specified names
   var radios = el.settingsForm.elements["theme"];
   // loop through list of radio buttons
-  for (var i = 0, len = radios.length; i < len; i++) {
+  for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
       // radio checked?
       themeValue = radios[i].value; // if so, hold its value in val
@@ -896,7 +899,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   // get list of radio buttons with specified names
   var radiosFS = el.settingsForm.elements["fontSize"];
   // loop through list of radio buttons
-  for (var i = 0, len = radiosFS.length; i < len; i++) {
+  for (var i = 0; i < radiosFS.length; i++) {
     if (radiosFS[i].checked) {
       // radio checked?
       fontSizeValue = radiosFS[i].value; // if so, hold its value in val
