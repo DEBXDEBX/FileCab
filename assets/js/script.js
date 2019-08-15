@@ -878,9 +878,34 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
   console.log("saving setings");
   //Get form data to create a settings object
-
+  // Theme radio code
+  let themeValue;
+  // get list of radio buttons with specified names
+  var radios = el.settingsForm.elements["theme"];
+  // loop through list of radio buttons
+  for (var i = 0, len = radios.length; i < len; i++) {
+    if (radios[i].checked) {
+      // radio checked?
+      themeValue = radios[i].value; // if so, hold its value in val
+      break; // and break out of for loop
+    }
+  }
+  console.log(themeValue);
+  // fontsize radio code
+  let fontSizeValue;
+  // get list of radio buttons with specified names
+  var radiosFS = el.settingsForm.elements["fontSize"];
+  // loop through list of radio buttons
+  for (var i = 0, len = radiosFS.length; i < len; i++) {
+    if (radiosFS[i].checked) {
+      // radio checked?
+      fontSizeValue = radiosFS[i].value; // if so, hold its value in val
+      break; // and break out of for loop
+    }
+  }
+  console.log(fontSizeValue);
   //create settings object
-  let settingsObj = new SettingsObj("Light", "x-large");
+  let settingsObj = new SettingsObj(themeValue, fontSizeValue);
   let settingsStorage = new SettingsStorage();
   settingsStorage.saveSettings(settingsObj);
   //reset form
@@ -893,8 +918,8 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 //When You click on settings form cancel Btn
 document.querySelector("#settingsReset").addEventListener("click", e => {
   console.log("resetting default setttings");
-  let settingsStorage = new settingsStorage();
-  settingsStorage.clearFileFromLocalStroage();
+  let settingsStorage = new SettingsStorage();
+  settingsStorage.clearFileFromLocalStorage();
   //reset form
   el.settingsForm.reset();
   //hide form

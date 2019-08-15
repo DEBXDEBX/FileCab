@@ -143,3 +143,13 @@ p {
   margin-bottom: 30px;
   padding: 20px;
 }
+/* settings form  */
+#settingsForm {
+  background-color: white;
+}
+input[type="radio"] {
+  /* color: #2de11d; */
+}
+/* h2 {
+  color: #2de11d;
+} */

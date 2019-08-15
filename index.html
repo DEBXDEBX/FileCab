@@ -75,18 +75,22 @@
     </header>
 
     <form id="settingsForm">
-      <!-- <div class="form-group">
-        <input
-          id="settingsName"
-          type="text"
-          autofocus
-          class="form-control"
-  
-          placeholder="settings field"
-        />
-      </div> -->
+      <!-- Theme -->
+      <div class="form-group"></div>
+      <input type="radio" name="theme" value="Dark" checked> Dark<br>
+      <input type="radio" name="theme" value="Light"> Light<br>
+    </div>
+      <!-- Font Size -->
+      <div class="form-group"></div>
+      <input type="radio" name="fontSize" value="x-small" > x-small<br>
+      <input type="radio" name="fontSize" value="small"> small<br>
+      <input type="radio" name="fontSize" value="normal" checked> normal<br>
+      <input type="radio" name="fontSize" value="large"> large<br>
+      <input type="radio" name="fontSize" value="x-large" > x-large<br>
+    </div>
+      <!-- <input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br> -->
       <div class="form-group">
-        <input
+      <input
           id="settingsSave"
           class="btn btn-primary form-control"
           type="submit"
