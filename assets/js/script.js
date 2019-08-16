@@ -78,6 +78,50 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
+function loadUpSettingsForm() {
+  console.log("load up settings form");
+  let settingsStorage = new SettingsStorage();
+  let settings = settingsStorage.getSettingsFromFile();
+  if (settings.type === "noSettingsFound") {
+    console.log("No valid settings on file");
+    return;
+  }
+  if (settings.type === "fileCab") {
+    let settingsStorage = new SettingsStorage();
+    let settings = settingsStorage.getSettingsFromFile();
+    //Check the right theme
+    switch (settings.theme) {
+      case "Dark":
+        document.querySelector("#Dark").checked = true;
+        break;
+      case "Light":
+        document.querySelector("#Light").checked = true;
+        break;
+      default:
+        console.log("No valid theme");
+    }
+    //Check the right font size
+    switch (settings.fontSize) {
+      case "x-small":
+        document.querySelector("#x-small").checked = true;
+        break;
+      case "small":
+        document.querySelector("#small").checked = true;
+        break;
+      case "normal":
+        document.querySelector("#normal").checked = true;
+        break;
+      case "large":
+        document.querySelector("#large").checked = true;
+        break;
+      case "x-large":
+        document.querySelector("#x-large").checked = true;
+        break;
+      default:
+        console.log("No valid font size");
+    }
+  }
+}
 //applySettings(settings)
 function applySettings(settings) {
   // root.style.fontSize = "10px";
@@ -127,7 +171,22 @@ function applySettings(settings) {
     // code block
   }
 }
+//get the value of the selected radio button
+function getRadioValue(form, name) {
+  var val;
+  // get list of radio buttons with specified name
+  var radios = form.elements[name];
 
+  // loop through list of radio buttons
+  for (var i = 0, len = radios.length; i < len; i++) {
+    if (radios[i].checked) {
+      // radio checked?
+      val = radios[i].value; // if so, hold its value in val
+      break; // and break out of for loop
+    }
+  }
+  return val; // return value of checked radio or undefined if none checked
+}
 // Create a new array with only the items name
 function mapNamesOut(array) {
   let mapedArray = array.map(item => {
@@ -369,6 +428,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 //listen for index.js to set theme
 ipcRenderer.on("SettingsForm:show", event => {
   console.log("Show settings form");
+  loadUpSettingsForm();
   display.showSettingsForm();
 });
 //listem for index.js to change font size
@@ -882,30 +942,12 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   console.log("saving setings");
   //Get form data to create a settings object
   // Theme radio code
-  let themeValue;
-  // get list of radio buttons with specified names
-  var radios = el.settingsForm.elements["theme"];
-  // loop through list of radio buttons
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      // radio checked?
-      themeValue = radios[i].value; // if so, hold its value in val
-      break; // and break out of for loop
-    }
-  }
+  let themeValue = getRadioValue(el.settingsForm, "theme");
+
   console.log(themeValue);
   // fontsize radio code
-  let fontSizeValue;
-  // get list of radio buttons with specified names
-  var radiosFS = el.settingsForm.elements["fontSize"];
-  // loop through list of radio buttons
-  for (var i = 0; i < radiosFS.length; i++) {
-    if (radiosFS[i].checked) {
-      // radio checked?
-      fontSizeValue = radiosFS[i].value; // if so, hold its value in val
-      break; // and break out of for loop
-    }
-  }
+  let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
+
   console.log(fontSizeValue);
   //create settings object
   let settingsObj = new SettingsObj(themeValue, fontSizeValue);

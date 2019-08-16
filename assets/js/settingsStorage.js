@@ -21,8 +21,6 @@ class SettingsStorage {
       obj = JSON.parse(textFromFile);
     } else {
       obj = { type: "noSettingsFound" };
-      console.log(`Inside settings storage: the object is ${obj}`);
-      console.log(obj);
     }
     // return obj
     return obj;
