@@ -57,8 +57,12 @@ function startUp() {
     applySettings(settings);
     // Update Form
     display.showAutoLoadList(settings.filePathArray);
-    if (settings.filePathArray) {
-      autoLoadFileCabs(settings.filePathArray);
+    var x = document.querySelector("#autoLoad").checked;
+    if (x === true) {
+      console.log("***************auto loading files**********");
+      if (settings.filePathArray) {
+        autoLoadFileCabs(settings.filePathArray);
+      }
     }
   }
 
@@ -131,7 +135,9 @@ function applySettings(settings) {
   //16px normal
   //20px large
   //24px X-large
-
+  if (settings.autoLoad === true) {
+    document.querySelector("#autoLoad").checked = true;
+  }
   switch (settings.fontSize) {
     case "x-small":
       root.style.fontSize = "10px";
@@ -950,13 +956,26 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
 
   console.log(fontSizeValue);
+  let settingsStorage = new SettingsStorage();
+  let grabOldArray;
+  let beginingSetttings = settingsStorage.getSettingsFromFile();
+  if (beginingSetttings.filePathArray) {
+    grabOldArray = beginingSetttings.filePathArray;
+  }
 
   //create settings object
   let settingsObj = new SettingsObj(themeValue, fontSizeValue);
-  let settingsStorage = new SettingsStorage();
+  settingsObj.filePathArray = grabOldArray;
+
   settingsStorage.saveSettings(settingsObj);
 
-  var x = document.querySelector("#autoLoadListCB").checked;
+  let y = document.querySelector("#autoLoad").checked;
+  if (y === true) {
+    settingsObj.autoLoad = true;
+    settingsStorage.saveSettings(settingsObj);
+  }
+
+  let x = document.querySelector("#autoLoadListCB").checked;
   if (x === true) {
     let mapedArray = arrayOfFileCabs.map(item => {
       return item.fileNamePath;
