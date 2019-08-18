@@ -55,6 +55,8 @@ function startUp() {
   if (settings.type === "fileCab") {
     // loadsettings
     applySettings(settings);
+    // Update Form
+    display.showAutoLoadList(settings.filePathArray);
     if (settings.filePathArray) {
       autoLoadFileCabs(settings.filePathArray);
     }
@@ -117,6 +119,8 @@ function loadUpSettingsForm() {
         console.log("No valid font size");
     }
   }
+  // Update autoload form ul
+  display.showAutoLoadList(settings.filePathArray);
 }
 //applySettings(settings)
 function applySettings(settings) {
@@ -425,6 +429,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 ipcRenderer.on("SettingsForm:show", event => {
   console.log("Show settings form");
   loadUpSettingsForm();
+
   display.showSettingsForm();
 });
 //listem for index.js to change font size
@@ -945,10 +950,22 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
 
   console.log(fontSizeValue);
+
   //create settings object
   let settingsObj = new SettingsObj(themeValue, fontSizeValue);
   let settingsStorage = new SettingsStorage();
   settingsStorage.saveSettings(settingsObj);
+
+  var x = document.querySelector("#autoLoadListCB").checked;
+  if (x === true) {
+    let mapedArray = arrayOfFileCabs.map(item => {
+      return item.fileNamePath;
+    });
+    // grab the current list
+    console.log(`grab list ${x}`);
+    settingsObj.filePathArray = mapedArray;
+    settingsStorage.saveSettings(settingsObj);
+  }
   //reset form
   el.settingsForm.reset();
   let settings = settingsStorage.getSettingsFromFile();
@@ -958,7 +975,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }); //End
 
-//When You click on settings form cancel Btn
+//When You click on settings form reset Btn
 document.querySelector("#settingsReset").addEventListener("click", e => {
   console.log("resetting default setttings");
   let settingsStorage = new SettingsStorage();
@@ -966,6 +983,7 @@ document.querySelector("#settingsReset").addEventListener("click", e => {
   //reset form
   el.settingsForm.reset();
   //hide form
+  display.clearAutoLoadUL();
   display.displayNone(el.settingsForm);
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
@@ -979,21 +997,39 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   display.displayNone(el.settingsForm);
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
-//When You click on settings form add path to autoload Btn
-document.querySelector("#settingsAddPath").addEventListener("click", e => {
-  let fileCabPath;
-  console.log("inside btn add event");
-  dialog.showOpenDialog(fileNames => {
-    if (fileNames === undefined) {
-      display.showAlert("No file selected", "error");
-    } else {
-      //got file name
-      fileCabPath = fileNames[0];
-      let settingsStorage = new SettingsStorage();
-      let settings = settingsStorage.getSettingsFromFile();
-      settings.filePathArray.push(fileCabPath);
-      console.log(settings.filePathArray);
-    }
-  });
-  console.log("after dialog");
-});
+// //When You click on settings form add path to autoload Btn
+// document.querySelector("#settingsAddPath").addEventListener("click", e => {
+//   e.preventDefault();
+//   let fileCabPath;
+//   console.log("inside btn add event");
+//   dialog.showOpenDialog(fileNames => {
+//     if (fileNames === undefined) {
+//       display.showAlert("No file selected", "error");
+//     } else {
+//       //got file name
+//       fileCabPath = fileNames[0];
+//       let settingsStorage = new SettingsStorage();
+//       let settings = settingsStorage.getSettingsFromFile();
+//       //if there is no settings
+//       if (settings.type === "noSettingsFound") {
+//         console.log("No valid settings on file");
+//         // create a settings object
+//         let settings = new SettingsObj("Dark", "normal");
+//         settings.filePathArray.push(fileCabPath);
+//         //save
+//         settingsStorage.saveSettings(settings);
+//         display.showAutoLoadList(settings.filePathArray);
+//         return;
+//       }
+//       // if there is settings on file
+//       if (settings.type === "fileCab") {
+//         settings.filePathArray.push(fileCabPath);
+//         console.log(settings.filePathArray);
+//         settingsStorage.saveSettings(settings);
+//         // Update Form
+//         display.showAutoLoadList(settings.filePathArray);
+//       }
+//     }
+//   });
+//   console.log("after dialog");
+// });

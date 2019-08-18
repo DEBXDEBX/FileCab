@@ -248,4 +248,22 @@ class Display {
     //show settings form
     this.displayBlock(this.elements.settingsForm);
   }
+  // Settings
+  //Method
+  clearAutoLoadUL() {
+    // clear the ul
+    this.elements.autoLoadList.innerHTML = "";
+  }
+  // Settings
+  //Method
+  showAutoLoadList(autoLoadArray) {
+    // clear the ul
+    this.clearAutoLoadUL();
+    //Make var for html
+    let html = "";
+    autoLoadArray.forEach((element, index) => {
+      html += `<li data-index="${index}" class="autoLoad">${element}</li>`;
+    });
+    this.elements.autoLoadList.innerHTML = html;
+  }
 } // End class

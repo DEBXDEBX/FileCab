@@ -25,5 +25,7 @@ class Elements {
     this.textNameMain = document.querySelector("#mainFolderName");
     this.textNameSub = document.querySelector("#subFolderName");
     this.textArea = document.querySelector("#myTextArea");
+    // autoload
+    this.autoLoadList = document.querySelector("#autoLoadList");
   } //constructor
 }
