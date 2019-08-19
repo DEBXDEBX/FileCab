@@ -1020,7 +1020,11 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
   e.preventDefault();
   let fileCabPath;
   console.log("inside btn add event");
-  dialog.showOpenDialog(fileNames => {
+
+  let myOptions = {
+    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+  };
+  dialog.showOpenDialog(null, myOptions, fileNames => {
     if (fileNames === undefined) {
       display.showAlert("No file selected", "error");
     } else {
