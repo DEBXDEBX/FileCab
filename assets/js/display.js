@@ -262,7 +262,7 @@ class Display {
     //Make var for html
     let html = "";
     autoLoadArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="autoLoad">${element}</li>`;
+      html += `<li data-index="${index}" class="autoLoad"><span title='Delete' class='deleteFile'>x</span>${element}</li>`;
     });
     this.elements.autoLoadList.innerHTML = html;
   }

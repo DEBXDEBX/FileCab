@@ -76,9 +76,86 @@ function startUp() {
 function autoLoadFileCabs(array) {
   console.log("Loading file cabs");
   array.forEach(function(item) {
-    console.log(item);
+    readFileContents(item);
   });
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function readFileContents(filepath) {
+  fs.readFile(filepath, "utf-8", (err, data) => {
+    if (err) {
+      let message = "An error occured reading the file.";
+      let msgType = "error";
+      display.showAlert(message, msgType);
+      return;
+    } else {
+      try {
+        data = JSON.parse(data);
+      } catch {
+        let message = "Can not parse data";
+        let msgType = "error";
+        display.showAlert(message, msgType);
+        return;
+      }
+
+      if (data) {
+        if (data.fileType === "ElectronFileCab2019April") {
+          console.log("This is a valid file");
+          //set filepath: This is in case you moved your file
+          data.fileNamePath = filepath;
+          //laod file cab
+          console.log("sending data to script.js");
+          //data is an object to be converted to an file cab object
+          // mainWindow.webContents.send("fileCab:load", data);
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          if (deleteMode) {
+            turnOffDeleteMode();
+          }
+
+          // check if the fileNamePath already exists if it does alert and return
+          // make a variable to return
+          let isTaken = false;
+          arrayOfFileCabs.forEach(element => {
+            if (element.fileNamePath === data.fileNamePath) {
+              isTaken = true;
+            }
+          });
+          if (isTaken) {
+            // warningNameTakenAudio.play();
+            display.showAlert("That file is already loaded", "error");
+            //redisplay
+
+            //Get the names for all the file cabinets
+            //and then send them to the Display
+            display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+            return;
+          }
+          //create a file cab object
+          let newfileCab = new FileCabObject(
+            data.name,
+            data.fileNamePath,
+            data.arrayOfPrimaryObjects
+          );
+          //push the file cab obj into the array of file cabinets
+          arrayOfFileCabs.push(newfileCab);
+          //Write the file cab object to disk
+          newfileCab.writeFileCabToHardDisk(fs, display);
+
+          //redisplay
+          //Get the names for all the file cabinets
+          //and then send them to the Display
+          display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        } else {
+          let message = "This is not a valid ElectronFileCab2019April file";
+          let msgType = "error";
+          display.showAlert(message, msgType);
+        }
+      }
+    }
+  });
+}
+
 function loadUpSettingsForm() {
   console.log("load up settings form");
   let settingsStorage = new SettingsStorage();
@@ -952,32 +1029,18 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
   let settingsStorage = new SettingsStorage();
   let settingsObj = new SettingsObj();
-  // let grabOldArray;
-  // let beginingSetttings = settingsStorage.getSettingsFromFile();
-  // if (beginingSetttings.filePathArray) {
-  //   grabOldArray = beginingSetttings.filePathArray;
-  // }
-
+  // set the object values
   settingsObj.theme = themeValue;
   settingsObj.fontSize = fontSizeValue;
-
   settingsObj.filePathArray = settingsArrayContainer;
-
+  // set auto load true or false
   let y = document.querySelector("#autoLoad").checked;
   if (y === true) {
     settingsObj.autoLoad = true;
   } else {
     settingsObj.autoLoad = false;
   }
-
-  // let x = document.querySelector("#autoLoadListCB").checked;
-  // if (x === true) {
-  //   let mapedArray = arrayOfFileCabs.map(item => {
-  //     return item.fileNamePath;
-  //   });
-  // grab the current list
-  // console.log(`grab list ${x}`);
-  // settingsObj.filePathArray = mapedArray;
+  //  save the object
   settingsStorage.saveSettings(settingsObj);
 
   //reset form
@@ -989,11 +1052,10 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }); //End
 
-//When You click on settings form reset Btn
+//When You click on settings form clear auto load list Btn
 document.querySelector("#clearAutoLoadList").addEventListener("click", e => {
-  console.log("resetting default setttings");
   let settingsStorage = new SettingsStorage();
-  settingsStorage.clearFileFromLocalStorage();
+  // settingsStorage.clearFileFromLocalStorage();
   //reset form
   // el.settingsForm.reset();
   //hide form
@@ -1037,4 +1099,22 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
     }
   });
   console.log("after dialog");
+});
+
+//When You click on settings form add path to autoload Btn
+document.querySelector("#autoLoadList").addEventListener("click", e => {
+  e.preventDefault();
+  // event delegation
+  if (e.target.classList.contains("deleteFile")) {
+    console.log("delete file");
+    //This gets the data I embedded into the html
+    let dataIndex = e.target.parentElement.dataset.index;
+    let deleteIndex = parseInt(dataIndex);
+
+    console.log(deleteIndex);
+
+    settingsArrayContainer.splice(deleteIndex, 1);
+    // Update Form
+    display.showAutoLoadList(settingsArrayContainer);
+  }
 });
