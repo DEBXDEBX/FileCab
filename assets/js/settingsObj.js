@@ -1,7 +1,7 @@
 class SettingsObj {
-  constructor(theme, fontSize) {
-    this.theme = theme;
-    this.fontSize = fontSize;
+  constructor() {
+    this.theme = "Dark";
+    this.fontSize = "normal";
     this.type = "fileCab";
     this.filePathArray = [];
     this.autoLoad = false;

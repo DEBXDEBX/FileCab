@@ -20,7 +20,7 @@ class SettingsStorage {
       //parse file
       obj = JSON.parse(textFromFile);
     } else {
-      obj = { type: "noSettingsFound" };
+      obj = new SettingsObj();
     }
     // return obj
     return obj;
