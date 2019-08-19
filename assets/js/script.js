@@ -1071,8 +1071,6 @@ document.querySelector("#clearAutoLoadList").addEventListener("click", e => {
 //When You click on settings form cancel Btn
 document.querySelector("#settingsCancel").addEventListener("click", e => {
   console.log("cancel btn clicked");
-  //reset form
-  el.settingsForm.reset();
   //hide form
   display.displayNone(el.settingsForm);
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
