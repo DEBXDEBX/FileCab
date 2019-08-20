@@ -147,9 +147,13 @@ p {
 #settingsForm {
   background-color: white;
 }
-/* input[type="radio"] {
-  /* color: #2de11d; */
-} */
+input[type="radio"] {
+  margin: 10px;
+}
 /* h2 {
   color: #2de11d;
 } */
+.deleteFile {
+  color: red;
+  margin: 12px;
+}

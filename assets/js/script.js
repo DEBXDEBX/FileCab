@@ -25,7 +25,9 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 let myBody = document.querySelector("body");
+// this is for the fontSize
 let root = document.querySelector(":root");
+// temp hold for array
 let settingsArrayContainer;
 //Theme current
 let currentTheme = "Dark";
@@ -52,7 +54,7 @@ window.onload = function() {
 function startUp() {
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
-  console.log(settings);
+
   if (settings.type === "fileCab") {
     // set the holding array
     settingsArrayContainer = settings.filePathArray;
@@ -62,7 +64,6 @@ function startUp() {
     display.showAutoLoadList(settingsArrayContainer);
     var x = document.querySelector("#autoLoad").checked;
     if (x === true) {
-      console.log("***************auto loading files**********");
       if (settings.filePathArray) {
         autoLoadFileCabs(settings.filePathArray);
       }
@@ -74,13 +75,11 @@ function startUp() {
 // Helper functions
 //*************************************************** */
 function autoLoadFileCabs(array) {
-  console.log("Loading file cabs");
   array.forEach(function(item) {
     readFileContents(item);
   });
 }
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function readFileContents(filepath) {
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
@@ -100,18 +99,12 @@ function readFileContents(filepath) {
 
       if (data) {
         if (data.fileType === "ElectronFileCab2019April") {
-          console.log("This is a valid file");
           //set filepath: This is in case you moved your file
           data.fileNamePath = filepath;
-          //laod file cab
-          console.log("sending data to script.js");
-          //data is an object to be converted to an file cab object
-          // mainWindow.webContents.send("fileCab:load", data);
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
           if (deleteMode) {
             turnOffDeleteMode();
           }
-
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
@@ -124,7 +117,6 @@ function readFileContents(filepath) {
             // warningNameTakenAudio.play();
             display.showAlert("That file is already loaded", "error");
             //redisplay
-
             //Get the names for all the file cabinets
             //and then send them to the Display
             display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
@@ -140,12 +132,10 @@ function readFileContents(filepath) {
           arrayOfFileCabs.push(newfileCab);
           //Write the file cab object to disk
           newfileCab.writeFileCabToHardDisk(fs, display);
-
           //redisplay
           //Get the names for all the file cabinets
           //and then send them to the Display
           display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         } else {
           let message = "This is not a valid ElectronFileCab2019April file";
           let msgType = "error";
@@ -157,14 +147,10 @@ function readFileContents(filepath) {
 }
 
 function loadUpSettingsForm() {
-  console.log("load up settings form");
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
-  // if (settings.type === "noSettingsFound") {
-  //   console.log("No valid settings on file");
-  //   return;
-  // }
+
   if (settings.type === "fileCab") {
     //Check the right theme
     switch (settings.theme) {
@@ -201,10 +187,9 @@ function loadUpSettingsForm() {
   // Update autoload form ul
   display.showAutoLoadList(settingsArrayContainer);
 }
-//applySettings(settings)
+
 function applySettings(settings) {
   // root.style.fontSize = "10px";
-  console.log("settings loading: applySettings()");
   //10px x-small
   //12px small
   //16px normal
@@ -257,7 +242,6 @@ function getRadioValue(form, name) {
   var val;
   // get list of radio buttons with specified name
   var radios = form.elements[name];
-
   // loop through list of radio buttons
   for (var i = 0, len = radios.length; i < len; i++) {
     if (radios[i].checked) {
@@ -298,7 +282,6 @@ function handleFilePath(imagePath) {
     display.showAlert("Please enter a path in the name area!", "error");
     return;
   }
-
   //set image path
   //get primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -311,10 +294,8 @@ function handleFilePath(imagePath) {
 
 function addImage() {
   //grab current note and add a image path property to it and save back to file
-
   //get primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
   let imagePath;
 
   dialog.showOpenDialog(fileNames => {
@@ -407,7 +388,6 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   if (deleteMode) {
     turnOffDeleteMode();
   }
-
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -420,7 +400,6 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
     //redisplay
-
     //Get the names for all the file cabinets
     //and then send them to the Display
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
@@ -436,7 +415,6 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   arrayOfFileCabs.push(newfileCab);
   //Write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs, display);
-
   //redisplay
   //Get the names for all the file cabinets
   //and then send them to the Display
@@ -508,10 +486,8 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 
 //listen for index.js to set theme
 ipcRenderer.on("SettingsForm:show", event => {
-  console.log("Show settings form");
   turnOffDeleteMode();
   loadUpSettingsForm();
-
   display.showSettingsForm();
 });
 //listem for index.js to change font size
@@ -555,10 +531,8 @@ el.fileCabList.addEventListener("click", e => {
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     let fileCabName = e.target.textContent;
-
     //set's the current target active
     e.target.classList.add("active");
-
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".fileCab");
     for (let i = 0; i < el.length; i++) {
@@ -571,12 +545,10 @@ el.fileCabList.addEventListener("click", e => {
       };
     }
     //End code to set the active class
-
     //get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
     fcI = index;
-
     let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
     display.paintMainFolderTabs(mapNamesOut(primaryArray));
   } // end contains 'fileCab
@@ -593,7 +565,6 @@ el.mainFolderList.addEventListener("click", e => {
   if (e.target.classList.contains("main")) {
     //set's the current target active
     e.target.classList.add("active");
-
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".main");
     for (let i = 0; i < el.length; i++) {
@@ -606,7 +577,6 @@ el.mainFolderList.addEventListener("click", e => {
       };
     }
     //End code to set the active class
-
     //get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
@@ -1022,7 +992,6 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
 //When You click on save settings Btn
 document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
-  console.log("saving setings");
   //Get form data to create a settings object
   // Theme radio code
   let themeValue = getRadioValue(el.settingsForm, "theme");
@@ -1061,25 +1030,8 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   }
 }); //End
 
-// //When You click on settings form clear auto load list Btn
-// document.querySelector("#clearAutoLoadList").addEventListener("click", e => {
-//   let settingsStorage = new SettingsStorage();
-//   // settingsStorage.clearFileFromLocalStorage();
-//   //reset form
-//   // el.settingsForm.reset();
-//   //hide form
-//   display.clearAutoLoadUL();
-//   //clear the list
-//   // let emptyArray = [];
-//   settingsArrayContainer.length = 0;
-//   console.log(settingsArrayContainer);
-//   // display.displayNone(el.settingsForm);
-//   // display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
-// });
-
 //When You click on settings form cancel Btn
 document.querySelector("#settingsCancel").addEventListener("click", e => {
-  console.log("cancel btn clicked");
   //hide form
   display.displayNone(el.settingsForm);
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
@@ -1088,7 +1040,6 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
 document.querySelector("#settingsAddPath").addEventListener("click", e => {
   e.preventDefault();
   let fileCabPath;
-  console.log("inside btn add event");
 
   let myOptions = {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
@@ -1099,7 +1050,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
     } else {
       //got file name
       fileCabPath = fileNames[0];
-      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
       // check if the fileNamePath already exists if it does alert and return
       // make a variable to return
       let isTaken = false;
@@ -1113,7 +1064,6 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
         display.showAlert("That file is already loaded", "error");
         return;
       }
-      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
       // add it too tempHOld
       settingsArrayContainer.push(fileCabPath);
@@ -1121,23 +1071,18 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
       display.showAutoLoadList(settingsArrayContainer);
     }
   });
-  console.log("after dialog");
 });
 
 //When You click on x to delete a file path
 document.querySelector("#autoLoadList").addEventListener("click", e => {
   e.preventDefault();
   // event delegation
-  console.log("cliced on list");
-  if (e.target.classList.contains("deleteFile")) {
-    console.log("delete file");
 
+  if (e.target.classList.contains("deleteFile")) {
     //This gets the data I embedded into the html
     let dataIndex = e.target.parentElement.parentElement.dataset.index;
     let deleteIndex = parseInt(dataIndex);
-
-    console.log(deleteIndex);
-
+    //  delete path
     settingsArrayContainer.splice(deleteIndex, 1);
     // Update Form
     display.showAutoLoadList(settingsArrayContainer);
