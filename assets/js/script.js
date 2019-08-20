@@ -509,6 +509,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 //listen for index.js to set theme
 ipcRenderer.on("SettingsForm:show", event => {
   console.log("Show settings form");
+  turnOffDeleteMode();
   loadUpSettingsForm();
 
   display.showSettingsForm();
@@ -1045,28 +1046,36 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 
   //reset form
   el.settingsForm.reset();
-  let settings = settingsStorage.getSettingsFromFile();
-  applySettings(settings);
-  //hide form
-  display.displayNone(el.settingsForm);
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  if (settingsObj.autoLoad) {
+    // clear two arrays
+    arrayOfFileCabs.length = 0;
+    settingsArrayContainer.length = 0;
+    display.displayNone(el.settingsForm);
+    startUp();
+  } else {
+    // let settings = settingsStorage.getSettingsFromFile();
+    applySettings(settingsObj);
+    //hide form
+    display.displayNone(el.settingsForm);
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  }
 }); //End
 
-//When You click on settings form clear auto load list Btn
-document.querySelector("#clearAutoLoadList").addEventListener("click", e => {
-  let settingsStorage = new SettingsStorage();
-  // settingsStorage.clearFileFromLocalStorage();
-  //reset form
-  // el.settingsForm.reset();
-  //hide form
-  display.clearAutoLoadUL();
-  //clear the list
-  let emptyArray = [];
-  settingsArrayContainer = emptyArray;
-  console.log(settingsArrayContainer);
-  // display.displayNone(el.settingsForm);
-  // display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
-});
+// //When You click on settings form clear auto load list Btn
+// document.querySelector("#clearAutoLoadList").addEventListener("click", e => {
+//   let settingsStorage = new SettingsStorage();
+//   // settingsStorage.clearFileFromLocalStorage();
+//   //reset form
+//   // el.settingsForm.reset();
+//   //hide form
+//   display.clearAutoLoadUL();
+//   //clear the list
+//   // let emptyArray = [];
+//   settingsArrayContainer.length = 0;
+//   console.log(settingsArrayContainer);
+//   // display.displayNone(el.settingsForm);
+//   // display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+// });
 
 //When You click on settings form cancel Btn
 document.querySelector("#settingsCancel").addEventListener("click", e => {
@@ -1090,6 +1099,22 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
     } else {
       //got file name
       fileCabPath = fileNames[0];
+      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      // check if the fileNamePath already exists if it does alert and return
+      // make a variable to return
+      let isTaken = false;
+      settingsArrayContainer.forEach(element => {
+        if (element === fileCabPath) {
+          isTaken = true;
+        }
+      });
+      if (isTaken) {
+        // warningNameTakenAudio.play();
+        display.showAlert("That file is already loaded", "error");
+        return;
+      }
+      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
       // add it too tempHOld
       settingsArrayContainer.push(fileCabPath);
       // Update Form
@@ -1099,14 +1124,16 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
   console.log("after dialog");
 });
 
-//When You click on settings form add path to autoload Btn
+//When You click on x to delete a file path
 document.querySelector("#autoLoadList").addEventListener("click", e => {
   e.preventDefault();
   // event delegation
+  console.log("cliced on list");
   if (e.target.classList.contains("deleteFile")) {
     console.log("delete file");
+
     //This gets the data I embedded into the html
-    let dataIndex = e.target.parentElement.dataset.index;
+    let dataIndex = e.target.parentElement.parentElement.dataset.index;
     let deleteIndex = parseInt(dataIndex);
 
     console.log(deleteIndex);
