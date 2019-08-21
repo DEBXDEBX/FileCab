@@ -146,21 +146,19 @@ p {
 /* settings form  */
 #settingsForm {
   background-color: white;
+  display: block;
 }
 input[type="radio"] {
   margin: 10px;
-  font-size: 0.5rem;
+  font-size: 16px;
 }
-/* h2 {
-  color: #2de11d;
-} */
 .deleteFile {
   color: red;
   margin: 12px;
 }
 .autoLoad {
   color: #007bff;
-  font-size: 0.6rem;
+  font-size: 14px;
 }
 #settingsForm {
   border: 20px solid white;
