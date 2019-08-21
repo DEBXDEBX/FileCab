@@ -164,3 +164,13 @@ input[type="radio"] {
   border: 20px solid white;
   border-radius: 20px;
 }
+.setFlex {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  background-color: #aea9ad;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 22px;
+}
