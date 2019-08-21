@@ -119,6 +119,8 @@ function readFileContents(filepath) {
             //redisplay
             //Get the names for all the file cabinets
             //and then send them to the Display
+            // -243 is used for close down of file cabs
+            fcI = -243;
             display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
             return;
           }
@@ -135,6 +137,8 @@ function readFileContents(filepath) {
           //redisplay
           //Get the names for all the file cabinets
           //and then send them to the Display
+          // -243 is used for close down of file cabs
+          fcI = -243;
           display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
         } else {
           let message = "This is not a valid ElectronFileCab2019April file";
@@ -342,6 +346,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
+    // -243 is used for close down of file cabs
+    fcI = -243;
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
@@ -350,6 +356,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
+    // -243 is used for close down of file cabs
+    fcI = -243;
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
@@ -366,6 +374,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
+    // -243 is used for close down of file cabs
+    fcI = -243;
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
@@ -378,6 +388,8 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   //redisplay
   //Get the names for all the file cabinets
   //and then send them to the UI
+  // -243 is used for close down of file cabs
+  fcI = -243;
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 // End ipcRenderer.on("fileCab:add"********************
@@ -402,6 +414,8 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     //redisplay
     //Get the names for all the file cabinets
     //and then send them to the Display
+    // -243 is used for close down of file cabs
+    fcI = -243;
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
@@ -418,6 +432,8 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   //redisplay
   //Get the names for all the file cabinets
   //and then send them to the Display
+  // -243 is used for close down of file cabs
+  fcI = -243;
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 //End ipcRenderer.on("fileCab:load"*****************************
@@ -511,6 +527,27 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
     default:
       console.log("No valid font-size");
   }
+});
+
+//listen for index.js to close a file cab
+ipcRenderer.on("FileCab:close", event => {
+  if (fcI === -243 || isNaN(fcI)) {
+    display.showAlert("Please select a file cabinet to close", "error");
+    return;
+  }
+  // remove file cab from array
+  arrayOfFileCabs.splice(fcI, 1);
+  // -243 is used for close down of file cabs
+  fcI = -243;
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+});
+//listen for index.js to close all file cab's
+ipcRenderer.on("FileCab:closeAll", event => {
+  // Setting the length to Zero emptys the array
+  arrayOfFileCabs.length = 0;
+  // -243 is used for close down of file cabs
+  fcI = -243;
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 //End IPC**************************************
 
@@ -975,6 +1012,8 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   //reset form
   renameFileCabForm.reset();
   //send file cabinets array to display
+  // -243 is used for close down of file cabs
+  fcI = -243;
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }); //End
 
@@ -1017,6 +1056,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   el.settingsForm.reset();
   if (settingsObj.autoLoad) {
     // clear two arrays
+    // Setting the length to Zero emptys the array
     arrayOfFileCabs.length = 0;
     settingsArrayContainer.length = 0;
     display.displayNone(el.settingsForm);
@@ -1026,6 +1066,8 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
     applySettings(settingsObj);
     //hide form
     display.displayNone(el.settingsForm);
+    // -243 is used for close down of file cabs
+    fcI = -243;
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
   }
 }); //End
@@ -1034,6 +1076,8 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 document.querySelector("#settingsCancel").addEventListener("click", e => {
   //hide form
   display.displayNone(el.settingsForm);
+  // -243 is used for close down of file cabs
+  fcI = -243;
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
 //When You click on settings form add path to autoload Btn

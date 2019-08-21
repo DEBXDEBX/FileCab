@@ -143,6 +143,12 @@ function showSettingsForm() {
 function setFontSize(fontSize) {
   mainWindow.webContents.send("FontSize:change", fontSize);
 }
+function closeSelectedFileCab() {
+  mainWindow.webContents.send("FileCab:close");
+}
+function closeAllFileCabs() {
+  mainWindow.webContents.send("FileCab:closeAll");
+}
 //this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
   //close the addWindow
@@ -183,7 +189,20 @@ const menuTemplate = [
           loadFileCabinet();
         }
       },
-
+      {
+        label: "Close Selected Cabinet",
+        accelerator: process.platform === "darwin" ? "Command+O" : "Ctrl+8",
+        click() {
+          closeSelectedFileCab();
+        }
+      },
+      {
+        label: "CLose All Cabinet's",
+        accelerator: process.platform === "darwin" ? "Command+O" : "Ctrl+9",
+        click() {
+          closeAllFileCabs();
+        }
+      },
       {
         label: "Quit",
         accelerator: process.platform === "darwin" ? "Command+Q" : "Ctrl+Q",
@@ -204,7 +223,7 @@ const menuTemplate = [
         }
       },
       {
-        label: "Read Write Delete",
+        label: "Delete Mode",
         accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+D",
         click() {
           setDeleteModeTrue();
