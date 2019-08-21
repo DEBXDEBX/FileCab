@@ -149,6 +149,7 @@ p {
 }
 input[type="radio"] {
   margin: 10px;
+  font-size: 0.5rem;
 }
 /* h2 {
   color: #2de11d;
@@ -156,4 +157,12 @@ input[type="radio"] {
 .deleteFile {
   color: red;
   margin: 12px;
+}
+.autoLoad {
+  color: #007bff;
+  font-size: 0.6rem;
+}
+#settingsForm {
+  border: 20px solid white;
+  border-radius: 20px;
 }
