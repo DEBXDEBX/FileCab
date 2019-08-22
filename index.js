@@ -271,14 +271,14 @@ const menuTemplate = [
       },
       {
         label: "Light Theme",
-        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+W",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+6",
         click() {
           setThemeLight();
         }
       },
       {
         label: "Dark Theme",
-        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+E",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+7",
         click() {
           setThemeDark();
         }
@@ -297,6 +297,7 @@ const menuTemplate = [
     submenu: [
       {
         label: "Help",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+h",
         click() {
           loadHelp();
         }
