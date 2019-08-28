@@ -1051,7 +1051,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   }
   //  save the object
   settingsStorage.saveSettings(settingsObj);
-
+  addAudio.play();
   //reset form
   el.settingsForm.reset();
   if (settingsObj.autoLoad) {
@@ -1105,12 +1105,14 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
       });
       if (isTaken) {
         // warningNameTakenAudio.play();
+        warningNameTakenAudio.play();
         display.showAlert("That file is already loaded", "error");
         return;
       }
 
       // add it too tempHOld
       settingsArrayContainer.push(fileCabPath);
+      addImageAudio.play();
       // Update Form
       display.showAutoLoadList(settingsArrayContainer);
     }
@@ -1128,6 +1130,7 @@ document.querySelector("#autoLoadList").addEventListener("click", e => {
     let deleteIndex = parseInt(dataIndex);
     //  delete path
     settingsArrayContainer.splice(deleteIndex, 1);
+    warningSelectAudio.play();
     // Update Form
     display.showAutoLoadList(settingsArrayContainer);
   }
