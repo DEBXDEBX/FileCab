@@ -3,7 +3,7 @@
 let app = require("electron").remote;
 let { dialog } = app;
 let fs = require("fs");
-
+const path = require("path");
 const electron = require("electron");
 const { ipcRenderer } = electron;
 
@@ -286,20 +286,47 @@ function handleFilePath(imagePath) {
     display.showAlert("Please enter a path in the name area!", "error");
     return;
   }
-  //set image path
-  //get primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath = imagePath;
-  // save file cab
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
-  addImageAudio.play();
-  display.showAlert("A new image was added to the note", "success");
+  console.log("in handle file");
+  // read file and get contents
+  // fs.readFile(imagePath, "utf-8", (err, data) => {
+  fs.readFile(imagePath, (err, data) => {
+    if (err) {
+      let message = "An error occured reading the file.";
+      let msgType = "error";
+      display.showAlert(message, msgType);
+      return;
+    } else {
+      if (data) {
+        // console.log(data);
+        let splitArray = imagePath.split(".");
+        let fileExtension = splitArray[1];
+        //set image values
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[
+          sfI
+        ].noteArray[nI].img.hasContent = true;
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[
+          sfI
+        ].noteArray[nI].img.content = data;
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[
+          sfI
+        ].noteArray[nI].img.extension = fileExtension;
+        console.log(
+          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+            .noteArray[nI].img
+        );
+        // save file cab
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
+        addImageAudio.play();
+        display.showAlert("A new image was added to the note", "success");
+      }
+    }
+  });
 }
 
 function addImage() {
   //grab current note and add a image path property to it and save back to file
   //get primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   let imagePath;
 
   dialog.showOpenDialog(fileNames => {
@@ -751,9 +778,28 @@ el.noteList.addEventListener("click", e => {
     //see if the note has a imagePath
     let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
 
-    if (selectedNote.imagePath) {
+    if (selectedNote.img.hasContent) {
+      // write to file
+      // let filePathTemp = `file://${__dirname}/temp.${
+      let filePathTemp = `${__dirname}\\myTemp.${selectedNote.img.extension}`;
+      console.log(filePathTemp);
+      // filePathTemp = path.parse(filePathTemp);
+
+      let data = selectedNote.img.content;
+      console.log(data);
+      console.log(filePathTemp);
+      fs.writeFileSync(filePathTemp, data);
+      // if (err) {
+      //   display.showAlert("There was an error writing the file", "error");
+      //   console.log("can't write file");
+      //   return true;
+      // }
+      console.log("writing file");
+
       let oImg = document.createElement("img");
-      oImg.setAttribute("src", selectedNote.imagePath);
+      // oImg.setAttribute("src", selectedNote.imagePath);
+      oImg.setAttribute("src", filePathTemp);
+
       oImg.setAttribute("alt", "na");
       oImg.setAttribute("width", "100%");
       oImg.setAttribute("data-pIndex", nI);
@@ -766,7 +812,7 @@ el.noteList.addEventListener("click", e => {
       // 2ND fix: just reselect the element, both will work
       // document
       //   .querySelector("#noteList")
-      //   .insertBefore(oImg, e.target.nextSibling);
+      //   .insertBefore(oImg, e.target.nextSibling); }, 3000);
     }
     //check if the alt Key is held down and add Image to note
     if (e.altKey) {
@@ -777,7 +823,9 @@ el.noteList.addEventListener("click", e => {
     if (e.shiftKey) {
       // //grab array from file
       // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-      selectedNote.imagePath = null;
+      selectedNote.img.hasContent = false;
+      selectedNote.img.content = "";
+      selectedNote.img.extension = "";
       //write to file
       arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
       //reasign current note
