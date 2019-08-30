@@ -771,6 +771,11 @@ el.noteList.addEventListener("click", e => {
     //check if the alt Key is held down and add Image to note
     if (e.altKey) {
       addImage();
+      //send note array to display
+      display.paintNotes(
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+          .noteArray
+      );
       return;
     }
     //if shift is down remove the current path

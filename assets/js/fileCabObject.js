@@ -13,14 +13,6 @@ class FileCabObject {
   writeFileCabToHardDisk(fs, display) {
     //Stringify the file cab Object
     let content = JSON.stringify(this);
-
-    //write file cab object to file
-    let returnVar = fs.writeFile(this.fileNamePath, content, err => {
-      if (err) {
-        display.showAlert("There was an error writing the file", "error");
-        return true;
-      }
-    });
-    return returnVar;
+    fs.writeFileSync(this.fileNamePath, content);
   } //End writeFileCabToHardDisk(fs, ui)
 } // End class
