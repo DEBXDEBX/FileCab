@@ -130,18 +130,25 @@ class Display {
     //build div
     noteArray.forEach((note, index) => {
       // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);
-      this.createNoteElement(note.text, index);
+      this.createNoteElement(note, index);
       //create a new div for each bookmark
     });
     this.displayBlock(this.elements.noteList);
   } //end paintNotes()
   //******************************************************************** */
 
-  createNoteElement(text, index) {
+  createNoteElement(note, index) {
     let newElement = document.createElement("h4");
     newElement.className = "note";
     newElement.setAttribute("data-index", `${index}`);
-    newElement.appendChild(document.createTextNode(`${text}`));
+    if (note.imagePath) {
+      newElement.appendChild(
+        document.createTextNode(`${note.text}\n ${note.imagePath}`)
+      );
+    } else {
+      newElement.appendChild(document.createTextNode(`${note.text}`));
+    }
+
     this.elements.noteList.appendChild(newElement);
   } //End createNoteElement
 
