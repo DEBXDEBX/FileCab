@@ -777,7 +777,7 @@ el.noteList.addEventListener("click", e => {
           arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
             .noteArray
         );
-      }, 4000);
+      }, 5000);
       // end set Time out
       return;
     }
