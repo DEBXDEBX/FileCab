@@ -10,7 +10,7 @@ class FileCabObject {
   }
 
   // Method
-  writeFileCabToHardDisk(fs, display) {
+  writeFileCabToHardDisk(fs) {
     //Stringify the file cab Object
     let content = JSON.stringify(this);
     fs.writeFileSync(this.fileNamePath, content);
