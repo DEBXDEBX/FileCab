@@ -3,6 +3,5 @@ class PrimaryObj {
   constructor(name) {
     this.name = name;
     this.secondaryArray = [];
-  }
-
-}// End class 
+  } // End constructor
+} // End PrimaryObj class

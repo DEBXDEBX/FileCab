@@ -6,22 +6,22 @@ console.log(
   "starting: all console.log() go in terminal for the chrome side. index.js"
 );
 
-//You have to do this declaraiton for scoping issues
+// you have to do this declaraiton for scoping issues
 let mainWindow;
 let addWindow;
 let helpWindow;
-//watch the app object and wait for a ready event
+// watch the app object and wait for a ready event
 app.on("ready", () => {
-  //function to run when the app is ready
-  //create browser window
+  // function to run when the app is ready
+  // create browser window
   mainWindow = new BrowserWindow({});
-  //instruct main window to load html file, from the file system not http:
+  // instruct main window to load html file, from the file system not http:
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.maximize();
   // mainWindow.setFullScreen(true);
-  //quit app and close addWindow if main window is closed
+  // quit app and close addWindow if main window is closed
   mainWindow.on("closed", () => app.quit());
-  //attach menu
+  // attach menu
   const mainMenu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(mainMenu);
 });
@@ -38,7 +38,7 @@ function createFileCabinet() {
   });
   addWindow.setMenu(null);
   addWindow.loadURL(`file://${__dirname}/add.html`);
-  //the following is for garbage collection
+  // the following is for garbage collection
   addWindow.on("closed", () => {
     addWindow = null;
   });
@@ -53,7 +53,7 @@ function loadHelp() {
   helpWindow.setMenu(null);
   helpWindow.loadURL(`file://${__dirname}/help.html`);
   helpWindow.maximize();
-  //the following is for garbage collection
+  // the following is for garbage collection
   helpWindow.on("closed", () => {
     helpWindow = null;
   });
@@ -62,7 +62,7 @@ function loadHelp() {
 //When You click on load file cab
 function loadFileCabinet() {
   console.log("Start loading file cab....");
-  //this is for extsions
+  // this is for extsions
   let myOptions = {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
   };
@@ -99,11 +99,11 @@ function loadFileCabinet() {
         if (data) {
           if (data.fileType === "ElectronFileCab2019April") {
             console.log("This is a valid file");
-            //set filepath: This is in case you moved your file
+            // set filepath: This is in case you moved your file
             data.fileNamePath = filepath;
-            //laod file cab
+            // laod file cab
             console.log("sending data to script.js");
-            //data is an object to be converted to an file cab object
+            // data is an object to be converted to an file cab object
             mainWindow.webContents.send("fileCab:load", data);
           } else {
             let message = "This is not a valid ElectronFileCab2019April file";
@@ -117,58 +117,64 @@ function loadFileCabinet() {
       }
     });
   }
-} //end
+} // End readFileContents(filepath)
 
 function setDeleteModeFalse() {
   let deleteMode = false;
   mainWindow.webContents.send("deleteMode:set", deleteMode);
-} //End
+} // End setDeleteModeFalse()
 
 function setDeleteModeTrue() {
   let deleteMode = true;
   mainWindow.webContents.send("deleteMode:set", deleteMode);
-} //End
+} // End setDeleteModeTrue()
 
 function setThemeLight() {
   let myThemeString = "Light";
   mainWindow.webContents.send("Theme:set", myThemeString);
-}
+} // End setThemeLight()
+
 function setThemeDark() {
   let myThemeString = "Dark";
   mainWindow.webContents.send("Theme:set", myThemeString);
-}
+} // End setThemeDark()
+
 function showSettingsForm() {
   mainWindow.webContents.send("SettingsForm:show");
-}
+} // End showSettingsForm()
+
 function setFontSize(fontSize) {
   mainWindow.webContents.send("FontSize:change", fontSize);
-}
+} // End setFontSize(fontSize)
+
 function closeSelectedFileCab() {
   mainWindow.webContents.send("FileCab:close");
-}
+} // End closeSelectedFileCab()
+
 function closeAllFileCabs() {
   mainWindow.webContents.send("FileCab:closeAll");
-}
-//this listens for the addWindow
+} // End closeAllFileCabs()
+
+// this listens for the addWindow
 ipcMain.on("fileCab:add", (event, name) => {
-  //close the addWindow
+  // close the addWindow
   addWindow.close();
-  //this is for extsions
+  // this is for extsions
   let myOptions = {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
   };
-  //open save dialog to create a fileNamePath
+  // open save dialog to create a fileNamePath
   dialog.showSaveDialog(null, myOptions, fileNamePath => {
-    //Send all info in an object to script.js
+    // send all info in an object to script.js
     mainWindow.webContents.send("fileCab:add", { fileNamePath, name });
   });
-});
+}); // End ipcMain.on("fileCab:add"
 
-//this listens for the addWindow cancel btn
+// this listens for the addWindow cancel btn
 ipcMain.on("addForm:cancel", event => {
   addWindow.close();
   console.log("cancel clicked");
-});
+}); // End ipcMain.on("addForm:cancel"
 
 // Top Menu
 const menuTemplate = [
@@ -304,7 +310,8 @@ const menuTemplate = [
       }
     ]
   }
-];
+]; // End menuTemplate
+
 //Check for mac os
 if (process.platform === "darwin") {
   //add empty object to the front of the array

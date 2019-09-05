@@ -1,15 +1,15 @@
 class SettingsStorage {
   constructor() {
     this.fileName = "fileCabSettings8132019DEBX";
-  } //constructor
+  } // End constructor
 
-  //Method setObjToFileName
+  //Method
   saveSettings(obj) {
     let myJSON = JSON.stringify(obj);
     localStorage.setItem(this.fileName, myJSON);
-  }
+  } // End saveSettings(obj)
 
-  // Method getSettingsFromFile
+  // Method
   getSettingsFromFile() {
     //Make a variable for obj
     let obj;
@@ -24,12 +24,10 @@ class SettingsStorage {
     }
     // return obj
     return obj;
-  } // End  getSettingsFromFile() method
+  } // End  getSettingsFromFile()
 
-  //************************************************ */
-  //Method clearFileFromLocalStorage
+  //Method
   clearFileFromLocalStorage() {
     localStorage.removeItem(this.fileName);
-  } //End clearFileFromLocalStorage method
-  //************************************************** */
-}
+  } // End clearFileFromLocalStorage()
+} //End SettingsStorage class

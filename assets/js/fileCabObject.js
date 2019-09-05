@@ -1,6 +1,3 @@
-// alert("from file cab object");
-
-//FileCabObject class start
 class FileCabObject {
   constructor(name, fileNamePath, array = []) {
     this.name = name;
@@ -14,5 +11,5 @@ class FileCabObject {
     //Stringify the file cab Object
     let content = JSON.stringify(this);
     fs.writeFileSync(this.fileNamePath, content);
-  } //End writeFileCabToHardDisk(fs, ui)
-} // End class
+  } // End writeFileCabToHardDisk(fs)
+} // End FileCabObject class

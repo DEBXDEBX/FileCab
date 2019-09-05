@@ -3,6 +3,5 @@ class SecondaryObj {
   constructor(name) {
     this.name = name;
     this.noteArray = [];
-  }
- 
-}// End class 
+  } // End constructor
+} // End SecondaryObj class

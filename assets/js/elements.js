@@ -26,5 +26,5 @@ class Elements {
     this.textArea = document.querySelector("#myTextArea");
     // select the autoload list
     this.autoLoadList = document.querySelector("#autoLoadList");
-  } //constructor
-}
+  } // End constructor
+} // End Elements class

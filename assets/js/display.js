@@ -1,4 +1,3 @@
-//Display class start
 class Display {
   constructor(elements, $) {
     this.elements = elements;
@@ -6,8 +5,6 @@ class Display {
     this.$ = $;
     this.tabColorIndex = 0;
   } // End constructor
-
-  //*************************************************************************** */
 
   //Method
   displayNone(element) {
@@ -124,9 +121,7 @@ class Display {
     this.clearNoteDisplay();
     // build div
     noteArray.forEach((note, index) => {
-      // createNewBookMarkDiv(bm.name, bm.address, pointerObj.divPointer);
       this.createNoteElement(note, index);
-      // create a new div for each bookmark
     });
     this.displayBlock(this.elements.noteList);
   } // End paintNotes(noteArray)
@@ -201,7 +196,7 @@ class Display {
       "#17abf5",
       "#4c69bd"
     ];
-
+    // create an array from an array like object
     let newArray = Array.from(tabList);
     for (let i = 0; i < newArray.length; i++) {
       newArray[i].style.backgroundColor = tabColors[this.tabColorIndex];
@@ -231,7 +226,7 @@ class Display {
     }, displayTime);
   } // End showAlert()
 
-  // ****************************Settings**********************
+  // ****************************Settings Below**********************
 
   //Method
   showSettingsForm() {
@@ -260,11 +255,11 @@ class Display {
   showAutoLoadList(autoLoadArray) {
     // clear the ul
     this.clearAutoLoadUL();
-    // make var for html
+    // make variable for html
     let html = "";
     autoLoadArray.forEach((element, index) => {
       html += `<li data-index="${index}" class="autoLoad"><span title='Delete'><i class="fas fa-trash-alt deleteFile"></i></span>${element}</li>`;
     });
     this.elements.autoLoadList.innerHTML = html;
   }
-} // End showSettingsForm() class
+} // End Display class

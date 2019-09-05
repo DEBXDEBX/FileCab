@@ -5,5 +5,5 @@ class SettingsObj {
     this.type = "fileCab";
     this.filePathArray = [];
     this.autoLoad = false;
-  } //constructor
-}
+  } // End constructor
+} // End SettingsObj class
