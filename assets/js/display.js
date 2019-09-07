@@ -132,7 +132,7 @@ class Display {
     newElement.setAttribute("data-index", `${index}`);
     if (note.imagePath) {
       newElement.appendChild(
-        document.createTextNode(`${note.text}\n ${note.imagePath}`)
+        document.createTextNode(`${note.text}\n\n ${note.imagePath}`)
       );
     } else {
       newElement.appendChild(document.createTextNode(`${note.text}`));
