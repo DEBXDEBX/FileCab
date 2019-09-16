@@ -91,13 +91,13 @@ function sortArrayByName(array) {
     // names must be eimagePathual
     return 0;
   }); //End sort function
-}
+} // End sortArrayByName(array)
 
 function autoLoadFileCabs(array) {
   array.forEach(function(item) {
     readFileContents(item);
   });
-}
+} // End autoLoadFileCabs(array)
 
 function readFileContents(filepath) {
   fs.readFile(filepath, "utf-8", (err, data) => {
@@ -167,7 +167,7 @@ function readFileContents(filepath) {
       }
     }
   });
-}
+} // End readFileContents(filepath)
 
 function loadUpSettingsForm() {
   let settingsStorage = new SettingsStorage();
@@ -209,7 +209,7 @@ function loadUpSettingsForm() {
   }
   // update autoload form ul
   display.showAutoLoadList(settingsArrayContainer);
-}
+} // End loadUpSettingsForm()
 
 function applySettings(settings) {
   if (settings.autoLoad === true) {
@@ -253,7 +253,8 @@ function applySettings(settings) {
       console.log("No valid option");
     // code block
   }
-}
+} // End applySettings(settings)
+
 // get the value of the selected radio button
 function getRadioValue(form, name) {
   var val;
@@ -268,29 +269,15 @@ function getRadioValue(form, name) {
     }
   }
   return val; // return value of checked radio or undefined if none checked
-}
+} // End getRadioValue(form, name)
+
 // create a new array with only the items name
 function mapNamesOut(array) {
   let mapedArray = array.map(item => {
     return item.name;
   });
   return mapedArray;
-}
-
-// sort an array by it's name
-function sortArrayByName(array) {
-  array.sort(function(a, b) {
-    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  }); //End sort function
-}
+} // End mapNamesOut(array)
 
 function handleFilePath(imagePath) {
   if (imagePath === "") {
@@ -306,7 +293,7 @@ function handleFilePath(imagePath) {
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addImageAudio.play();
   display.showAlert("A new image was added to the note", "success");
-}
+} // End handleFilePath(imagePath)
 
 function addImage() {
   // grab current note and add a image path property to it and save back to file
@@ -323,7 +310,7 @@ function addImage() {
       handleFilePath(imagePath);
     }
   });
-}
+} // End addImage()
 
 function turnOffDeleteMode() {
   deleteMode = false;
@@ -339,7 +326,8 @@ function turnOffDeleteMode() {
     default:
       console.log("No Match");
   }
-}
+} // End turnOffDeleteMode()
+
 // End Helper functions********************************
 
 //************************************************ */
@@ -514,7 +502,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 });
 // End ipcRenderer.on("Theme:set"
 
-// listen for index.js to set theme
+// listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", event => {
   turnOffDeleteMode();
   loadUpSettingsForm();
