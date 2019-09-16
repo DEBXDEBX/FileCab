@@ -74,6 +74,22 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
+// Sort an array by it's name
+function sortArrayByName(array) {
+  array.sort(function(a, b) {
+    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    // names must be eimagePathual
+    return 0;
+  }); //End sort function
+}
+
 function autoLoadFileCabs(array) {
   array.forEach(function(item) {
     readFileContents(item);
@@ -131,6 +147,7 @@ function readFileContents(filepath) {
           );
           // push the file cab obj into the array of file cabinets
           arrayOfFileCabs.push(newfileCab);
+          sortArrayByName(arrayOfFileCabs);
           // write the file cab object to disk
           newfileCab.writeFileCabToHardDisk(fs);
           // redisplay
@@ -375,6 +392,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath);
   // push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
+  sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
   // redisplay
@@ -419,6 +437,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   );
   // push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
+  sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
   // redisplay
