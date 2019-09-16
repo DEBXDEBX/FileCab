@@ -27,6 +27,7 @@ let mfI = -243;
 let sfI = -243;
 // current note Index
 let nI = -243;
+let checkBox = document.querySelector("#autoLoad");
 let myBody = document.querySelector("body");
 // this is for the fontSize
 let root = document.querySelector(":root");
@@ -175,6 +176,14 @@ function loadUpSettingsForm() {
   settingsArrayContainer = settings.filePathArray;
 
   if (settings.type === "fileCab") {
+    // set check box
+    if (settings.autoLoad) {
+      // check the box
+      checkBox.checked = true;
+    } else {
+      // uncheck the box
+      checkBox.checked = false;
+    }
     // check the right theme
     switch (settings.theme) {
       case "Dark":
@@ -1102,6 +1111,15 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   fcI = -243;
   display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 });
+
+// when You click on settings form factory reset btn
+document.querySelector("#factoryReset").addEventListener("click", e => {
+  btnAudio.play();
+  let settingsStorage = new SettingsStorage();
+  settingsStorage.clearFileFromLocalStorage();
+  loadUpSettingsForm();
+});
+
 // When You click on settings form add path to autoload Btn
 document.querySelector("#settingsAddPath").addEventListener("click", e => {
   e.preventDefault();
