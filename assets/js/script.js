@@ -14,7 +14,10 @@ const deleteAudio = document.querySelector("#deleteAudio");
 const warningEmptyAudio = document.querySelector("#warningEmptyAudio");
 const warningSelectAudio = document.querySelector("#warningSelectAudio");
 const warningNameTakenAudio = document.querySelector("#warningNameTakenAudio");
-
+const tabAudio = document.querySelector("#tabAudio");
+const clickAudio = document.querySelector("#clickAudio");
+const btnAudio = document.querySelector("#btnAudio");
+const cancelAudio = document.querySelector("#cancelAudio");
 //Global variable's
 //current File Cab Index
 let fcI = -243;
@@ -593,6 +596,7 @@ el.fileCabList.addEventListener("click", e => {
       };
     } // End code to set the active class
 
+    tabAudio.play();
     // get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
@@ -629,7 +633,7 @@ el.mainFolderList.addEventListener("click", e => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     mfI = index;
-
+    tabAudio.play();
     let secondaryArray =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
     display.paintSubFolderTabs(mapNamesOut(secondaryArray));
@@ -690,7 +694,7 @@ el.subFolderList.addEventListener("click", e => {
     // if it's not a number return
     return;
   }
-
+  tabAudio.play();
   // send the note array to the Display
   display.paintNotes(
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
@@ -850,6 +854,7 @@ el.noteList.addEventListener("click", e => {
 
 //When You click on the +/icon in the main folder heading
 el.addShowFormMain.addEventListener("click", e => {
+  clickAudio.play();
   display.showMainFolderForm();
 }); // End el.addShowFormMain.addEventListener
 
@@ -906,6 +911,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 
 // when You click on cancel btn on the main folder form
 document.querySelector("#mainFolderCancel").addEventListener("click", e => {
+  cancelAudio.play();
   // reset form
   el.mainFolderForm.reset();
   // hide form
@@ -917,6 +923,7 @@ document.querySelector("#mainFolderCancel").addEventListener("click", e => {
 
 //When You click +/icon in the subfolder heading
 el.addShowFormSub.addEventListener("click", e => {
+  clickAudio.play();
   display.showSubFolderForm();
 }); // End
 
@@ -966,6 +973,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
 
 // when You click the cancel btn in the sub folder form
 document.querySelector("#subFolderCancel").addEventListener("click", e => {
+  cancelAudio.play();
   // reset form
   el.subFolderForm.reset();
   // hide form
@@ -976,6 +984,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", e => {
 
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", e => {
+  clickAudio.play();
   display.showNoteForm();
 }); // End
 
@@ -1006,18 +1015,21 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 
 // when You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", e => {
+  cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
 }); // End
 
 // when You click the clear btn in the note form
 document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+  btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
 }); //End
 
 // when you click on the add Date btn in the note form
 document.querySelector("#noteDate").addEventListener("click", e => {
+  btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
 }); //End
@@ -1025,6 +1037,7 @@ document.querySelector("#noteDate").addEventListener("click", e => {
 // when You click on the rename File Cab rename Btn
 document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   e.preventDefault();
+  btnAudio.play();
   // change file cabinet name
   arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
@@ -1038,6 +1051,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
 
 // when You click on the rename File Cab cancel Btn
 document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
+  cancelAudio.play();
   // reset form
   el.renameFileCabForm.reset();
   // hide form
@@ -1093,6 +1107,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 
 // when You click on settings form cancel Btn
 document.querySelector("#settingsCancel").addEventListener("click", e => {
+  cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
   // -243 is used for close down of file cabs
