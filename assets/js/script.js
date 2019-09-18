@@ -461,7 +461,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
-    myBody.style.background = "linear-gradient(#000000, #ff0000)";
+    myBody.style.background = "linear-gradient(#711818, #ff0000)";
   } else {
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {

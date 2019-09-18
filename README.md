@@ -27,3 +27,6 @@ clicking on the filecab setup 10.0.0exe will install the program on your compute
 ---
 
 Things to do
+Electron Forge
+Electron Packager
+put factory reset in help page
