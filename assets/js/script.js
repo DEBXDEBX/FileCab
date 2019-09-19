@@ -785,7 +785,7 @@ el.noteList.addEventListener("click", e => {
         .noteArray;
     // swap array elements
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
-
+    btnAudio.play();
     // write to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
@@ -816,7 +816,7 @@ el.noteList.addEventListener("click", e => {
     let moveTo = index + 1;
     // swap array elements
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
-
+    btnAudio.play();
     // write to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
@@ -832,9 +832,45 @@ el.noteList.addEventListener("click", e => {
   if (e.target.classList.contains("delete-item")) {
     console.log("deleting note");
     // get the index from the html
-    let index = e.target.parentElement.dataset.index;
-    index = parseInt(index);
-    console.log(index);
+    let deleteIndex = e.target.parentElement.dataset.index;
+    deleteIndex = parseInt(deleteIndex);
+    console.log(deleteIndex);
+    // check if control was down, if so delete note
+    if (!deleteMode) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (!e.ctrlKey) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to hold down ctrl key to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        // grab array from file
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        // grab the note array and delete current note
+        primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
+        // write to file
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        // reasign current note
+        nI = -243;
+        deleteAudio.play();
+        display.showAlert("Note deleted!", "success");
+        // send note array to display
+        display.paintNotes(
+          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+            .noteArray
+        );
+      }
+    } // End control key down
     // move
     // save
     // redisplay
@@ -902,33 +938,6 @@ el.noteList.addEventListener("click", e => {
           .noteArray
       );
     }
-
-    // check if control was down, if so delete note
-    if (e.ctrlKey) {
-      if (deleteMode) {
-        // grab array from file
-        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-        // grab the note array and delete current note
-        primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
-        // write to file
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-        // reasign current note
-        nI = -243;
-        deleteAudio.play();
-        display.showAlert("Note deleted!", "success");
-        // send note array to display
-        display.paintNotes(
-          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-            .noteArray
-        );
-      } else {
-        warningEmptyAudio.play();
-        display.showAlert(
-          "You have to select delete mode in menu to make a deletion",
-          "error"
-        );
-      }
-    } // End control key down
   } // End class name contains note
 }); // End el.noteList.addEventListener
 
