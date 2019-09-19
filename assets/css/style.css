@@ -159,3 +159,17 @@ p {
   padding: 2rem;
   border-radius: 22px;
 }
+.delete-item {
+  color: red;
+}
+.moveUp {
+  color: green;
+  display: inline;
+}
+.moveDown {
+  color: blue;
+  display: inline;
+}
+h3 {
+  text-align: center;
+}

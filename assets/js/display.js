@@ -127,6 +127,12 @@ class Display {
   } // End paintNotes(noteArray)
 
   createNoteElement(note, index) {
+    let html = "";
+    let newHead = document.createElement("div");
+    html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uarr;</span><span title='Delete' class='delete-item'>x</span><span title='Move Up' class='moveDown'>&darr;</span></h3>`;
+    newHead.innerHTML = html;
+    this.elements.noteList.appendChild(newHead);
+    //#################################################
     let newElement = document.createElement("h4");
     newElement.className = "note";
     newElement.setAttribute("data-index", `${index}`);

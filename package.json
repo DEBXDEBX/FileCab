@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "electron": "electron .",
+    "pack": "build --dir",
     "electronConsole": ".\\node_modules\\electron\\dist\\electron.exe .",
     "start": ".\\node_modules\\electron\\dist\\electron.exe .",
     "dist": "build"
@@ -18,6 +19,7 @@
   },
   "build": {
     "appId": "com.deb.fileCab",
+    "productName": "File Cab",
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
