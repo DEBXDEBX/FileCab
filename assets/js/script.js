@@ -770,24 +770,22 @@ el.noteList.addEventListener("click", e => {
   }
   // event delegation
   if (e.target.classList.contains("moveUp")) {
-    console.log("moving up");
     // get the index from the html
     let index = e.target.parentElement.dataset.index;
     index = parseInt(index);
-    console.log(index);
-    // move
+
     //If index is zero. You can't move it any more so return
     if (index === 0) {
       return;
     }
-    //swap array elements
+    // get move to index
     let moveTo = index - 1;
     let arr =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray;
+    // swap array elements
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
 
-    // save
     // write to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
@@ -802,14 +800,31 @@ el.noteList.addEventListener("click", e => {
 
   // event delegation
   if (e.target.classList.contains("moveDown")) {
-    console.log("moving down");
     // get the index from the html
     let index = e.target.parentElement.dataset.index;
     index = parseInt(index);
-    console.log(index);
-    // move
-    // save
+
+    let arr =
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+        .noteArray;
+    // let arrayLength = arr.length - 1;
+    //If index is equal to length - 1. You can't move it any more so return
+    if (index === arr.length - 1) {
+      return;
+    }
+    // get move to index
+    let moveTo = index + 1;
+    // swap array elements
+    [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
+
+    // write to file
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
+    // send note array to display
+    display.paintNotes(
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+        .noteArray
+    );
     // return
     return;
   }
