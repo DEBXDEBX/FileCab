@@ -481,7 +481,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
-    myBody.style.background = "linear-gradient(#711818, #ff0000)";
+    myBody.style.background = "linear-gradient(#711818, #c23636)";
   } else {
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {
@@ -830,11 +830,10 @@ el.noteList.addEventListener("click", e => {
   }
   // event delegation
   if (e.target.classList.contains("delete-item")) {
-    console.log("deleting note");
     // get the index from the html
     let deleteIndex = e.target.parentElement.dataset.index;
     deleteIndex = parseInt(deleteIndex);
-    console.log(deleteIndex);
+
     // check if control was down, if so delete note
     if (!deleteMode) {
       warningEmptyAudio.play();

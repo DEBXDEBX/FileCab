@@ -129,7 +129,11 @@ class Display {
   createNoteElement(note, index) {
     let html = "";
     let newHead = document.createElement("div");
-    html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uarr;</span><span title='Delete' class='delete-item'>x</span><span title='Move Up' class='moveDown'>&darr;</span></h3>`;
+    html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
+    title="Delete Note"
+    class="delete-item fas fa-trash-alt"
+  ></i
+><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
     newHead.innerHTML = html;
     this.elements.noteList.appendChild(newHead);
     //#################################################
