@@ -101,6 +101,13 @@ function autoLoadFileCabs(array) {
 } // End autoLoadFileCabs(array)
 
 function readFileContents(filepath) {
+  if (!filepath) {
+    let message = "No file selected";
+    let msgType = "error";
+    display.showAlert(message, msgType);
+    return;
+  }
+
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
       let message = "An error occured reading the file.";
@@ -344,6 +351,17 @@ function turnOffDeleteMode() {
 //************************************************ */
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
+  console.log(dataObj.fileNamePath);
+  if (!dataObj.fileNamePath) {
+    display.showAlert("You did not enter a path!", "error");
+    // redisplay
+    // get the names for all the file cabinets
+    // and then send them to the Display
+    // -243 is used for close down of file cabs
+    fcI = -243;
+    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    return;
+  }
   if (deleteMode) {
     turnOffDeleteMode();
   }
@@ -1129,7 +1147,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
   };
   dialog.showOpenDialog(null, myOptions, fileNames => {
-    if (fileNames === undefined) {
+    if (fileNames === undefined || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
       // got file name

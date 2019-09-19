@@ -77,6 +77,13 @@ function loadFileCabinet() {
   });
 
   function readFileContents(filepath) {
+    if (!filepath) {
+      let message = "No file selected";
+      let msgType = "error";
+      mainWindow.webContents.send("Display:showAlert", { message, msgType });
+      return;
+    }
+
     fs.readFile(filepath, "utf-8", (err, data) => {
       if (err) {
         let message = "An error occured reading the file.";
@@ -322,21 +329,21 @@ if (process.platform === "darwin") {
 //This does not work comment it out before you build
 
 // DEVELOPER TOOLS
-// if (process.env.NODE_ENV !== "production") {
-//   // add object to end of array menu
-//   menuTemplate.push({
-//     label: "View",
-//     submenu: [
-//       //predefined role
-//       { role: "reload" },
-//       {
-//         label: "Toggle Developer Tools",
-//         accelerator:
-//           process.platform === "darwin" ? "Command+Alt+I" : "Ctrl+Shift+I",
-//         click(item, focusedWindow) {
-//           focusedWindow.toggleDevTools();
-//         }
-//       }
-//     ]
-//   });
-// }
+if (process.env.NODE_ENV !== "production") {
+  // add object to end of array menu
+  menuTemplate.push({
+    label: "View",
+    submenu: [
+      //predefined role
+      { role: "reload" },
+      {
+        label: "Toggle Developer Tools",
+        accelerator:
+          process.platform === "darwin" ? "Command+Alt+I" : "Ctrl+Shift+I",
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools();
+        }
+      }
+    ]
+  });
+}
