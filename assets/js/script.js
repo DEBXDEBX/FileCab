@@ -79,7 +79,14 @@ function startUp() {
 // Helper functions
 //*************************************************** */
 //method
-
+function renderNotes() {
+  // send the note array to the Display
+  display.paintNotes(
+    deleteMode,
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray
+  );
+}
 // Sort an array by it's name
 function sortArrayByName(array) {
   array.sort(function(a, b) {
@@ -482,7 +489,17 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
     myBody.style.background = "linear-gradient(#711818, #c23636)";
+    let htmlElements = document.querySelectorAll(".note");
+
+    if (htmlElements.length > 0) {
+      renderNotes();
+    }
   } else {
+    let htmlHead = document.querySelectorAll(".head");
+    let newArray = Array.from(htmlHead);
+    newArray.forEach(function(item) {
+      item.remove();
+    });
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {
       case "Dark":
@@ -713,10 +730,7 @@ el.subFolderList.addEventListener("click", e => {
   }
   tabAudio.play();
   // send the note array to the Display
-  display.paintNotes(
-    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-      .noteArray
-  );
+  renderNotes();
 
   if (e.ctrlKey) {
     if (deleteMode) {
@@ -790,10 +804,7 @@ el.noteList.addEventListener("click", e => {
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
     // send note array to display
-    display.paintNotes(
-      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-        .noteArray
-    );
+    renderNotes();
     // return
     return;
   }
@@ -821,10 +832,7 @@ el.noteList.addEventListener("click", e => {
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     // redisplay
     // send note array to display
-    display.paintNotes(
-      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-        .noteArray
-    );
+    renderNotes();
     // return
     return;
   }
@@ -864,10 +872,7 @@ el.noteList.addEventListener("click", e => {
         deleteAudio.play();
         display.showAlert("Note deleted!", "success");
         // send note array to display
-        display.paintNotes(
-          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-            .noteArray
-        );
+        renderNotes();
       }
     } // End control key down
     // move
@@ -912,10 +917,7 @@ el.noteList.addEventListener("click", e => {
       addImage();
       // send note array to display: after delay so the path prints
       setTimeout(function() {
-        display.paintNotes(
-          arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-            .noteArray
-        );
+        renderNotes();
       }, 4000);
       // end set Time out
       return;
@@ -932,10 +934,7 @@ el.noteList.addEventListener("click", e => {
       deleteAudio.play();
       display.showAlert("Removed the image from note!", "success");
       // send note array to display
-      display.paintNotes(
-        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-          .noteArray
-      );
+      renderNotes();
     }
   } // End class name contains note
 }); // End el.noteList.addEventListener
@@ -1107,7 +1106,7 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   addAudio.play();
   display.showAlert("A new note was added", "success", 900);
   nI = -243;
-  display.paintNotes(primaryArray[mfI].secondaryArray[sfI].noteArray);
+  renderNotes();
 }); // End
 
 // when You click the cancel btn in the note form

@@ -62,7 +62,6 @@ nav ul li:hover {
   white-space: pre;
   border-radius: 20px;
   padding: 7px;
-  margin-bottom: 70px;
 }
 img {
   border-radius: 20px;
@@ -162,7 +161,7 @@ p {
 }
 .delete-item {
   margin: 0 16px;
-  color: red;
+  color: #161313;
 }
 .moveUp {
   color: green;
@@ -174,5 +173,5 @@ p {
 }
 h3 {
   text-align: center;
-  margin: 0;
+  margin: 20 0 0 0;
 }

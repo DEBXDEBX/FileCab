@@ -110,7 +110,7 @@ class Display {
   } // End paintSubFolderTabs(mappedSecondaryArray)
 
   //Method
-  paintNotes(noteArray) {
+  paintNotes(deleteMode, noteArray) {
     this.displayNone(this.elements.nHeading);
     this.displayBlock(this.elements.nHeading);
     this.displayNone(this.elements.mainFolderForm);
@@ -121,8 +121,32 @@ class Display {
     this.clearNoteDisplay();
     // build div
     noteArray.forEach((note, index) => {
-      this.createNoteElement(note, index);
+      if (deleteMode) {
+        let html = "";
+        let newHead = document.createElement("div");
+        html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
+      title="Delete Note"
+      class="delete-item fas fa-trash-alt"
+    ></i
+  ><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
+        newHead.innerHTML = html;
+        this.elements.noteList.appendChild(newHead);
+      }
+      //#################################################
+      let newElement = document.createElement("h4");
+      newElement.className = "note";
+      newElement.setAttribute("data-index", `${index}`);
+      if (note.imagePath) {
+        newElement.appendChild(
+          document.createTextNode(`${note.text}\n\n ${note.imagePath}`)
+        );
+      } else {
+        newElement.appendChild(document.createTextNode(`${note.text}`));
+      }
+
+      this.elements.noteList.appendChild(newElement);
     });
+
     this.displayBlock(this.elements.noteList);
   } // End paintNotes(noteArray)
 
