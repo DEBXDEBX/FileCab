@@ -14,7 +14,11 @@ let helpWindow;
 app.on("ready", () => {
   // function to run when the app is ready
   // create browser window
-  mainWindow = new BrowserWindow({});
+  mainWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
   // instruct main window to load html file, from the file system not http:
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.maximize();
@@ -34,7 +38,10 @@ function createFileCabinet() {
     title: "Create New File Cabinet",
     parent: mainWindow,
     modal: true,
-    show: true
+    show: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
   addWindow.setMenu(null);
   addWindow.loadURL(`file://${__dirname}/add.html`);
