@@ -484,11 +484,13 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 
 // listen for index.js to set deletemode
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  // set the delete mode to true or false
   deleteMode = deleteModeBool;
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
-    myBody.style.background = "linear-gradient(#711818, #c23636)";
+    myBody.style.background =
+      "linear-gradient(to bottom right, #9a0b0b, #f50909)";
     let htmlElements = document.querySelectorAll(".note");
 
     if (htmlElements.length > 0) {
