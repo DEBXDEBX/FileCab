@@ -63,7 +63,7 @@ class Display {
   } // End paintFileCabTabs(mapedArray)
 
   // Method
-  paintMainFolderTabs(mapedArray) {
+  paintMainFolderTabs(deleteMode, mapedArray) {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
@@ -76,18 +76,30 @@ class Display {
     this.displayNone(this.elements.noteForm);
 
     let html = "";
-    mapedArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="main">${element}</li>`;
-    });
-    // paint main folder tabs
-    this.elements.mainFolderList.innerHTML = html;
+    if (deleteMode) {
+      mapedArray.forEach((element, index) => {
+        html += `<li data-index="${index}" class="main">${element}<i
+        title="Delete Sub Folder"
+        class="delete-main trash fas fa-trash-alt"
+      ></i
+    ></li>`;
+      });
+      // paint main folder tabs
+      this.elements.mainFolderList.innerHTML = html;
+    } else {
+      mapedArray.forEach((element, index) => {
+        html += `<li data-index="${index}" class="main">${element}</li>`;
+      });
+      // paint main folder tabs
+      this.elements.mainFolderList.innerHTML = html;
+    }
     // color tabs
     let tabList = document.getElementsByClassName("main");
     this.colorSetOfTabs(tabList);
   } // End paintMainFolderTabs(mapedArray)
 
   // Method
-  paintSubFolderTabs(mappedSecondaryArray) {
+  paintSubFolderTabs(deleteMode, mappedSecondaryArray) {
     this.clearSubDisplay();
     this.clearNoteDisplay();
     this.displayNone(this.elements.sfHeading);
@@ -99,10 +111,24 @@ class Display {
 
     //Make variable for html
     let html = "";
-    mappedSecondaryArray.forEach((element, index) => {
-      html += `<li data-index="${index}" class="sub">${element}</li>`;
-    });
-    this.elements.subFolderList.innerHTML = html;
+
+    if (deleteMode) {
+      mappedSecondaryArray.forEach((element, index) => {
+        html += `<li data-index="${index}" class="sub">${element}<i
+       title="Delete Sub Folder"
+       class="delete-sub trash fas fa-trash-alt"
+     ></i
+   ></li>`;
+      });
+      this.elements.subFolderList.innerHTML = html;
+    } else {
+      //Make variable for html
+      let html = "";
+      mappedSecondaryArray.forEach((element, index) => {
+        html += `<li data-index="${index}" class="sub">${element}</li>`;
+      });
+      this.elements.subFolderList.innerHTML = html;
+    }
 
     // color tabs
     let tabList = document.getElementsByClassName("sub");

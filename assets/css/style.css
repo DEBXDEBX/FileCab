@@ -175,3 +175,9 @@ h3 {
   text-align: center;
   margin: 20 0 0 0;
 }
+.trash {
+  margin-left: 16px;
+}
+.trash:hover {
+  color: red;
+}

@@ -87,6 +87,18 @@ function renderNotes() {
       .noteArray
   );
 }
+function renderSubFolders() {
+  display.paintSubFolderTabs(
+    deleteMode,
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
+  );
+}
+function renderMainFolders() {
+  display.paintMainFolderTabs(
+    deleteMode,
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
+  );
+}
 // Sort an array by it's name
 function sortArrayByName(array) {
   array.sort(function(a, b) {
@@ -486,22 +498,55 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
+  let paintMain = false;
+  let paintSub = false;
+  let paintNote = false;
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
     myBody.style.background =
-      "linear-gradient(to bottom right, #9a0b0b, #f50909)";
-    let htmlElements = document.querySelectorAll(".note");
+      "linear-gradient(to bottom right, #9a0b0b, #ff0000)";
+    //check for Main folders
+    let htmlMainFolders = document.querySelectorAll(".main");
+    if (htmlMainFolders.length > 0) {
+      paintMain = true;
+    }
+    // check for sub folders
+    let htmlSubFolders = document.querySelectorAll(".sub");
 
-    if (htmlElements.length > 0) {
-      renderNotes();
+    if (htmlSubFolders.length > 0) {
+      paintSub = true;
+    }
+    // check for notes
+    let htmlNotes = document.querySelectorAll(".note");
+
+    if (htmlNotes.length > 0) {
+      paintNote = true;
     }
   } else {
-    let htmlHead = document.querySelectorAll(".head");
-    let newArray = Array.from(htmlHead);
-    newArray.forEach(function(item) {
-      item.remove();
-    });
+    //check for Main folders
+    let htmlMainFolders = document.querySelectorAll(".main");
+    if (htmlMainFolders.length > 0) {
+      paintMain = true;
+    }
+    // check for sub folders
+    let htmlSubFolders = document.querySelectorAll(".sub");
+    if (htmlSubFolders.length > 0) {
+      paintSub = true;
+    }
+
+    // check for notes
+    let htmlNotes = document.querySelectorAll(".note");
+    if (htmlNotes.length > 0) {
+      paintNote = true;
+    }
+    // // take out note Head if there are notes
+    // let htmlHead = document.querySelectorAll(".head");
+    // let newArray = Array.from(htmlHead);
+    // newArray.forEach(function(item) {
+    //   item.remove();
+    // });
+
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {
       case "Dark":
@@ -515,6 +560,15 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
       default:
         console.log("No Match");
     }
+  }
+  if (paintMain) {
+    renderMainFolders();
+  }
+  if (paintSub) {
+    renderSubFolders();
+  }
+  if (paintNote) {
+    renderNotes();
   }
 }); //End ipcRenderer.on("deleteMode:set"
 
@@ -637,8 +691,7 @@ el.fileCabList.addEventListener("click", e => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     fcI = index;
-    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-    display.paintMainFolderTabs(mapNamesOut(primaryArray));
+    renderMainFolders();
   } // End contains 'fileCab
 
   // if shift is held down rename fileCab
@@ -670,9 +723,7 @@ el.mainFolderList.addEventListener("click", e => {
     index = parseInt(index);
     mfI = index;
     tabAudio.play();
-    let secondaryArray =
-      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-    display.paintSubFolderTabs(mapNamesOut(secondaryArray));
+    renderSubFolders();
 
     // check if control was down, if so delete
     if (e.ctrlKey) {
@@ -686,7 +737,7 @@ el.mainFolderList.addEventListener("click", e => {
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         deleteAudio.play();
         display.showAlert("Main folder deleted!", "success");
-        display.paintMainFolderTabs(mapNamesOut(primaryArray));
+        renderMainFolders();
       } else {
         warningEmptyAudio.play();
         display.showAlert(
@@ -700,6 +751,33 @@ el.mainFolderList.addEventListener("click", e => {
 
 //************************************************************************ */
 el.subFolderList.addEventListener("click", e => {
+  if (e.target.classList.contains("delete-sub")) {
+    if (deleteMode) {
+      if (e.ctrlKey) {
+        // get the index from the html
+        let deleteIndex = e.target.parentElement.dataset.index;
+        deleteIndex = parseInt(deleteIndex);
+        console.log(deleteIndex);
+        // DELETE sub folder
+        // grab array from file
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        // grab the secondary array and delete sub folder
+        primaryArray[mfI].secondaryArray.splice(deleteIndex, 1);
+        // set the primary array back to file
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        deleteAudio.play();
+        display.showAlert("Sub folder deleted!", "success");
+        renderSubFolders();
+        // return;
+      } else {
+        warningEmptyAudio.play();
+        display.showAlert(
+          "You have to hold down the control key to make a deletion",
+          "error"
+        );
+      } // End control key down
+    } // End delete mode
+  }
   // event delegation
   if (e.target.classList.contains("sub")) {
     // set's the current target active
@@ -733,31 +811,6 @@ el.subFolderList.addEventListener("click", e => {
   tabAudio.play();
   // send the note array to the Display
   renderNotes();
-
-  if (e.ctrlKey) {
-    if (deleteMode) {
-      // DELETE sub folder
-      // grab array from file
-      let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-      // grab the secondary array and delete sub folder
-      primaryArray[mfI].secondaryArray.splice(sfI, 1);
-      // set the primary array back to file
-      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-      deleteAudio.play();
-      display.showAlert("Sub folder deleted!", "success");
-      // redisplay sub folder
-      let secondaryArray =
-        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray;
-      // send the note array to the Display
-      display.paintSubFolderTabs(mapNamesOut(secondaryArray));
-    } else {
-      warningEmptyAudio.play();
-      display.showAlert(
-        "You have to select delete mode in menu to make a deletion",
-        "error"
-      );
-    }
-  } // End control key down
 }); // End el.subFolderList.addEventListener
 
 //****************************************************** */
@@ -1003,7 +1056,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
     el.mainFolderForm.reset();
 
     // send main folder array to display
-    display.paintMainFolderTabs(mapNamesOut(primaryArray));
+    renderMainFolders();
   } // End else statement
 }); // End
 
@@ -1062,10 +1115,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
     display.showAlert("A new sub folder was added", "success", 1500);
     // reset form
     subFolderForm.reset();
-    // grab the secondary array
-    let secondaryArray = primaryArray[mfI].secondaryArray;
-    // paint the screen
-    display.paintSubFolderTabs(mapNamesOut(secondaryArray));
+    renderSubFolders();
   } // End else statement
 }); // End
 
