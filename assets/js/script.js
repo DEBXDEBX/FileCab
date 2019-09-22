@@ -150,9 +150,9 @@ function readFileContents(filepath) {
           // set filepath: This is in case you moved your file
           data.fileNamePath = filepath;
 
-          if (deleteMode) {
-            turnOffDeleteMode();
-          }
+          // if (deleteMode) {
+          //   turnOffDeleteMode();
+          // }
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
@@ -271,24 +271,25 @@ function applySettings(settings) {
     default:
       console.log("No valid font-size");
   }
-
-  // set the theme
-  switch (settings.theme) {
-    case "Dark":
-      document.querySelector("#blank").href = "assets/css/dark.css";
-      document.querySelector("body").style.backgroundColor = "black";
-      deleteMode = false;
-      currentTheme = "Dark";
-      break;
-    case "Light":
-      document.querySelector("#blank").href = "assets/css/white.css";
-      document.querySelector("body").style.backgroundColor = "white";
-      deleteMode = false;
-      currentTheme = "Light";
-      break;
-    default:
-      console.log("No valid option");
-    // code block
+  if (deleteMode === false) {
+    // set the theme
+    switch (settings.theme) {
+      case "Dark":
+        document.querySelector("#blank").href = "assets/css/dark.css";
+        document.querySelector("body").style.backgroundColor = "black";
+        // deleteMode = false;
+        currentTheme = "Dark";
+        break;
+      case "Light":
+        document.querySelector("#blank").href = "assets/css/white.css";
+        document.querySelector("body").style.backgroundColor = "white";
+        // deleteMode = false;
+        currentTheme = "Light";
+        break;
+      default:
+        console.log("No valid option");
+      // code block
+    }
   }
 } // End applySettings(settings)
 
@@ -382,9 +383,9 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
-  if (deleteMode) {
-    turnOffDeleteMode();
-  }
+  // if (deleteMode) {
+  //   turnOffDeleteMode();
+  // }
   if (dataObj.name === "") {
     display.showAlert(
       "You did not enter a name for the File Cabinet!",
@@ -436,9 +437,9 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
-  if (deleteMode) {
-    turnOffDeleteMode();
-  }
+  // if (deleteMode) {
+  //   turnOffDeleteMode();
+  // }
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -630,7 +631,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 
 // listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", event => {
-  turnOffDeleteMode();
+  // turnOffDeleteMode();
   loadUpSettingsForm();
   display.showSettingsForm();
 });
@@ -732,7 +733,7 @@ el.mainFolderList.addEventListener("click", e => {
         // get the index from the html
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
-        console.log(deleteIndex);
+
         // DELETE sub folder
         // grab array from file
         let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -786,7 +787,7 @@ el.subFolderList.addEventListener("click", e => {
         // get the index from the html
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
-        console.log(deleteIndex);
+
         // DELETE sub folder
         // grab array from file
         let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -1241,9 +1242,12 @@ document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
 // when You click on save settings Btn
 document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
+
   // get form data to create a settings object
   // theme radio code
   let themeValue = getRadioValue(el.settingsForm, "theme");
+  // set the current theme
+  currentTheme = themeValue;
   // fontsize radio code
   let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
   let settingsStorage = new SettingsStorage();
@@ -1344,13 +1348,34 @@ document.querySelector("#autoLoadList").addEventListener("click", e => {
   e.preventDefault();
   // event delegation
   if (e.target.classList.contains("deleteFile")) {
-    // this gets the data I embedded into the html
-    let dataIndex = e.target.parentElement.parentElement.dataset.index;
-    let deleteIndex = parseInt(dataIndex);
-    // delete path
-    settingsArrayContainer.splice(deleteIndex, 1);
-    warningSelectAudio.play();
-    // update Form
-    display.showAutoLoadList(settingsArrayContainer);
+    if (!deleteMode) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (!e.ctrlKey) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to hold down ctrl key to make a deletion",
+        "error"
+      );
+      return;
+    }
+
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        // this gets the data I embedded into the html
+        let dataIndex = e.target.parentElement.parentElement.dataset.index;
+        let deleteIndex = parseInt(dataIndex);
+        // delete path
+        settingsArrayContainer.splice(deleteIndex, 1);
+        warningSelectAudio.play();
+        // update Form
+        display.showAutoLoadList(settingsArrayContainer);
+      }
+    }
   }
 });
