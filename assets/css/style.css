@@ -181,6 +181,7 @@ h3 {
 }
 .trash {
   margin-left: 16px;
+  color: black;
 }
 .trash:hover {
   color: red;
