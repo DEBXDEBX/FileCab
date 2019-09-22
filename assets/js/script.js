@@ -565,14 +565,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (paintMain) {
     renderMainFolders();
     if (mainText) {
-      console.log("beofre loop");
       // loop through the main array and set the one with mactching text to active
       let Main = document.querySelectorAll(".main");
       let newArray = Array.from(Main);
       for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].textContent === mainText) {
           newArray[i].classList.add("active");
-          console.log(newArray[i].textContent, i);
           break;
         }
       }
@@ -582,14 +580,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (paintSub) {
     renderSubFolders();
     if (subText) {
-      console.log("beofre loop");
       // loop through the main array and set the one with mactching text to active
       let Sub = document.querySelectorAll(".sub");
       let newArray = Array.from(Sub);
       for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].textContent === subText) {
           newArray[i].classList.add("active");
-          console.log(newArray[i].textContent, i);
           break;
         }
       }
