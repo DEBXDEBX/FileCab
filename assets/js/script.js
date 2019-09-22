@@ -78,7 +78,25 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
-//method
+// method
+function renderFileCabs() {
+  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+}
+// method
+function renderMainFolders() {
+  display.paintMainFolderTabs(
+    deleteMode,
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
+  );
+}
+// method
+function renderSubFolders() {
+  display.paintSubFolderTabs(
+    deleteMode,
+    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
+  );
+}
+// method
 function renderNotes() {
   // send the note array to the Display
   display.paintNotes(
@@ -87,18 +105,7 @@ function renderNotes() {
       .noteArray
   );
 }
-function renderSubFolders() {
-  display.paintSubFolderTabs(
-    deleteMode,
-    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
-  );
-}
-function renderMainFolders() {
-  display.paintMainFolderTabs(
-    deleteMode,
-    mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
-  );
-}
+
 // Sort an array by it's name
 function sortArrayByName(array) {
   array.sort(function(a, b) {
@@ -150,9 +157,6 @@ function readFileContents(filepath) {
           // set filepath: This is in case you moved your file
           data.fileNamePath = filepath;
 
-          // if (deleteMode) {
-          //   turnOffDeleteMode();
-          // }
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
@@ -168,7 +172,7 @@ function readFileContents(filepath) {
             // and then send them to the Display
             // -243 is used for close down of file cabs
             fcI = -243;
-            display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+            renderFileCabs();
             return;
           }
           // create a file cab object
@@ -187,7 +191,7 @@ function readFileContents(filepath) {
           // and then send them to the Display
           // -243 is used for close down of file cabs
           fcI = -243;
-          display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+          renderFileCabs();
         } else {
           let message = "This is not a valid ElectronFileCab2019April file";
           let msgType = "error";
@@ -281,7 +285,7 @@ function applySettings(settings) {
         currentTheme = "Dark";
         break;
       case "Light":
-        document.querySelector("#blank").href = "assets/css/white.css";
+        document.querySelector("#blank").href = "assets/css/light.css";
         document.querySelector("body").style.backgroundColor = "white";
         // deleteMode = false;
         currentTheme = "Light";
@@ -318,15 +322,15 @@ function mapNamesOut(array) {
 } // End mapNamesOut(array)
 
 function handleFilePath(imagePath) {
-  if (imagePath === "") {
+  if (!imagePath) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a path in the name area!", "error");
     return;
   }
   // set image path
-  // get primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  primaryArray[mfI].secondaryArray[sfI].noteArray[nI].imagePath = imagePath;
+  arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI].noteArray[
+    nI
+  ].imagePath = imagePath;
   // save file cab
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addImageAudio.play();
@@ -334,13 +338,10 @@ function handleFilePath(imagePath) {
 } // End handleFilePath(imagePath)
 
 function addImage() {
-  // grab current note and add a image path property to it and save back to file
-  // get primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   let imagePath;
 
   dialog.showOpenDialog(fileNames => {
-    if (fileNames === undefined) {
+    if (!fileNames) {
       display.showAlert("No file selected", "error");
     } else {
       // got file name
@@ -349,22 +350,6 @@ function addImage() {
     }
   });
 } // End addImage()
-
-function turnOffDeleteMode() {
-  deleteMode = false;
-  switch (currentTheme) {
-    case "Dark":
-      myBody.style.background = "none";
-      myBody.style.backgroundColor = "black";
-      break;
-    case "Light":
-      myBody.style.background = "none";
-      myBody.style.backgroundColor = "white";
-      break;
-    default:
-      console.log("No Match");
-  }
-} // End turnOffDeleteMode()
 
 // End Helper functions********************************
 
@@ -375,28 +360,22 @@ function turnOffDeleteMode() {
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
-    // redisplay
-    // get the names for all the file cabinets
-    // and then send them to the Display
+
     // -243 is used for close down of file cabs
     fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    renderFileCabs();
     return;
   }
-  // if (deleteMode) {
-  //   turnOffDeleteMode();
-  // }
+
   if (dataObj.name === "") {
     display.showAlert(
       "You did not enter a name for the File Cabinet!",
       "error"
     );
-    // redisplay
-    // get the names for all the file cabinets
-    // and then send them to the Display
+
     // -243 is used for close down of file cabs
     fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    renderFileCabs();
     return;
   }
 
@@ -410,12 +389,10 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   });
   if (isTaken) {
     display.showAlert("That file is already loaded", "error");
-    // redisplay
-    // get the names for all the file cabinets
-    // and then send them to the Display
+
     // -243 is used for close down of file cabs
     fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    renderFileCabs();
     return;
   }
   // create a file cab object
@@ -425,21 +402,16 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-  // redisplay
-  // get the names for all the file cabinets
-  // and then send them to the Display
+
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 });
 // End ipcRenderer.on("fileCab:add"********************
 //*************************************************** */
 
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
-  // if (deleteMode) {
-  //   turnOffDeleteMode();
-  // }
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -451,12 +423,10 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   if (isTaken) {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
-    // redisplay
-    // get the names for all the file cabinets
-    // and then send them to the Display
+
     // -243 is used for close down of file cabs
     fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    renderFileCabs();
     return;
   }
   // create a file cab object
@@ -470,12 +440,10 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-  // redisplay
-  // get the names for all the file cabinets
-  // and then send them to the Display
+
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 });
 //End ipcRenderer.on("fileCab:load"*****************************
 // ***********************************************************
@@ -542,12 +510,6 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     if (htmlNotes.length > 0) {
       paintNote = true;
     }
-    // // take out note Head if there are notes
-    // let htmlHead = document.querySelectorAll(".head");
-    // let newArray = Array.from(htmlHead);
-    // newArray.forEach(function(item) {
-    //   item.remove();
-    // });
 
     display.showAlert("You Have exited delete mode", "success");
     switch (currentTheme) {
@@ -618,7 +580,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
       deleteMode = false;
       break;
     case "Light":
-      document.querySelector("#blank").href = "assets/css/white.css";
+      document.querySelector("#blank").href = "assets/css/light.css";
       document.querySelector("body").style.backgroundColor = "white";
       deleteMode = false;
       break;
@@ -631,10 +593,10 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 
 // listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", event => {
-  // turnOffDeleteMode();
   loadUpSettingsForm();
   display.showSettingsForm();
 });
+
 // listen for index.js to change font size
 ipcRenderer.on("FontSize:change", (event, fontSize) => {
   switch (fontSize) {
@@ -668,7 +630,7 @@ ipcRenderer.on("FileCab:close", event => {
   arrayOfFileCabs.splice(fcI, 1);
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 }); // End ipcRenderer.on("FileCab:close"
 
 // listen for index.js to close all file cab's
@@ -677,7 +639,7 @@ ipcRenderer.on("FileCab:closeAll", event => {
   arrayOfFileCabs.length = 0;
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 }); // End ipcRenderer.on("FileCab:closeAll"
 //End IPC**************************************
 
@@ -734,11 +696,9 @@ el.mainFolderList.addEventListener("click", e => {
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
 
-        // DELETE sub folder
+        // DELETE MAIN folder
         // grab array from file
-        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-        // grab the secondary array and delete sub folder
-        primaryArray.splice(deleteIndex, 1);
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects.splice(deleteIndex, 1);
         // set the primary array back to file
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         deleteAudio.play();
@@ -787,12 +747,11 @@ el.subFolderList.addEventListener("click", e => {
         // get the index from the html
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
-
         // DELETE sub folder
-        // grab array from file
-        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-        // grab the secondary array and delete sub folder
-        primaryArray[mfI].secondaryArray.splice(deleteIndex, 1);
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray.splice(
+          deleteIndex,
+          1
+        );
         // set the primary array back to file
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         deleteAudio.play();
@@ -946,10 +905,10 @@ el.noteList.addEventListener("click", e => {
     }
     if (e.ctrlKey) {
       if (deleteMode) {
-        // grab array from file
-        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-        // grab the note array and delete current note
-        primaryArray[mfI].secondaryArray[sfI].noteArray.splice(deleteIndex, 1);
+        // delete note
+        arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[
+          sfI
+        ].noteArray.splice(deleteIndex, 1);
         // write to file
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         // reasign current note
@@ -960,10 +919,6 @@ el.noteList.addEventListener("click", e => {
         renderNotes();
       }
     } // End control key down
-    // move
-    // save
-    // redisplay
-    // return
     return;
   }
   // event delegation
@@ -974,11 +929,10 @@ el.noteList.addEventListener("click", e => {
 
   // event delegation
   if (e.target.classList.contains("note")) {
-    // grab array from file
-    let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-
     // see if the note has a imagePath
-    let selectedNote = primaryArray[mfI].secondaryArray[sfI].noteArray[nI];
+    let selectedNote =
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+        .noteArray[nI];
 
     if (selectedNote.imagePath) {
       let oImg = document.createElement("img");
@@ -1009,8 +963,6 @@ el.noteList.addEventListener("click", e => {
     }
     // if shift is down remove the current path
     if (e.shiftKey) {
-      // grab array from file
-      // let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
       selectedNote.imagePath = null;
       // write to file
       arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
@@ -1033,7 +985,7 @@ el.noteList.addEventListener("click", e => {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //Main folder code
 
-//When You click on the +/icon in the main folder heading
+// when You click on the +/icon in the main folder heading
 el.addShowFormMain.addEventListener("click", e => {
   clickAudio.play();
   display.showMainFolderForm();
@@ -1224,7 +1176,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   // send file cabinets array to display
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 }); // End
 
 // when You click on the rename File Cab cancel Btn
@@ -1282,7 +1234,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
     display.displayNone(el.settingsForm);
     // -243 is used for close down of file cabs
     fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+    renderFileCabs();
   }
 }); // End
 
@@ -1293,7 +1245,7 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   display.displayNone(el.settingsForm);
   // -243 is used for close down of file cabs
   fcI = -243;
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  renderFileCabs();
 });
 
 // when You click on settings form factory reset btn
