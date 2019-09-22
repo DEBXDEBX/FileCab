@@ -74,12 +74,14 @@ class Display {
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
+    // make a variable to hold html
 
     let html = "";
+
     if (deleteMode) {
       mapedArray.forEach((element, index) => {
         html += `<li data-index="${index}" class="main">${element}<i
-        title="Delete Sub Folder"
+        title="Delete Main Folder"
         class="delete-main trash fas fa-trash-alt"
       ></i
     ></li>`;
@@ -92,11 +94,12 @@ class Display {
       });
       // paint main folder tabs
       this.elements.mainFolderList.innerHTML = html;
-    }
+    } // End if/else statement
+
     // color tabs
     let tabList = document.getElementsByClassName("main");
     this.colorSetOfTabs(tabList);
-  } // End paintMainFolderTabs(mapedArray)
+  } // End paintMainFolderTabs(deleteMode, mapedArray)
 
   // Method
   paintSubFolderTabs(deleteMode, mappedSecondaryArray) {
@@ -133,7 +136,7 @@ class Display {
     // color tabs
     let tabList = document.getElementsByClassName("sub");
     this.colorSetOfTabs(tabList);
-  } // End paintSubFolderTabs(mappedSecondaryArray)
+  } // End paintSubFolderTabs(deleteMode, mappedSecondaryArray)
 
   //Method
   paintNotes(deleteMode, noteArray) {

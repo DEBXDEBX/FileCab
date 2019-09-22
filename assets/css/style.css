@@ -163,6 +163,10 @@ p {
   margin: 0 16px;
   color: #161313;
 }
+.delete-item:hover {
+  margin: 0 16px;
+  color: #e9a0a0;
+}
 .moveUp {
   color: green;
   display: inline;

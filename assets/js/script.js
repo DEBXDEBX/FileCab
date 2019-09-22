@@ -372,7 +372,6 @@ function turnOffDeleteMode() {
 //************************************************ */
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
-  console.log(dataObj.fileNamePath);
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
     // redisplay
@@ -399,16 +398,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
     return;
   }
-  if (dataObj.fileNamePath === undefined) {
-    display.showAlert("You clicked cancel", "error");
-    // redisplay
-    // get the names for all the file cabinets
-    // and then send them to the Display
-    // -243 is used for close down of file cabs
-    fcI = -243;
-    display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
-    return;
-  }
+
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -504,8 +494,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
-    myBody.style.background =
-      "linear-gradient(to bottom right, #9a0b0b, #ff0000)";
+    myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
     let htmlMainFolders = document.querySelectorAll(".main");
     if (htmlMainFolders.length > 0) {
@@ -702,6 +691,33 @@ el.fileCabList.addEventListener("click", e => {
 
 //************************************************************************** */
 el.mainFolderList.addEventListener("click", e => {
+  if (e.target.classList.contains("delete-main")) {
+    if (deleteMode) {
+      if (e.ctrlKey) {
+        // get the index from the html
+        let deleteIndex = e.target.parentElement.dataset.index;
+        deleteIndex = parseInt(deleteIndex);
+        console.log(deleteIndex);
+        // DELETE sub folder
+        // grab array from file
+        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+        // grab the secondary array and delete sub folder
+        primaryArray.splice(deleteIndex, 1);
+        // set the primary array back to file
+        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        deleteAudio.play();
+        display.showAlert("Main folder deleted!", "success");
+        renderMainFolders();
+        // return;
+      } else {
+        warningEmptyAudio.play();
+        display.showAlert(
+          "You have to hold down the control key to make a deletion",
+          "error"
+        );
+      } // End control key down
+    } // End delete mode
+  }
   // event delegation
   if (e.target.classList.contains("main")) {
     // set's the current target active
@@ -724,28 +740,6 @@ el.mainFolderList.addEventListener("click", e => {
     mfI = index;
     tabAudio.play();
     renderSubFolders();
-
-    // check if control was down, if so delete
-    if (e.ctrlKey) {
-      if (deleteMode) {
-        // delete main folder
-        // get primary array
-        let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-        // delete main folder
-        primaryArray.splice(mfI, 1);
-        // save file cab
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-        deleteAudio.play();
-        display.showAlert("Main folder deleted!", "success");
-        renderMainFolders();
-      } else {
-        warningEmptyAudio.play();
-        display.showAlert(
-          "You have to select delete mode in menu to make a deletion",
-          "error"
-        );
-      }
-    } // End control key down
   }
 }); // End el.mainFolderList.addEventListener
 

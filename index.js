@@ -74,7 +74,7 @@ function loadFileCabinet() {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
   };
   dialog.showOpenDialog(null, myOptions, fileNames => {
-    if (fileNames === undefined) {
+    if (!fileNames) {
       let message = "No file selected";
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
