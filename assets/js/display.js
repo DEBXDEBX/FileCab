@@ -224,13 +224,16 @@ class Display {
   colorSetOfTabs(tabList) {
     let tabColors = [
       "#2de11d",
+      "#b926b9",
       "#4848e8",
-      "#e84d4d",
+      "#448c65",
+      "#886868",
       "Orange",
+      "#5d5ae2",
       "Violet",
       "#820ee8",
       "#8e7fc7",
-      "#ff008b",
+      "#148ca9",
       "#17abf5",
       "#4c69bd"
     ];
