@@ -491,6 +491,10 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   let paintMain = false;
   let paintSub = false;
   let paintNote = false;
+  let activeMain = document.querySelector(".main.active");
+  let activeSub = document.querySelector(".sub.active");
+  let activeMainNumber = activeMain.textContent;
+  console.log(activeMainNumber);
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
@@ -500,6 +504,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     if (htmlMainFolders.length > 0) {
       paintMain = true;
     }
+
     // check for sub folders
     let htmlSubFolders = document.querySelectorAll(".sub");
 

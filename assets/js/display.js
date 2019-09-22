@@ -112,7 +112,7 @@ class Display {
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
 
-    //Make variable for html
+    // make variable for html
     let html = "";
 
     if (deleteMode) {
@@ -125,8 +125,6 @@ class Display {
       });
       this.elements.subFolderList.innerHTML = html;
     } else {
-      //Make variable for html
-      let html = "";
       mappedSecondaryArray.forEach((element, index) => {
         html += `<li data-index="${index}" class="sub">${element}</li>`;
       });
@@ -150,6 +148,7 @@ class Display {
     this.clearNoteDisplay();
     // build div
     noteArray.forEach((note, index) => {
+      // if delete mode is true, build div with head of the note to delete and move note
       if (deleteMode) {
         let html = "";
         let newHead = document.createElement("div");
@@ -159,9 +158,10 @@ class Display {
     ></i
   ><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
         newHead.innerHTML = html;
+        // insert the head of the note
         this.elements.noteList.appendChild(newHead);
-      }
-      //#################################################
+      } // End Head of Note
+      //######################## Now build the Note #################################
       let newElement = document.createElement("h4");
       newElement.className = "note";
       newElement.setAttribute("data-index", `${index}`);
@@ -172,37 +172,12 @@ class Display {
       } else {
         newElement.appendChild(document.createTextNode(`${note.text}`));
       }
-
+      // insert the note
       this.elements.noteList.appendChild(newElement);
     });
 
     this.displayBlock(this.elements.noteList);
-  } // End paintNotes(noteArray)
-
-  createNoteElement(note, index) {
-    let html = "";
-    let newHead = document.createElement("div");
-    html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
-    title="Delete Note"
-    class="delete-item fas fa-trash-alt"
-  ></i
-><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
-    newHead.innerHTML = html;
-    this.elements.noteList.appendChild(newHead);
-    //#################################################
-    let newElement = document.createElement("h4");
-    newElement.className = "note";
-    newElement.setAttribute("data-index", `${index}`);
-    if (note.imagePath) {
-      newElement.appendChild(
-        document.createTextNode(`${note.text}\n\n ${note.imagePath}`)
-      );
-    } else {
-      newElement.appendChild(document.createTextNode(`${note.text}`));
-    }
-
-    this.elements.noteList.appendChild(newElement);
-  } // End createNoteElement(note, index)
+  } // paintNotes(deleteMode, noteArray)
 
   //Method
   showRenameFileCabForm() {
