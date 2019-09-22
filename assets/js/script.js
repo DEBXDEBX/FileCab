@@ -561,18 +561,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
 //listen for index.js to set theme
 ipcRenderer.on("Theme:set", (event, theme) => {
-  if (deleteMode) {
-    deleteMode = false;
-    myBody.style.background = "none";
-    if (currentTheme === "Dark") {
-      myBody.style.backgroundColor = "black";
-    }
-    if (currentTheme === "Light") {
-      myBody.style.backgroundColor = "white";
-    }
-  }
-
+  // set te current theme
   currentTheme = theme;
+  // check if delete mode is on, if so return
+  if (deleteMode) {
+    return;
+  }
   switch (theme) {
     case "Dark":
       document.querySelector("#blank").href = "assets/css/dark.css";
