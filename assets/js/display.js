@@ -224,18 +224,18 @@ class Display {
   colorSetOfTabs(tabList) {
     let tabColors = [
       "#2de11d",
-      "#b926b9",
       "#4848e8",
-      "#448c65",
-      "#886868",
-      "#ffa500",
-      "#5d5ae2",
-      "#ee82ee",
+      "#e84d4d",
+      "Orange",
+      "Violet",
       "#820ee8",
       "#8e7fc7",
-      "#148ca9",
+      "#ff008b",
       "#17abf5",
-      "#4c69bd"
+      "#4c69bd",
+      "#0c10de",
+      "#e251dc",
+      "#bbb70e"
     ];
     // create an array from an array like object
     let newArray = Array.from(tabList);

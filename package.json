@@ -19,7 +19,7 @@
   },
   "build": {
     "appId": "com.deb.fileCab",
-    "productName": "File Cab",
+    "productName": "File Cabinet",
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
