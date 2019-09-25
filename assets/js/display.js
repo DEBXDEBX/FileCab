@@ -69,6 +69,7 @@ class Display {
     this.clearNoteDisplay();
     this.displayNone(this.elements.mfHeading);
     this.displayBlock(this.elements.mfHeading);
+    this.displayNone(this.elements.mainFolderList);
     this.displayNone(this.elements.sfHeading);
     this.displayNone(this.elements.nHeading);
     this.displayNone(this.elements.mainFolderForm);
@@ -95,7 +96,7 @@ class Display {
       // paint main folder tabs
       this.elements.mainFolderList.innerHTML = html;
     } // End if/else statement
-
+    this.displayBlock(this.elements.mainFolderList);
     // color tabs
     let tabList = document.getElementsByClassName("main");
     this.colorSetOfTabs(tabList);
@@ -107,6 +108,7 @@ class Display {
     this.clearNoteDisplay();
     this.displayNone(this.elements.sfHeading);
     this.displayBlock(this.elements.sfHeading);
+    this.displayNone(this.elements.subFolderList);
     this.displayNone(this.elements.nHeading);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
@@ -130,7 +132,7 @@ class Display {
       });
       this.elements.subFolderList.innerHTML = html;
     }
-
+    this.displayBlock(this.elements.subFolderList);
     // color tabs
     let tabList = document.getElementsByClassName("sub");
     this.colorSetOfTabs(tabList);

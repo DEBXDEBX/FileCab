@@ -165,7 +165,7 @@ p {
 }
 .delete-item:hover {
   margin: 0 16px;
-  color: #e9a0a0;
+  color: white;
 }
 .moveUp {
   color: green;
