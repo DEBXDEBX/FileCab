@@ -60,6 +60,7 @@ class Display {
     // color tabs
     let tabList = document.getElementsByClassName("fileCab");
     this.colorSetOfTabs(tabList);
+    return -243;
   } // End paintFileCabTabs(mapedArray)
 
   // Method
@@ -287,6 +288,11 @@ class Display {
     //show settings form
     this.displayBlock(this.elements.settingsForm);
   } // End showSettingsForm()
+
+  //Method
+  hideSetttingsForm() {
+    this.displayNone(this.elements.settingsForm);
+  } // End hideSetttingsForm()
 
   //Method
   clearAutoLoadUL() {

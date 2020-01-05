@@ -80,7 +80,8 @@ function startUp() {
 //*************************************************** */
 // method
 function renderFileCabs() {
-  display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
+  //function returns -243, -243 is used for close down of a file cabs
+  fcI = display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }
 // method
 function renderMainFolders() {
@@ -170,8 +171,7 @@ function readFileContents(filepath) {
             // redisplay
             // get the names for all the file cabinets
             // and then send them to the Display
-            // -243 is used for close down of file cabs
-            fcI = -243;
+
             renderFileCabs();
             return;
           }
@@ -189,8 +189,7 @@ function readFileContents(filepath) {
           // redisplay
           // get the names for all the file cabinets
           // and then send them to the Display
-          // -243 is used for close down of file cabs
-          fcI = -243;
+
           renderFileCabs();
         } else {
           let message = "This is not a valid ElectronFileCab2019April file";
@@ -361,8 +360,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
 
-    // -243 is used for close down of file cabs
-    fcI = -243;
     renderFileCabs();
     return;
   }
@@ -373,8 +370,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
       "error"
     );
 
-    // -243 is used for close down of file cabs
-    fcI = -243;
     renderFileCabs();
     return;
   }
@@ -390,8 +385,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   if (isTaken) {
     display.showAlert("That file is already loaded", "error");
 
-    // -243 is used for close down of file cabs
-    fcI = -243;
     renderFileCabs();
     return;
   }
@@ -402,9 +395,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-
-  // -243 is used for close down of file cabs
-  fcI = -243;
+  display.hideSetttingsForm();
   renderFileCabs();
 });
 // End ipcRenderer.on("fileCab:add"********************
@@ -423,9 +414,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   if (isTaken) {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
-
-    // -243 is used for close down of file cabs
-    fcI = -243;
+    display.hideSetttingsForm();
     renderFileCabs();
     return;
   }
@@ -440,9 +429,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-
-  // -243 is used for close down of file cabs
-  fcI = -243;
+  display.hideSetttingsForm();
   renderFileCabs();
 });
 //End ipcRenderer.on("fileCab:load"*****************************
@@ -587,6 +574,8 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 
 // listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", event => {
+  // set for close file cab on menu
+  fcI = -243;
   loadUpSettingsForm();
   display.showSettingsForm();
 });
@@ -617,13 +606,13 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
 // listen for index.js to close a file cab
 ipcRenderer.on("FileCab:close", event => {
   if (fcI === -243 || isNaN(fcI)) {
+    display.hideSetttingsForm();
+    renderFileCabs();
     display.showAlert("Please select a file cabinet to close", "error");
     return;
   }
   // remove file cab from array
   arrayOfFileCabs.splice(fcI, 1);
-  // -243 is used for close down of file cabs
-  fcI = -243;
   renderFileCabs();
 }); // End ipcRenderer.on("FileCab:close"
 
@@ -631,8 +620,7 @@ ipcRenderer.on("FileCab:close", event => {
 ipcRenderer.on("FileCab:closeAll", event => {
   // setting the length to Zero emptys the array
   arrayOfFileCabs.length = 0;
-  // -243 is used for close down of file cabs
-  fcI = -243;
+  display.hideSetttingsForm();
   renderFileCabs();
 }); // End ipcRenderer.on("FileCab:closeAll"
 //End IPC**************************************
@@ -1168,8 +1156,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
   // reset form
   renameFileCabForm.reset();
   // send file cabinets array to display
-  // -243 is used for close down of file cabs
-  fcI = -243;
+
   renderFileCabs();
 }); // End
 
@@ -1226,8 +1213,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
     applySettings(settingsObj);
     // hide form
     display.displayNone(el.settingsForm);
-    // -243 is used for close down of file cabs
-    fcI = -243;
+
     renderFileCabs();
   }
 }); // End
@@ -1237,8 +1223,7 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
-  // -243 is used for close down of file cabs
-  fcI = -243;
+
   renderFileCabs();
 });
 

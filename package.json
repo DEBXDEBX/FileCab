@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "electron": "electron .",
     "pack": "build --dir",
-    "electronConsole": ".\\node_modules\\electron\\dist\\electron.exe .",
+    "debx": ".\\node_modules\\electron\\dist\\electron.exe .",
     "start": ".\\node_modules\\electron\\dist\\electron.exe .",
     "dist": "build"
   },
