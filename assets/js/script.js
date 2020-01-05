@@ -395,7 +395,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-  display.hideSetttingsForm();
+
   renderFileCabs();
 });
 // End ipcRenderer.on("fileCab:add"********************
@@ -414,7 +414,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   if (isTaken) {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
-    display.hideSetttingsForm();
+
     renderFileCabs();
     return;
   }
@@ -429,7 +429,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs);
-  display.hideSetttingsForm();
+
   renderFileCabs();
 });
 //End ipcRenderer.on("fileCab:load"*****************************
@@ -606,7 +606,6 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
 // listen for index.js to close a file cab
 ipcRenderer.on("FileCab:close", event => {
   if (fcI === -243 || isNaN(fcI)) {
-    display.hideSetttingsForm();
     renderFileCabs();
     display.showAlert("Please select a file cabinet to close", "error");
     return;
@@ -620,7 +619,7 @@ ipcRenderer.on("FileCab:close", event => {
 ipcRenderer.on("FileCab:closeAll", event => {
   // setting the length to Zero emptys the array
   arrayOfFileCabs.length = 0;
-  display.hideSetttingsForm();
+
   renderFileCabs();
 }); // End ipcRenderer.on("FileCab:closeAll"
 //End IPC**************************************

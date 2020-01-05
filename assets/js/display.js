@@ -38,6 +38,7 @@ class Display {
 
   // Method
   paintFileCabTabs(mapedArray) {
+    this.hideSetttingsForm();
     this.clearFileCabDisplay();
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
