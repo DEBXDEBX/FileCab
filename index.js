@@ -71,7 +71,13 @@ function loadFileCabinet() {
   console.log("Start loading file cab....");
   // this is for extsions
   let myOptions = {
-    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+    filters: [
+      {
+        name: "Custom File Type",
+        extensions: ["deb"]
+      }
+    ],
+    properties: ["openFile", "multiSelections"]
   };
   dialog.showOpenDialog(null, myOptions, fileNames => {
     if (!fileNames) {
@@ -79,7 +85,8 @@ function loadFileCabinet() {
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
     } else {
-      readFileContents(fileNames[0]);
+      // readFileContents(fileNames[0]);
+      fileNames.forEach(file => readFileContents(file));
     }
   });
 
