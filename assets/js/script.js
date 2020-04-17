@@ -46,12 +46,12 @@ const display = new Display(el, $);
 const arrayOfFileCabs = [];
 
 //This enables JQuery ToolTips
-$(document).ready(function() {
+$(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
 //The start of program exicution.
-window.onload = function() {
+window.onload = function () {
   startUp();
 };
 //Start Up
@@ -109,7 +109,7 @@ function renderNotes() {
 
 // Sort an array by it's name
 function sortArrayByName(array) {
-  array.sort(function(a, b) {
+  array.sort(function (a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
     var nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
@@ -124,7 +124,7 @@ function sortArrayByName(array) {
 } // End sortArrayByName(array)
 
 function autoLoadFileCabs(array) {
-  array.forEach(function(item) {
+  array.forEach(function (item) {
     readFileContents(item);
   });
 } // End autoLoadFileCabs(array)
@@ -161,7 +161,7 @@ function readFileContents(filepath) {
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
-          arrayOfFileCabs.forEach(element => {
+          arrayOfFileCabs.forEach((element) => {
             if (element.fileNamePath === data.fileNamePath) {
               isTaken = true;
             }
@@ -314,7 +314,7 @@ function getRadioValue(form, name) {
 
 // create a new array with only the items name
 function mapNamesOut(array) {
-  let mapedArray = array.map(item => {
+  let mapedArray = array.map((item) => {
     return item.name;
   });
   return mapedArray;
@@ -339,7 +339,7 @@ function handleFilePath(imagePath) {
 function addImage() {
   let imagePath;
 
-  dialog.showOpenDialog(fileNames => {
+  dialog.showOpenDialog((fileNames) => {
     if (!fileNames) {
       display.showAlert("No file selected", "error");
     } else {
@@ -377,7 +377,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfFileCabs.forEach(element => {
+  arrayOfFileCabs.forEach((element) => {
     if (element.fileNamePath === dataObj.fileNamePath) {
       isTaken = true;
     }
@@ -406,7 +406,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfFileCabs.forEach(element => {
+  arrayOfFileCabs.forEach((element) => {
     if (element.fileNamePath === data.fileNamePath) {
       isTaken = true;
     }
@@ -573,7 +573,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 // End ipcRenderer.on("Theme:set"
 
 // listen for index.js to show settings form
-ipcRenderer.on("SettingsForm:show", event => {
+ipcRenderer.on("SettingsForm:show", (event) => {
   // set for close file cab on menu
   fcI = -243;
   loadUpSettingsForm();
@@ -604,7 +604,7 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
 }); // End ipcRenderer.on("FontSize:change"
 
 // listen for index.js to close a file cab
-ipcRenderer.on("FileCab:close", event => {
+ipcRenderer.on("FileCab:close", (event) => {
   if (fcI === -243 || isNaN(fcI)) {
     renderFileCabs();
     display.showAlert("Please select a file cabinet to close", "error");
@@ -616,7 +616,7 @@ ipcRenderer.on("FileCab:close", event => {
 }); // End ipcRenderer.on("FileCab:close"
 
 // listen for index.js to close all file cab's
-ipcRenderer.on("FileCab:closeAll", event => {
+ipcRenderer.on("FileCab:closeAll", (event) => {
   // setting the length to Zero emptys the array
   arrayOfFileCabs.length = 0;
 
@@ -637,7 +637,7 @@ ipcRenderer.on("FileCab:closeAll", event => {
 //********************************************** */
 // addEventListener for event delegation
 
-el.fileCabList.addEventListener("click", e => {
+el.fileCabList.addEventListener("click", (e) => {
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     // set's the current target active
@@ -645,7 +645,7 @@ el.fileCabList.addEventListener("click", e => {
     // the Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".fileCab");
     for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function() {
+      el[i].onclick = function () {
         var c = 0;
         while (c < el.length) {
           el[c++].className = "fileCab";
@@ -669,7 +669,7 @@ el.fileCabList.addEventListener("click", e => {
 }); // End el.fileCabList.addEventListener
 
 //************************************************************************** */
-el.mainFolderList.addEventListener("click", e => {
+el.mainFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-main")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -702,7 +702,7 @@ el.mainFolderList.addEventListener("click", e => {
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".main");
     for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function() {
+      el[i].onclick = function () {
         var c = 0;
         while (c < el.length) {
           el[c++].className = "main";
@@ -721,7 +721,7 @@ el.mainFolderList.addEventListener("click", e => {
 }); // End el.mainFolderList.addEventListener
 
 //************************************************************************ */
-el.subFolderList.addEventListener("click", e => {
+el.subFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-sub")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -756,7 +756,7 @@ el.subFolderList.addEventListener("click", e => {
     // the Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".sub");
     for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function() {
+      el[i].onclick = function () {
         var c = 0;
         while (c < el.length) {
           el[c++].className = "sub";
@@ -785,7 +785,7 @@ el.subFolderList.addEventListener("click", e => {
 
 //****************************************************** */
 // When the user clicks on a note
-el.noteList.addEventListener("click", e => {
+el.noteList.addEventListener("click", (e) => {
   // this gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
   let deleteIndex = parseInt(dataIndex);
@@ -936,7 +936,7 @@ el.noteList.addEventListener("click", e => {
     if (e.altKey) {
       addImage();
       // send note array to display: after delay so the path prints
-      setTimeout(function() {
+      setTimeout(function () {
         renderNotes();
       }, 4000);
       // end set Time out
@@ -967,13 +967,13 @@ el.noteList.addEventListener("click", e => {
 //Main folder code
 
 // when You click on the +/icon in the main folder heading
-el.addShowFormMain.addEventListener("click", e => {
+el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
   display.showMainFolderForm();
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn
-document.querySelector("#mainFolderAdd").addEventListener("click", e => {
+document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   e.preventDefault();
   // grab fileCab
   let fileCab = arrayOfFileCabs[fcI];
@@ -994,7 +994,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
   // check if the name already exists if it does alert and return and set current main folder to -243
   // make a variable to return
   let isTaken = false;
-  primaryArray.forEach(element => {
+  primaryArray.forEach((element) => {
     if (primaryName === element.name) {
       isTaken = true;
     }
@@ -1024,25 +1024,33 @@ document.querySelector("#mainFolderAdd").addEventListener("click", e => {
 }); // End
 
 // when You click on cancel btn on the main folder form
-document.querySelector("#mainFolderCancel").addEventListener("click", e => {
+document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.mainFolderForm.reset();
   // hide form
   display.displayNone(el.mainFolderForm);
+  // get rid of active class
+  let activeTabList = document.getElementsByClassName("main active");
+  if (activeTabList) {
+    let newArray = Array.from(activeTabList);
+    for (let item of activeTabList) {
+      item.classList.remove("active");
+    }
+  }
 }); // End
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Sub folder code
 
 //When You click +/icon in the subfolder heading
-el.addShowFormSub.addEventListener("click", e => {
+el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
   display.showSubFolderForm();
 }); // End
 
 // When You click on the add sub folder btn in the sub folder form
-document.querySelector("#subFolderAdd").addEventListener("click", e => {
+document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   e.preventDefault();
   // grab array from file
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -1057,7 +1065,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
   // check if the name already exists if it does alert and return and set current sub folder to -243
   // make a variable to return
   let isTaken = false;
-  primaryArray[mfI].secondaryArray.forEach(element => {
+  primaryArray[mfI].secondaryArray.forEach((element) => {
     if (secondaryName === element.name) {
       isTaken = true;
       return;
@@ -1083,24 +1091,32 @@ document.querySelector("#subFolderAdd").addEventListener("click", e => {
 }); // End
 
 // when You click the cancel btn in the sub folder form
-document.querySelector("#subFolderCancel").addEventListener("click", e => {
+document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.subFolderForm.reset();
   // hide form
   display.displayNone(el.subFolderForm);
+  // get rid of active class
+  let activeTabList = document.getElementsByClassName("sub active");
+  if (activeTabList) {
+    let newArray = Array.from(activeTabList);
+    for (let item of activeTabList) {
+      item.classList.remove("active");
+    }
+  }
 }); //End
 
 //Note Code**************************************************
 
 // when You click the + in the Note Heading
-el.addShowFormNote.addEventListener("click", e => {
+el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
 }); // End
 
 // when You click the add note btn in the note form
-document.querySelector("#noteAdd").addEventListener("click", e => {
+document.querySelector("#noteAdd").addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -1125,28 +1141,28 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 }); // End
 
 // when You click the cancel btn in the note form
-document.querySelector("#noteCancel").addEventListener("click", e => {
+document.querySelector("#noteCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
 }); // End
 
 // when You click the clear btn in the note form
-document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
 }); //End
 
 // when you click on the add Date btn in the note form
-document.querySelector("#noteDate").addEventListener("click", e => {
+document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
 }); //End
 
 // when You click on the rename File Cab rename Btn
-document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
+document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   e.preventDefault();
   btnAudio.play();
   // change file cabinet name
@@ -1160,19 +1176,21 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", e => {
 }); // End
 
 // when You click on the rename File Cab cancel Btn
-document.querySelector("#renameFileCabCancel").addEventListener("click", e => {
-  cancelAudio.play();
-  // reset form
-  el.renameFileCabForm.reset();
-  // hide form
-  display.displayNone(el.renameFileCabForm);
-});
+document
+  .querySelector("#renameFileCabCancel")
+  .addEventListener("click", (e) => {
+    cancelAudio.play();
+    // reset form
+    el.renameFileCabForm.reset();
+    // hide form
+    display.displayNone(el.renameFileCabForm);
+  });
 
 // ***********************************************************
 // settings
 // *************************************************************
 // when You click on save settings Btn
-document.querySelector("#settingsSave").addEventListener("click", e => {
+document.querySelector("#settingsSave").addEventListener("click", (e) => {
   e.preventDefault();
 
   // get form data to create a settings object
@@ -1218,7 +1236,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 }); // End
 
 // when You click on settings form cancel Btn
-document.querySelector("#settingsCancel").addEventListener("click", e => {
+document.querySelector("#settingsCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
@@ -1227,7 +1245,7 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
 });
 
 // when You click on settings form factory reset btn
-document.querySelector("#factoryReset").addEventListener("click", e => {
+document.querySelector("#factoryReset").addEventListener("click", (e) => {
   btnAudio.play();
   let settingsStorage = new SettingsStorage();
   settingsStorage.clearFileFromLocalStorage();
@@ -1235,14 +1253,14 @@ document.querySelector("#factoryReset").addEventListener("click", e => {
 });
 
 // When You click on settings form add path to autoload Btn
-document.querySelector("#settingsAddPath").addEventListener("click", e => {
+document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
   let fileCabPath;
 
   let myOptions = {
-    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+    filters: [{ name: "Custom File Type", extensions: ["deb"] }],
   };
-  dialog.showOpenDialog(null, myOptions, fileNames => {
+  dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (fileNames === undefined || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
@@ -1252,7 +1270,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
       // check if the fileNamePath already exists if it does alert and return
       // make a variable to return
       let isTaken = false;
-      settingsArrayContainer.forEach(element => {
+      settingsArrayContainer.forEach((element) => {
         if (element === fileCabPath) {
           isTaken = true;
         }
@@ -1274,7 +1292,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
 });
 
 // when You click on x to delete a file path
-document.querySelector("#autoLoadList").addEventListener("click", e => {
+document.querySelector("#autoLoadList").addEventListener("click", (e) => {
   e.preventDefault();
   // event delegation
   if (e.target.classList.contains("deleteFile")) {
