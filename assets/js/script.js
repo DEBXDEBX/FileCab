@@ -638,6 +638,18 @@ ipcRenderer.on("FileCab:closeAll", (event) => {
 // addEventListener for event delegation
 
 el.fileCabList.addEventListener("click", (e) => {
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  // Bug fix
+  if (isNaN(index)) {
+    //when you click out side of te tab
+    // if it's not a number return
+    return;
+  }
+  fcI = index;
+  renderMainFolders();
+
   // event delegation
   if (e.target.classList.contains("fileCab")) {
     // set's the current target active
@@ -655,11 +667,6 @@ el.fileCabList.addEventListener("click", (e) => {
     } // End code to set the active class
 
     tabAudio.play();
-    // get the index from the html
-    let index = e.target.dataset.index;
-    index = parseInt(index);
-    fcI = index;
-    renderMainFolders();
   } // End contains 'fileCab
 
   // if shift is held down rename fileCab
@@ -670,6 +677,17 @@ el.fileCabList.addEventListener("click", (e) => {
 
 //************************************************************************** */
 el.mainFolderList.addEventListener("click", (e) => {
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+
+  // Bug fix
+  if (isNaN(index)) {
+    //when you click out side of te tab
+    // if it's not a number return
+    return;
+  }
+  mfI = index;
   if (e.target.classList.contains("delete-main")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -711,10 +729,6 @@ el.mainFolderList.addEventListener("click", (e) => {
       };
     } // End code to set the active class
 
-    // get the index from the html
-    let index = e.target.dataset.index;
-    index = parseInt(index);
-    mfI = index;
     tabAudio.play();
     renderSubFolders();
   }
@@ -722,6 +736,17 @@ el.mainFolderList.addEventListener("click", (e) => {
 
 //************************************************************************ */
 el.subFolderList.addEventListener("click", (e) => {
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+
+  // Bug fix
+  if (isNaN(index)) {
+    // display.paintNotes will throw an error, when you click outside the subfolder items
+    // if it's not a number return
+    return;
+  }
+  sfI = index;
   if (e.target.classList.contains("delete-sub")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -767,17 +792,6 @@ el.subFolderList.addEventListener("click", (e) => {
   }
   // End code to set the active class
 
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  sfI = index;
-
-  // Bug fix
-  if (isNaN(sfI)) {
-    // display.paintNotes will throw an error, when you click outside the subfolder items
-    // if it's not a number return
-    return;
-  }
   tabAudio.play();
   // send the note array to the Display
   renderNotes();
