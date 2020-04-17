@@ -1034,7 +1034,7 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   let activeTabList = document.getElementsByClassName("main active");
   if (activeTabList) {
     let newArray = Array.from(activeTabList);
-    for (let item of activeTabList) {
+    for (let item of newArray) {
       item.classList.remove("active");
     }
   }
