@@ -715,37 +715,32 @@ el.mainFolderList.addEventListener("click", (e) => {
     } // End delete mode
   }
   // event delegation
-  if (e.target.classList.contains("main")) {
-    // set's the current target active
-    e.target.classList.add("active");
 
-    // get the index from the html
-    let index = e.target.dataset.index;
-    index = parseInt(index);
+  //The Next code is to set the current tab color white with the active class
+  var el = document.querySelectorAll(".main");
+  for (let i = 0; i < el.length; i++) {
+    el[i].onclick = function () {
+      var c = 0;
+      while (c < el.length) {
+        el[c++].className = "main";
+      }
+      el[i].className = "main active";
+    };
+  } // End code to set the active class
 
-    // Bug fix
-    if (isNaN(index)) {
-      //when you click out side of te tab
-      // if it's not a number return
-      return;
-    }
-    mfI = index;
-
-    //The Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".main");
-    for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function () {
-        var c = 0;
-        while (c < el.length) {
-          el[c++].className = "main";
-        }
-        el[i].className = "main active";
-      };
-    } // End code to set the active class
-
-    tabAudio.play();
-    renderSubFolders();
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  // Bug fix
+  if (isNaN(index)) {
+    //when you click out side of te tab
+    // if it's not a number return
+    return;
   }
+  mfI = index;
+
+  tabAudio.play();
+  renderSubFolders();
 }); // End el.mainFolderList.addEventListener
 
 //************************************************************************ */
