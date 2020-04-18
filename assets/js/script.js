@@ -655,21 +655,20 @@ el.fileCabList.addEventListener("click", (e) => {
   } // End shift Key down
 
   // event delegation
-  if (e.target.classList.contains("fileCab")) {
-    // set's the current target active
-    e.target.classList.add("active");
-    // the Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".fileCab");
-    for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function () {
-        var c = 0;
-        while (c < el.length) {
-          el[c++].className = "fileCab";
-        }
-        el[i].className = "fileCab active";
-      };
-    } // End code to set the active class
-  } // End contains 'fileCab
+
+  // set's the current target active
+  e.target.classList.add("active");
+  // the Next code is to set the current tab color white with the active class
+  var el = document.querySelectorAll(".fileCab");
+  for (let i = 0; i < el.length; i++) {
+    el[i].onclick = function () {
+      var c = 0;
+      while (c < el.length) {
+        el[c++].className = "fileCab";
+      }
+      el[i].className = "fileCab active";
+    };
+  } // End code to set the active class
 
   // get the index from the html
   let index = e.target.dataset.index;
@@ -717,6 +716,8 @@ el.mainFolderList.addEventListener("click", (e) => {
   // event delegation
 
   //The Next code is to set the current tab color white with the active class
+  // set's the current target active
+  e.target.classList.add("active");
   var el = document.querySelectorAll(".main");
   for (let i = 0; i < el.length; i++) {
     el[i].onclick = function () {
@@ -774,6 +775,8 @@ el.subFolderList.addEventListener("click", (e) => {
   }
 
   // the Next code is to set the current tab color white with the active class
+  // set's the current target active
+  e.target.classList.add("active");
   var el = document.querySelectorAll(".sub");
   for (let i = 0; i < el.length; i++) {
     el[i].onclick = function () {
