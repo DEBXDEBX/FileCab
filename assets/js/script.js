@@ -717,31 +717,34 @@ el.mainFolderList.addEventListener("click", (e) => {
 
   //The Next code is to set the current tab color white with the active class
   // set's the current target active
-  e.target.classList.add("active");
-  var el = document.querySelectorAll(".main");
-  for (let i = 0; i < el.length; i++) {
-    el[i].onclick = function () {
-      var c = 0;
-      while (c < el.length) {
-        el[c++].className = "main";
-      }
-      el[i].className = "main active";
-    };
-  } // End code to set the active class
+  if (e.target.classList.contains("main")) {
+    e.target.classList.add("active");
+    var el = document.querySelectorAll(".main");
+    for (let i = 0; i < el.length; i++) {
+      el[i].onclick = function () {
+        var c = 0;
+        while (c < el.length) {
+          el[c++].className = "main";
+        }
+        el[i].className = "main active";
+      };
+    } // End code to set the active class
 
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  // Bug fix
-  if (isNaN(index)) {
-    //when you click out side of te tab
-    // if it's not a number return
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    // Bug fix
+    if (isNaN(index)) {
+      //when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    mfI = index;
+
+    tabAudio.play();
+    renderSubFolders();
     return;
   }
-  mfI = index;
-
-  tabAudio.play();
-  renderSubFolders();
 }); // End el.mainFolderList.addEventListener
 
 //************************************************************************ */
@@ -776,35 +779,38 @@ el.subFolderList.addEventListener("click", (e) => {
 
   // the Next code is to set the current tab color white with the active class
   // set's the current target active
-  e.target.classList.add("active");
-  var el = document.querySelectorAll(".sub");
-  for (let i = 0; i < el.length; i++) {
-    el[i].onclick = function () {
-      var c = 0;
-      while (c < el.length) {
-        el[c++].className = "sub";
-      }
-      el[i].className = "sub active";
-    };
-  }
+  if (e.target.classList.contains("sub")) {
+    e.target.classList.add("active");
+    var el = document.querySelectorAll(".sub");
+    for (let i = 0; i < el.length; i++) {
+      el[i].onclick = function () {
+        var c = 0;
+        while (c < el.length) {
+          el[c++].className = "sub";
+        }
+        el[i].className = "sub active";
+      };
+    }
 
-  // End code to set the active class
+    // End code to set the active class
 
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
 
-  // Bug fix
-  if (isNaN(index)) {
-    // display.paintNotes will throw an error, when you click outside the subfolder items
-    // if it's not a number return
+    // Bug fix
+    if (isNaN(index)) {
+      // display.paintNotes will throw an error, when you click outside the subfolder items
+      // if it's not a number return
+      return;
+    }
+    sfI = index;
+
+    tabAudio.play();
+    // send the note array to the Display
+    renderNotes();
     return;
   }
-  sfI = index;
-
-  tabAudio.play();
-  // send the note array to the Display
-  renderNotes();
 }); // End el.subFolderList.addEventListener
 
 //****************************************************** */
