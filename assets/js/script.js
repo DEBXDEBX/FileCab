@@ -638,17 +638,21 @@ ipcRenderer.on("FileCab:closeAll", (event) => {
 // addEventListener for event delegation
 
 el.fileCabList.addEventListener("click", (e) => {
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  // Bug fix
-  if (isNaN(index)) {
-    //when you click out side of te tab
-    // if it's not a number return
+  // if shift is held down rename fileCab
+  if (e.shiftKey) {
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    // Bug fix
+    if (isNaN(index)) {
+      //when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    fcI = index;
+    display.showRenameFileCabForm();
     return;
-  }
-  fcI = index;
-  renderMainFolders();
+  } // End shift Key down
 
   // event delegation
   if (e.target.classList.contains("fileCab")) {
@@ -665,29 +669,24 @@ el.fileCabList.addEventListener("click", (e) => {
         el[i].className = "fileCab active";
       };
     } // End code to set the active class
-
-    tabAudio.play();
   } // End contains 'fileCab
 
-  // if shift is held down rename fileCab
-  if (e.shiftKey) {
-    display.showRenameFileCabForm();
-  } // End shift Key down
-}); // End el.fileCabList.addEventListener
-
-//************************************************************************** */
-el.mainFolderList.addEventListener("click", (e) => {
   // get the index from the html
   let index = e.target.dataset.index;
   index = parseInt(index);
-
   // Bug fix
   if (isNaN(index)) {
     //when you click out side of te tab
     // if it's not a number return
     return;
   }
-  mfI = index;
+  fcI = index;
+  tabAudio.play();
+  renderMainFolders();
+}); // End el.fileCabList.addEventListener
+
+//************************************************************************** */
+el.mainFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-main")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -704,12 +703,14 @@ el.mainFolderList.addEventListener("click", (e) => {
         display.showAlert("Main folder deleted!", "success");
         renderMainFolders();
         // return;
+        return;
       } else {
         warningEmptyAudio.play();
         display.showAlert(
           "You have to hold down the control key to make a deletion",
           "error"
         );
+        return;
       } // End control key down
     } // End delete mode
   }
@@ -717,6 +718,19 @@ el.mainFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("main")) {
     // set's the current target active
     e.target.classList.add("active");
+
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+
+    // Bug fix
+    if (isNaN(index)) {
+      //when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    mfI = index;
+
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".main");
     for (let i = 0; i < el.length; i++) {
@@ -736,17 +750,6 @@ el.mainFolderList.addEventListener("click", (e) => {
 
 //************************************************************************ */
 el.subFolderList.addEventListener("click", (e) => {
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-
-  // Bug fix
-  if (isNaN(index)) {
-    // display.paintNotes will throw an error, when you click outside the subfolder items
-    // if it's not a number return
-    return;
-  }
-  sfI = index;
   if (e.target.classList.contains("delete-sub")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -791,6 +794,18 @@ el.subFolderList.addEventListener("click", (e) => {
     }
   }
   // End code to set the active class
+
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+
+  // Bug fix
+  if (isNaN(index)) {
+    // display.paintNotes will throw an error, when you click outside the subfolder items
+    // if it's not a number return
+    return;
+  }
+  sfI = index;
 
   tabAudio.play();
   // send the note array to the Display
@@ -1115,7 +1130,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
   let activeTabList = document.getElementsByClassName("sub active");
   if (activeTabList) {
     let newArray = Array.from(activeTabList);
-    for (let item of activeTabList) {
+    for (let item of newArray) {
       item.classList.remove("active");
     }
   }
@@ -1198,6 +1213,14 @@ document
     el.renameFileCabForm.reset();
     // hide form
     display.displayNone(el.renameFileCabForm);
+    // get rid of active class
+    let activeTabList = document.getElementsByClassName("fileCab active");
+    if (activeTabList) {
+      let newArray = Array.from(activeTabList);
+      for (let item of newArray) {
+        item.classList.remove("active");
+      }
+    }
   });
 
 // ***********************************************************
