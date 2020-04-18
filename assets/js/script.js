@@ -761,33 +761,30 @@ el.subFolderList.addEventListener("click", (e) => {
         deleteAudio.play();
         display.showAlert("Sub folder deleted!", "success");
         renderSubFolders();
-        // return;
+        return;
       } else {
         warningEmptyAudio.play();
         display.showAlert(
           "You have to hold down the control key to make a deletion",
           "error"
         );
+        return;
       } // End control key down
     } // End delete mode
   }
-  // event delegation
-  if (e.target.classList.contains("sub")) {
-    // set's the current target active
-    e.target.classList.add("active");
 
-    // the Next code is to set the current tab color white with the active class
-    var el = document.querySelectorAll(".sub");
-    for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function () {
-        var c = 0;
-        while (c < el.length) {
-          el[c++].className = "sub";
-        }
-        el[i].className = "sub active";
-      };
-    }
+  // the Next code is to set the current tab color white with the active class
+  var el = document.querySelectorAll(".sub");
+  for (let i = 0; i < el.length; i++) {
+    el[i].onclick = function () {
+      var c = 0;
+      while (c < el.length) {
+        el[c++].className = "sub";
+      }
+      el[i].className = "sub active";
+    };
   }
+
   // End code to set the active class
 
   // get the index from the html
