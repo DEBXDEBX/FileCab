@@ -1334,7 +1334,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
       display.showAlert("No file selected", "error");
     } else {
       // got file name
-      fileCabPath = fileNames[0];
+
       for (let fileCabPath of fileNames) {
         pushFileSettingsContainer(fileCabPath);
       }
