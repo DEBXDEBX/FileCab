@@ -955,6 +955,7 @@ el.noteList.addEventListener("click", (e) => {
   if (e.target.classList.contains("myPic")) {
     // remove image
     e.target.remove();
+    return;
   }
 
   // event delegation
@@ -1003,6 +1004,7 @@ el.noteList.addEventListener("click", (e) => {
       // send note array to display
       renderNotes();
     }
+    return;
   } // End class name contains note
 }); // End el.noteList.addEventListener
 
