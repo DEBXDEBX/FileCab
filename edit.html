@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Note Form</title>
+  </head>
+  <body>
+    <form id="noteForm">
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          autofocus
+          wrap="hard"
+          placeholder="Enter notes here!"
+          id="myTextArea"
+          rows="10"
+          cols="200"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <input
+          class="btn btn-primary form-control"
+          type="submit"
+          value="Add New File Cabinet"
+        />
+      </div>
+
+      <div class="form-group">
+        <button id="cancel" class="btn btn-warning form-control" type="button">
+          Cancel
+        </button>
+      </div>
+    </form>
+    <script>
+      const electron = require("electron");
+      //ipcRender used to comunicate
+      const { ipcRenderer } = electron;
+      console.log("inside edit sript");
+      // listen for inedex.js to send data
+      ipcRenderer.on("xxx", (event, data) => {
+        console.log("receiving in the edit html");
+        console.log(data);
+      }); // End ipcRenderer.on("Display:showAlert"
+    </script>
+  </body>
+</html>

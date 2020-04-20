@@ -10,6 +10,7 @@ console.log(
 let mainWindow;
 let addWindow;
 let helpWindow;
+let editNoteWindow;
 // watch the app object and wait for a ready event
 app.on("ready", () => {
   // function to run when the app is ready
@@ -202,9 +203,33 @@ ipcMain.on("addForm:cancel", (event) => {
 // code for edit item ***************
 ipcMain.on("edit:note", (event, note) => {
   console.log("received note");
-  console.log(note);
-  note.text = "Your note has been edited";
+  loadEditWindow();
+
+  // editNoteWindow.webContents.send("xxx", { note: note });
 });
+
+function loadEditWindow() {
+  //show window
+  editNoteWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    title: "Edit note",
+    parent: mainWindow,
+    modal: true,
+    show: true,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  // editNoteWindow.setMenu(null);
+  editNoteWindow.loadURL(`file://${__dirname}/edit.html`);
+  editNoteWindow.maximize();
+  // the following is for garbage collection
+  editNoteWindow.on("closed", () => {
+    editNoteWindow = null;
+  });
+  console.log("load window edit done");
+}
 // Top Menu
 const menuTemplate = [
   {
