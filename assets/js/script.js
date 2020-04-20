@@ -1018,7 +1018,8 @@ el.noteList.addEventListener("click", (e) => {
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray[editIndex];
     console.log(note);
-    ipcRenderer.send("edit:note", { note, editIndex });
+
+    // ipcRenderer.send("edit:note", { note, editIndex });
     return;
   }
 }); // End el.noteList.addEventListener

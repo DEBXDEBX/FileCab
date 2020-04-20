@@ -160,11 +160,11 @@ class Display {
       title="Delete Note"
       class="delete-item fas fa-trash-alt"
     ></i
-  ><i
+  ><span title='Move Up' class='moveDown'>&dArr;</span><i class="btn btn-info btn-lgb edit-note fas fa-edit" data-toggle="modal" data-target="#myModal"
   title="Edit Note"
-  class="edit-note fas fa-edit"
+  
 ></i
-><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
+></h3>`;
         newHead.innerHTML = html;
         // insert the head of the note
         this.elements.noteList.appendChild(newHead);
