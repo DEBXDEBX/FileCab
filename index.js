@@ -199,6 +199,12 @@ ipcMain.on("addForm:cancel", (event) => {
   console.log("cancel clicked");
 }); // End ipcMain.on("addForm:cancel"
 
+// code for edit item ***************
+ipcMain.on("edit:note", (event, note) => {
+  console.log("received note");
+  console.log(note);
+  note.text = "Your note has been edited";
+});
 // Top Menu
 const menuTemplate = [
   {

@@ -1007,6 +1007,20 @@ el.noteList.addEventListener("click", (e) => {
     }
     return;
   } // End class name contains note
+  // event delegation
+  if (e.target.classList.contains("edit-note")) {
+    console.log("edit note");
+    // get the index from the html
+    let editIndex = e.target.parentElement.dataset.index;
+    editIndex = parseInt(editIndex);
+    console.log(editIndex);
+    let note =
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+        .noteArray[editIndex];
+    console.log(note);
+    ipcRenderer.send("edit:note", { note, editIndex });
+    return;
+  }
 }); // End el.noteList.addEventListener
 
 // //********************************************* */
