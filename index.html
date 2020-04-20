@@ -345,7 +345,7 @@
 
     <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -354,15 +354,30 @@
         <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <!-- <p>Some text in the modal.</p> -->
+        
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            autofocus
+            wrap="hard"
+            placeholder="Enter notes here!"
+            id="noteModalTextarea"
+            rows="10"
+            cols="200"
+          ></textarea>
+        </div>
       </div>
       <div class="modal-footer">
+        <button id="saveEdit" type="button" class="btn btn-default" data-dismiss="modal">Save Edit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
   </div>
 </div>
+ <!-- end of modal  -->
+
 
     <div class="addSpace"></div>
 

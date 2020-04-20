@@ -1011,19 +1011,40 @@ el.noteList.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-note")) {
     console.log("edit note");
     // get the index from the html
-    let editIndex = e.target.parentElement.dataset.index;
-    editIndex = parseInt(editIndex);
-    console.log(editIndex);
+    let index = e.target.parentElement.dataset.index;
+    index = parseInt(index);
+    if (isNaN(index)) {
+      return;
+    }
+    nI = index;
+    //set modal text
+    // grab current note
     let note =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-        .noteArray[editIndex];
+        .noteArray[nI];
     console.log(note);
+    document.querySelector("#noteModalTextarea").value = note.text;
 
-    // ipcRenderer.send("edit:note", { note, editIndex });
     return;
   }
 }); // End el.noteList.addEventListener
 
+// saving edited note
+document.querySelector("#saveEdit").addEventListener("click", (e) => {
+  console.log("processing note change");
+  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+
+  // grab current note
+  let note =
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray[nI];
+  console.log(note);
+  // if note is valid set the new text
+  if (note) {
+    note.text = newNoteText;
+  }
+  renderNotes();
+});
 // //********************************************* */
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
