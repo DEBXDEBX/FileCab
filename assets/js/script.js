@@ -670,6 +670,7 @@ el.fileCabList.addEventListener("click", (e) => {
     }
     fcI = index;
     display.showRenameFileCabForm();
+    document.querySelector("#newFileCabName").focus();
     return;
   } // End shift Key down
 
@@ -1021,6 +1022,7 @@ el.noteList.addEventListener("click", (e) => {
 el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
   display.showMainFolderForm();
+  document.querySelector("#mainFolderName").focus();
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn
@@ -1098,6 +1100,7 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
 el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
   display.showSubFolderForm();
+  document.querySelector("#subFolderName").focus();
 }); // End
 
 // When You click on the add sub folder btn in the sub folder form
@@ -1164,6 +1167,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
+  document.querySelector("#myTextArea").focus();
 }); // End
 
 // when You click the add note btn in the note form
@@ -1203,6 +1207,7 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
+  document.querySelector("#myTextArea").focus();
 }); //End
 
 // when you click on the add Date btn in the note form
@@ -1210,6 +1215,7 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
+  document.querySelector("#myTextArea").focus();
 }); //End
 
 // when You click on the rename File Cab rename Btn
