@@ -186,3 +186,19 @@ h3 {
 .trash:hover {
   color: white;
 }
+/* below is for editing the note  */
+.modal-title {
+  text-align: center;
+  background-color: white;
+  color: #2de11d;
+}
+.edit-note {
+  color: #2de11d;
+  margin-left: 7px;
+  background-color: transparent;
+  outline: none;
+}
+.modal-header {
+  display: flex;
+  justify-content: center;
+}

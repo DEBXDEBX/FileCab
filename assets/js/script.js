@@ -203,7 +203,7 @@ function readFileContents(filepath) {
           // push the file cab obj into the array of file cabinets
           arrayOfFileCabs.push(newfileCab);
           sortArrayByName(arrayOfFileCabs);
-          // write the file cab object to disk
+          // write to file
           newfileCab.writeFileCabToHardDisk(fs);
           // redisplay
           // get the names for all the file cabinets
@@ -349,7 +349,7 @@ function handleFilePath(imagePath) {
   arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI].noteArray[
     nI
   ].imagePath = imagePath;
-  // save file cab
+  // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addImageAudio.play();
   display.showAlert("A new image was added to the note", "success");
@@ -412,7 +412,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   // push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
   sortArrayByName(arrayOfFileCabs);
-  // write the file cab object to disk
+  // write to file
   newfileCab.writeFileCabToHardDisk(fs);
 
   renderFileCabs();
@@ -716,7 +716,7 @@ el.mainFolderList.addEventListener("click", (e) => {
         // DELETE MAIN folder
         // grab array from file
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects.splice(deleteIndex, 1);
-        // set the primary array back to file
+        // write to file
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         deleteAudio.play();
         display.showAlert("Main folder deleted!", "success");
@@ -780,7 +780,7 @@ el.subFolderList.addEventListener("click", (e) => {
           deleteIndex,
           1
         );
-        // set the primary array back to file
+        // write to file
         arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
         deleteAudio.play();
         display.showAlert("Sub folder deleted!", "success");
@@ -1009,7 +1009,6 @@ el.noteList.addEventListener("click", (e) => {
   } // End class name contains note
   // event delegation
   if (e.target.classList.contains("edit-note")) {
-    console.log("edit note");
     // get the index from the html
     let index = e.target.parentElement.dataset.index;
     index = parseInt(index);
@@ -1022,27 +1021,28 @@ el.noteList.addEventListener("click", (e) => {
     let note =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray[nI];
-    console.log(note);
+
     document.querySelector("#noteModalTextarea").value = note.text;
 
     return;
   }
 }); // End el.noteList.addEventListener
 
-// saving edited note
+// saving edited note btn listener
 document.querySelector("#saveEdit").addEventListener("click", (e) => {
-  console.log("processing note change");
   let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
 
   // grab current note
   let note =
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
       .noteArray[nI];
-  console.log(note);
+
   // if note is valid set the new text
   if (note) {
     note.text = newNoteText;
   }
+  // write to file
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   renderNotes();
 });
 // //********************************************* */
@@ -1170,7 +1170,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     primaryArray[mfI].secondaryArray.push(secondaryObject);
     // sort secondary array by name
     sortArrayByName(primaryArray[mfI].secondaryArray);
-    // save file cab
+    // write to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     addAudio.play();
     display.showAlert("A new sub folder was added", "success", 1500);
@@ -1223,7 +1223,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   let newNote = new Note(noteText);
   // push note into note array
   primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
-  // save file cab
+  // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addAudio.play();
   display.showAlert("A new note was added", "success", 900);
@@ -1260,6 +1260,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   btnAudio.play();
   // change file cabinet name
   arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+  // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   // reset form
   renameFileCabForm.reset();
