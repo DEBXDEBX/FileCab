@@ -194,9 +194,12 @@ h3 {
 }
 .edit-note {
   color: #2de11d;
-  margin-left: 7px;
+  margin-left: 20px;
   background-color: transparent;
-  outline: none;
+  /* outline: none; */
+}
+.edit-note:hover {
+  color: white;
 }
 .modal-header {
   display: flex;

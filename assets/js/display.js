@@ -160,7 +160,7 @@ class Display {
       title="Delete Note"
       class="delete-item fas fa-trash-alt"
     ></i
-  ><span title='Move Up' class='moveDown'>&dArr;</span><i class="btn btn-danger btn-lgb edit-note fas fa-edit" data-toggle="modal" data-target="#myModal"
+  ><span title='Move Up' class='moveDown'>&dArr;</span><i class="edit-note fas fa-edit" data-toggle="modal" data-target="#myModal"
   title="Edit Note"
   
 ></i

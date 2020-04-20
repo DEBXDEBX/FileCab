@@ -1009,6 +1009,7 @@ el.noteList.addEventListener("click", (e) => {
   } // End class name contains note
   // event delegation
   if (e.target.classList.contains("edit-note")) {
+    // this kicks off the modal
     // get the index from the html
     let index = e.target.parentElement.dataset.index;
     index = parseInt(index);
@@ -1023,13 +1024,30 @@ el.noteList.addEventListener("click", (e) => {
         .noteArray[nI];
 
     document.querySelector("#noteModalTextarea").value = note.text;
-
+    clickAudio.play();
     return;
   }
 }); // End el.noteList.addEventListener
 
 // saving edited note btn listener
 document.querySelector("#saveEdit").addEventListener("click", (e) => {
+  if (!deleteMode) {
+    warningEmptyAudio.play();
+    display.showAlert("You have to be in delete Mode to edit a note!", "error");
+    return;
+  }
+  if (fcI < 0 || isNaN(fcI)) {
+    warningNameTakenAudio.play();
+    display.showAlert(
+      "You can't save that note! You navigated away. Please try again.",
+      "error"
+    );
+
+    alert(
+      "You can't save that note! \n You navigated away. \n Please try again."
+    );
+    return;
+  }
   let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
 
   // grab current note
@@ -1041,9 +1059,14 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   if (note) {
     note.text = newNoteText;
   }
+  addAudio.play();
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   renderNotes();
+});
+
+document.querySelector("#editClose").addEventListener("click", (e) => {
+  clickAudio.play();
 });
 // //********************************************* */
 
