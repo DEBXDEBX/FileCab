@@ -1274,7 +1274,12 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
     return;
   }
   let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
-
+  // check if text is empty
+  if (newNoteText === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter text in the text area!", "error");
+    return;
+  }
   // grab current note
   let note =
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
