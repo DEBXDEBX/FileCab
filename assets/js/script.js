@@ -7,7 +7,7 @@ let fs = require("fs");
 const electron = require("electron");
 const { ipcRenderer } = electron;
 
-//Select audio files
+// Select audio files
 const addAudio = document.querySelector("#addAudio");
 const addImageAudio = document.querySelector("#addImageAudio");
 const deleteAudio = document.querySelector("#deleteAudio");
@@ -18,12 +18,12 @@ const tabAudio = document.querySelector("#tabAudio");
 const clickAudio = document.querySelector("#clickAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
-//Global variable's
-//current File Cab Index
+// Global variable's
+// current File Cab Index
 let fcI = -243;
 // current Main Folder Index
 let mfI = -243;
-// currentSub Folder Index
+// current Sub Folder Index
 let sfI = -243;
 // current note Index
 let nI = -243;
@@ -35,7 +35,7 @@ let root = document.querySelector(":root");
 let settingsArrayContainer;
 //Theme current
 let currentTheme = "Dark";
-//Delete Mode
+// Delete Mode
 let deleteMode = false;
 // create elements object
 const el = new Elements();
@@ -45,16 +45,16 @@ const display = new Display(el, $);
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
 
-//This enables JQuery ToolTips
+// This enables JQuery ToolTips
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-//The start of program exicution.
+// The start of program exicution.
 window.onload = function () {
   startUp();
 };
-//Start Up
+// Start Up
 function startUp() {
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
@@ -80,7 +80,7 @@ function startUp() {
 //*************************************************** */
 // **************************************************
 function renderFileCabs() {
-  //function returns -243, -243 is used for close down of a file cabs
+  // function returns -243, -243 is used for close down of a file cabs
   fcI = display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }
 // **************************************************
@@ -117,13 +117,12 @@ function pushFileSettingsContainer(filePath) {
     }
   });
   if (isTaken) {
-    // warningNameTakenAudio.play();
     warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
     return;
   }
 
-  // add it too tempHOld
+  // add it too temp HOld
   settingsArrayContainer.push(filePath);
 }
 // *********************************************************
@@ -663,7 +662,7 @@ el.fileCabList.addEventListener("click", (e) => {
     index = parseInt(index);
     // Bug fix
     if (isNaN(index)) {
-      //when you click out side of te tab
+      // when you click out side of te tab
       // if it's not a number return
       return;
     }
@@ -694,7 +693,7 @@ el.fileCabList.addEventListener("click", (e) => {
   index = parseInt(index);
   // Bug fix
   if (isNaN(index)) {
-    //when you click out side of te tab
+    // when you click out side of te tab
     // if it's not a number return
     return;
   }
@@ -770,7 +769,7 @@ el.mainFolderList.addEventListener("click", (e) => {
   }
   // event delegation
 
-  //The Next code is to set the current tab color white with the active class
+  // The Next code is to set the current tab color white with the active class
   // set's the current target active
   if (e.target.classList.contains("main")) {
     e.target.classList.add("active");
@@ -790,7 +789,7 @@ el.mainFolderList.addEventListener("click", (e) => {
     index = parseInt(index);
     // Bug fix
     if (isNaN(index)) {
-      //when you click out side of te tab
+      // when you click out side of te tab
       // if it's not a number return
       return;
     }
@@ -1201,7 +1200,7 @@ el.noteList.addEventListener("click", (e) => {
       return;
     }
     nI = index;
-    //set modal text
+    // set modal text
     // grab current note
     let note =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]

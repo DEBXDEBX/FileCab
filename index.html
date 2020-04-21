@@ -22,7 +22,7 @@
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"
     ></script>
-
+    <!-- font awesome  -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -71,16 +71,9 @@
     <header>
       <h6 id="fileCabHeading">File Cabinet</h6>
       <nav>
-        <ul id="fileCabList">
-          <!-- <li class="fileCab">GUITAR"S</li>
-              <li class="fileCab">JAVA</li>
-              <li class="fileCab">WEB DEVELOPMENT</li>
-              <li class="fileCab">DAVID"S</li> -->
-        </ul>
+        <ul id="fileCabList"></ul>
       </nav>
     </header>
-
-
 
     <form id="renameFileCabForm">
       <div class="form-group">
@@ -89,7 +82,6 @@
           type="text"
           autofocus
           class="form-control"
-        
           placeholder="Rename File Cabinet"
         />
       </div>
@@ -140,7 +132,6 @@
             type="text"
             autofocus
             class="form-control"
-          
             placeholder="Main Folder Name"
           />
         </div>
@@ -163,6 +154,7 @@
         </div>
       </form>
     </section>
+
     <section id="subFolder">
       <h6 id="headingSubFolder">
         Sub Folder
@@ -176,11 +168,7 @@
       </h6>
 
       <nav>
-        <ul id="subFolderList">
-          <!-- <li class="sub">STRING CHANGES</li>
-              <li class="sub">REFRETED</li>
-              <li class="sub">SET INTONATION</li> -->
-        </ul>
+        <ul id="subFolderList"></ul>
       </nav>
 
       <form id="subFolderForm">
@@ -190,7 +178,6 @@
             type="text"
             autofocus
             class="form-control"
-           
             placeholder="Sub Folder Name"
           />
         </div>
@@ -214,12 +201,14 @@
         </div>
       </form>
     </section>
+
     <h6 id="headingNote">
       Notes
       <span id="nadd"
         ><i data-toggle="tooltip" title="Add Note" class="far fa-map"></i
       ></span>
     </h6>
+
     <form id="noteForm">
       <div class="form-group">
         <textarea
@@ -276,49 +265,64 @@
     <form id="settingsForm">
       <!-- Theme -->
       <div class="form-group setFlex">
-    
-          <label for="theme">Pick a theme</label>
-     
-     <div>
-       <input id="Dark" type="radio" name="theme" value="Dark" checked> Dark
-     </div>
-     <div>
-       <input id="Light" type="radio" name="theme" value="Light"> Light
-     </div>
-    </div>
+        <label for="theme">Pick a theme</label>
+
+        <div>
+          <input id="Dark" type="radio" name="theme" value="Dark" checked />
+          Dark
+        </div>
+        <div>
+          <input id="Light" type="radio" name="theme" value="Light" /> Light
+        </div>
+      </div>
 
       <!-- Font Size -->
       <div class="form-group setFlex">
-      <label for="fontSize">Pick a font size</label>
+        <label for="fontSize">Pick a font size</label>
+        <div>
+          <input id="x-small" type="radio" name="fontSize" value="x-small" />
+          x-small
+          <input id="small" type="radio" name="fontSize" value="small" /> small
+          <input
+            id="normal"
+            type="radio"
+            name="fontSize"
+            value="normal"
+            checked
+          />
+          normal
+          <input id="large" type="radio" name="fontSize" value="large" /> large
+          <input id="x-large" type="radio" name="fontSize" value="x-large" />
+          x-large
+        </div>
+      </div>
+
       <div>
-      <input id="x-small" type="radio" name="fontSize" value="x-small" > x-small
-      <input id="small" type="radio" name="fontSize" value="small"> small
-      <input id="normal" type="radio" name="fontSize" value="normal" checked> normal
-      <input id="large" type="radio" name="fontSize" value="large"> large
-      <input id="x-large" type="radio" name="fontSize" value="x-large" > x-large
-    </div>
-  </div>
-  
-    <div> <input id="autoLoad" type="checkbox" > Auto Load File Cabinent's</div>
-<div>
-</div>
+        <input id="autoLoad" type="checkbox" /> Auto Load File Cabinent's
+      </div>
 
-<div><ol type="1" id="autoLoadList">
-<!-- this is were the paths get displayed  -->
-</ol></div>
+      <div>
+        <ol type="1" id="autoLoadList">
+          <!-- this is were the paths get displayed  -->
+        </ol>
+      </div>
 
-<div class="form-group">
-    <button class="btn btn-primary form-control" id="settingsAddPath" type="button">Add File To Auto Load List</button>
-</div>
       <div class="form-group">
-      <input
+        <button
+          class="btn btn-primary form-control"
+          id="settingsAddPath"
+          type="button"
+        >
+          Add File To Auto Load List
+        </button>
+      </div>
+      <div class="form-group">
+        <input
           id="settingsSave"
           class="btn btn-success form-control"
           type="submit"
           value="Save Settings"
         />
-
-      </div>
       </div>
 
       <div class="form-group">
@@ -342,42 +346,52 @@
       </div>
     </form>
 
-
     <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            <h4 class="modal-title">Edit Note</h4>
+          </div>
+          <div class="modal-body">
+            <!-- <p>Some text in the modal.</p> -->
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-        <h4 class="modal-title">Edit Note</h4>
-      </div>
-      <div class="modal-body">
-        <!-- <p>Some text in the modal.</p> -->
-        
-        <div class="form-group">
-          <textarea
-            class="form-control"
-            autofocus
-            wrap="hard"
-            placeholder="Enter notes here!"
-            id="noteModalTextarea"
-            rows="10"
-            cols="200"
-          ></textarea>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                autofocus
+                wrap="hard"
+                placeholder="Enter notes here!"
+                id="noteModalTextarea"
+                rows="10"
+                cols="200"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="saveEdit"
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            >
+              Save Edit
+            </button>
+            <button
+              id="editClose"
+              type="button"
+              class="btn btn-default"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button id="saveEdit" type="button" class="btn btn-default" data-dismiss="modal">Save Edit</button>
-        <button id="editClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
     </div>
-
-  </div>
-</div>
- <!-- end of modal  -->
-
+    <!-- end of modal  -->
 
     <div class="addSpace"></div>
 
