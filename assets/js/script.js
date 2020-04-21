@@ -376,6 +376,7 @@ function addImage() {
 //************************************************ */
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
+  $("#myModal").modal("hide");
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
 
@@ -422,6 +423,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:load", (event, data) => {
+  $("#myModal").modal("hide");
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -461,6 +463,7 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 
 // listen for index.js to set deletemode
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  $("#myModal").modal("hide");
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
   let paintMain = false;
@@ -567,6 +570,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
 //listen for index.js to set theme
 ipcRenderer.on("Theme:set", (event, theme) => {
+  $("#myModal").modal("hide");
   // set te current theme
   currentTheme = theme;
   // check if delete mode is on, if so return
@@ -597,6 +601,7 @@ ipcRenderer.on("SettingsForm:show", (event) => {
   fcI = -243;
   loadUpSettingsForm();
   display.showSettingsForm();
+  $("#myModal").modal("hide");
 });
 
 // listen for index.js to change font size
@@ -624,6 +629,7 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
 
 // listen for index.js to close a file cab
 ipcRenderer.on("FileCab:close", (event) => {
+  $("#myModal").modal("hide");
   if (fcI === -243 || isNaN(fcI)) {
     renderFileCabs();
     display.showAlert("Please select a file cabinet to close", "error");
@@ -636,6 +642,7 @@ ipcRenderer.on("FileCab:close", (event) => {
 
 // listen for index.js to close all file cab's
 ipcRenderer.on("FileCab:closeAll", (event) => {
+  $("#myModal").modal("hide");
   // setting the length to Zero emptys the array
   arrayOfFileCabs.length = 0;
 
@@ -1031,21 +1038,13 @@ el.noteList.addEventListener("click", (e) => {
 
 // saving edited note btn listener
 document.querySelector("#saveEdit").addEventListener("click", (e) => {
-  if (!deleteMode) {
-    warningEmptyAudio.play();
-    display.showAlert("You have to be in delete Mode to edit a note!", "error");
-    return;
-  }
+  // if (!deleteMode) {
+  //   warningEmptyAudio.play();
+  //   display.showAlert("You have to be in delete Mode to edit a note!", "error");
+  //   return;
+  // }
   if (fcI < 0 || isNaN(fcI)) {
     warningNameTakenAudio.play();
-    display.showAlert(
-      "You can't save that note! You navigated away. Please try again.",
-      "error"
-    );
-
-    alert(
-      "You can't save that note! \n You navigated away. \n Please try again."
-    );
     return;
   }
   let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
