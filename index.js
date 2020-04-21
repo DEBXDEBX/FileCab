@@ -69,7 +69,6 @@ function loadHelp() {
 
 //When You click on load file cab
 function loadFileCabinet() {
-  console.log("Start loading file cab....");
   // this is for extsions
   let myOptions = {
     filters: [
@@ -120,11 +119,9 @@ function loadFileCabinet() {
 
         if (data) {
           if (data.fileType === "ElectronFileCab2019April") {
-            console.log("This is a valid file");
             // set filepath: This is in case you moved your file
             data.fileNamePath = filepath;
             // laod file cab
-            console.log("sending data to script.js");
             // data is an object to be converted to an file cab object
             mainWindow.webContents.send("fileCab:load", data);
           } else {
@@ -197,7 +194,6 @@ ipcMain.on("fileCab:add", (event, name) => {
 // this listens for the addWindow cancel btn
 ipcMain.on("addForm:cancel", (event) => {
   addWindow.close();
-  console.log("cancel clicked");
 }); // End ipcMain.on("addForm:cancel"
 
 // Top Menu
