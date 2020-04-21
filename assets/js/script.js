@@ -78,26 +78,26 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
-// method
+// **************************************************
 function renderFileCabs() {
   //function returns -243, -243 is used for close down of a file cabs
   fcI = display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
 }
-// method
+// **************************************************
 function renderMainFolders() {
   display.paintMainFolderTabs(
     deleteMode,
     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects)
   );
 }
-// method
+// ***************************************************
 function renderSubFolders() {
   display.paintSubFolderTabs(
     deleteMode,
     mapNamesOut(arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray)
   );
 }
-// method
+// ****************************************************
 function renderNotes() {
   // send the note array to the Display
   display.paintNotes(
@@ -106,7 +106,7 @@ function renderNotes() {
       .noteArray
   );
 }
-
+// ****************************************************
 function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
@@ -126,7 +126,7 @@ function pushFileSettingsContainer(filePath) {
   // add it too tempHOld
   settingsArrayContainer.push(filePath);
 }
-// Sort an array by it's name
+// *********************************************************
 function sortArrayByName(array) {
   array.sort(function (a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -137,17 +137,16 @@ function sortArrayByName(array) {
     if (nameA > nameB) {
       return 1;
     }
-    // names must be eimagePathual
     return 0;
-  }); //End sort function
-} // End sortArrayByName(array)
-
+  });
+}
+// ***********************************************************
 function autoLoadFileCabs(array) {
   array.forEach(function (item) {
     readFileContents(item);
   });
-} // End autoLoadFileCabs(array)
-
+}
+// ***********************************************************
 function readFileContents(filepath) {
   if (!filepath) {
     let message = "No file selected";
@@ -219,7 +218,7 @@ function readFileContents(filepath) {
     }
   });
 } // End readFileContents(filepath)
-
+// ***********************************************************
 function loadUpSettingsForm() {
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
@@ -269,7 +268,7 @@ function loadUpSettingsForm() {
   // update autoload form ul
   display.showAutoLoadList(settingsArrayContainer);
 } // End loadUpSettingsForm()
-
+// *******************************************************************
 function applySettings(settings) {
   if (settings.autoLoad === true) {
     document.querySelector("#autoLoad").checked = true;
@@ -315,7 +314,7 @@ function applySettings(settings) {
   }
 } // End applySettings(settings)
 
-// get the value of the selected radio button
+// ****************************************************************
 function getRadioValue(form, name) {
   var val;
   // get list of radio buttons with specified name
@@ -331,14 +330,14 @@ function getRadioValue(form, name) {
   return val; // return value of checked radio or undefined if none checked
 } // End getRadioValue(form, name)
 
-// create a new array with only the items name
+// *******************************************************************
 function mapNamesOut(array) {
   let mapedArray = array.map((item) => {
     return item.name;
   });
   return mapedArray;
 } // End mapNamesOut(array)
-
+// *******************************************************************
 function handleFilePath(imagePath) {
   if (!imagePath) {
     warningEmptyAudio.play();
@@ -354,10 +353,9 @@ function handleFilePath(imagePath) {
   addImageAudio.play();
   display.showAlert("A new image was added to the note", "success");
 } // End handleFilePath(imagePath)
-
+// ***************************************************************
 function addImage() {
   let imagePath;
-
   dialog.showOpenDialog((fileNames) => {
     if (!fileNames) {
       display.showAlert("No file selected", "error");
@@ -371,9 +369,9 @@ function addImage() {
 
 // End Helper functions********************************
 
-//************************************************ */
-// IPC
-//************************************************ */
+// *************************************************************
+//  IPC Code
+// *************************************************************
 // listen for inedex.js to send data
 ipcRenderer.on("fileCab:add", (event, dataObj) => {
   $("#myModal").modal("hide");
@@ -421,7 +419,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 // End ipcRenderer.on("fileCab:add"********************
 //*************************************************** */
 
-// listen for inedex.js to send data
+// listen for inedex.js to send data ****************************************
 ipcRenderer.on("fileCab:load", (event, data) => {
   $("#myModal").modal("hide");
   // check if the fileNamePath already exists if it does alert and return
@@ -453,15 +451,15 @@ ipcRenderer.on("fileCab:load", (event, data) => {
 
   renderFileCabs();
 });
-//End ipcRenderer.on("fileCab:load"*****************************
-// ***********************************************************
+//End ipcRenderer.on("fileCab:load"**************************************
+// **********************************************************************
 
-// listen for inedex.js to send data
+// listen for inedex.js to send data ************************************
 ipcRenderer.on("Display:showAlert", (event, dataObj) => {
   display.showAlert(dataObj.message, dataObj.msgType);
 }); // End ipcRenderer.on("Display:showAlert"
 
-// listen for index.js to set deletemode
+// listen for index.js to set deletemode *********************************
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   $("#myModal").modal("hide");
   // set the delete mode to true or false
@@ -568,7 +566,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   }
 }); //End ipcRenderer.on("deleteMode:set"
 
-//listen for index.js to set theme
+//listen for index.js to set theme ****************************************
 ipcRenderer.on("Theme:set", (event, theme) => {
   $("#myModal").modal("hide");
   // set te current theme
@@ -595,7 +593,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 });
 // End ipcRenderer.on("Theme:set"
 
-// listen for index.js to show settings form
+// listen for index.js to show settings form *******************************
 ipcRenderer.on("SettingsForm:show", (event) => {
   // set for close file cab on menu
   fcI = -243;
@@ -627,7 +625,7 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
   }
 }); // End ipcRenderer.on("FontSize:change"
 
-// listen for index.js to close a file cab
+// listen for index.js to close a file cab *****************************
 ipcRenderer.on("FileCab:close", (event) => {
   $("#myModal").modal("hide");
   if (fcI === -243 || isNaN(fcI)) {
@@ -648,21 +646,15 @@ ipcRenderer.on("FileCab:closeAll", (event) => {
 
   renderFileCabs();
 }); // End ipcRenderer.on("FileCab:closeAll"
-//End IPC**************************************
 
-//************************************************************************* */
+// *************************************************************
+//  End IPC Code
+// *************************************************************
 
-//***************************************************************************** */
-
-//************************************************************* */
-
-//**************************************************************** */
-
-//*************************************************************** */
-
-//********************************************** */
-// addEventListener for event delegation
-
+// *************************************************************
+//  file cab Code
+// *************************************************************
+// file cab UL *************************************************
 el.fileCabList.addEventListener("click", (e) => {
   // if shift is held down rename fileCab
   if (e.shiftKey) {
@@ -711,7 +703,43 @@ el.fileCabList.addEventListener("click", (e) => {
   renderMainFolders();
 }); // End el.fileCabList.addEventListener
 
-//************************************************************************** */
+// when You click on the rename File Cab rename Btn in the form *******************
+document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
+  e.preventDefault();
+  btnAudio.play();
+  // change file cabinet name
+  arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+  // write to file
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  // reset form
+  renameFileCabForm.reset();
+  // send file cabinets array to display
+
+  renderFileCabs();
+}); // End
+
+// when You click on the rename File Cab cancel Btn in the form ************************
+document
+  .querySelector("#renameFileCabCancel")
+  .addEventListener("click", (e) => {
+    cancelAudio.play();
+    // reset form
+    el.renameFileCabForm.reset();
+    // hide form
+    display.displayNone(el.renameFileCabForm);
+    // get rid of active class
+    let activeTabList = document.getElementsByClassName("fileCab active");
+    if (activeTabList) {
+      let newArray = Array.from(activeTabList);
+      for (let item of newArray) {
+        item.classList.remove("active");
+      }
+    }
+  });
+// *************************************************************
+//   Main Folder Code
+// *************************************************************
+// main UL *****************************************************
 el.mainFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-main")) {
     if (deleteMode) {
@@ -774,7 +802,87 @@ el.mainFolderList.addEventListener("click", (e) => {
   }
 }); // End el.mainFolderList.addEventListener
 
-//************************************************************************ */
+// when You click on the +/icon in the main folder heading *********
+el.addShowFormMain.addEventListener("click", (e) => {
+  clickAudio.play();
+  display.showMainFolderForm();
+  document.querySelector("#mainFolderName").focus();
+}); // End el.addShowFormMain.addEventListener
+
+// when you click on the add main folder btn ***********************
+document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
+  e.preventDefault();
+  // grab fileCab
+  let fileCab = arrayOfFileCabs[fcI];
+  // grab primary array
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  // grab text for primary object
+  let primaryName = el.textNameMain.value.trim();
+  // check if text is empty
+
+  if (primaryName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
+
+  // create primary object
+  let primaryObj = new PrimaryObj(primaryName);
+  // check if the name already exists if it does alert and return and set current main folder to -243
+  // make a variable to return
+  let isTaken = false;
+  primaryArray.forEach((element) => {
+    if (primaryName === element.name) {
+      isTaken = true;
+    }
+  });
+  // check for taken name
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+    mfI = -243;
+  } else {
+    // push primary object into array
+    primaryArray.push(primaryObj);
+    // sort primary array by name
+    sortArrayByName(primaryArray);
+    // save file cab
+    fileCab.writeFileCabToHardDisk(fs);
+    addAudio.play();
+    display.showAlert("A new main folder was added", "success", 1500);
+    // hide form
+
+    // reset form
+    el.mainFolderForm.reset();
+
+    // send main folder array to display
+    renderMainFolders();
+  } // End else statement
+}); // End
+
+// when You click on cancel btn on the main folder form ****************
+document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
+  cancelAudio.play();
+  // reset form
+  el.mainFolderForm.reset();
+  // hide form
+  display.displayNone(el.mainFolderForm);
+  // get rid of active class
+  let activeTabList = document.getElementsByClassName("main active");
+  if (activeTabList) {
+    let newArray = Array.from(activeTabList);
+    for (let item of newArray) {
+      item.classList.remove("active");
+    }
+  }
+}); // End
+// *************************************************************
+//  End Main Folder Code
+// *************************************************************
+// *************************************************************
+//  Sub Folder Code
+// *************************************************************
+// Sub Folder UL
 el.subFolderList.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-sub")) {
     if (deleteMode) {
@@ -840,8 +948,77 @@ el.subFolderList.addEventListener("click", (e) => {
   }
 }); // End el.subFolderList.addEventListener
 
-//****************************************************** */
-// When the user clicks on a note
+// When You click +/icon in the subfolder heading ***************************
+el.addShowFormSub.addEventListener("click", (e) => {
+  clickAudio.play();
+  display.showSubFolderForm();
+  document.querySelector("#subFolderName").focus();
+}); // End
+
+// When You click on the add sub folder btn in the sub folder form
+document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
+  e.preventDefault();
+  // grab array from file
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  // create secondary obj
+  let secondaryName = el.textNameSub.value.trim();
+  if (secondaryName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Sub Folder!", "error");
+    return;
+  }
+  let secondaryObject = new SecondaryObj(secondaryName);
+  // check if the name already exists if it does alert and return and set current sub folder to -243
+  // make a variable to return
+  let isTaken = false;
+  primaryArray[mfI].secondaryArray.forEach((element) => {
+    if (secondaryName === element.name) {
+      isTaken = true;
+      return;
+    }
+  });
+  // check for taken name
+  if (isTaken) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+  } else {
+    // push object into array
+    primaryArray[mfI].secondaryArray.push(secondaryObject);
+    // sort secondary array by name
+    sortArrayByName(primaryArray[mfI].secondaryArray);
+    // write to file
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    addAudio.play();
+    display.showAlert("A new sub folder was added", "success", 1500);
+    // reset form
+    subFolderForm.reset();
+    renderSubFolders();
+  } // End else statement
+}); // End
+
+// when You click the cancel btn in the sub folder form
+document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
+  cancelAudio.play();
+  // reset form
+  el.subFolderForm.reset();
+  // hide form
+  display.displayNone(el.subFolderForm);
+  // get rid of active class
+  let activeTabList = document.getElementsByClassName("sub active");
+  if (activeTabList) {
+    let newArray = Array.from(activeTabList);
+    for (let item of newArray) {
+      item.classList.remove("active");
+    }
+  }
+}); //End
+// *************************************************************
+//  End SubFolder Code
+// *************************************************************
+// *************************************************************
+//  Note Code
+// *************************************************************
+// Note UL
 el.noteList.addEventListener("click", (e) => {
   // this gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
@@ -1035,199 +1212,12 @@ el.noteList.addEventListener("click", (e) => {
     return;
   }
 }); // End el.noteList.addEventListener
-
-// saving edited note btn listener
-document.querySelector("#saveEdit").addEventListener("click", (e) => {
-  // if (!deleteMode) {
-  //   warningEmptyAudio.play();
-  //   display.showAlert("You have to be in delete Mode to edit a note!", "error");
-  //   return;
-  // }
-  if (fcI < 0 || isNaN(fcI)) {
-    warningNameTakenAudio.play();
-    return;
-  }
-  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
-
-  // grab current note
-  let note =
-    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-      .noteArray[nI];
-
-  // if note is valid set the new text
-  if (note) {
-    note.text = newNoteText;
-  }
-  addAudio.play();
-  // write to file
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-  renderNotes();
-});
-
-document.querySelector("#editClose").addEventListener("click", (e) => {
-  clickAudio.play();
-});
-// //********************************************* */
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-//show forms addEventListener
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//Main folder code
-
-// when You click on the +/icon in the main folder heading
-el.addShowFormMain.addEventListener("click", (e) => {
-  clickAudio.play();
-  display.showMainFolderForm();
-  document.querySelector("#mainFolderName").focus();
-}); // End el.addShowFormMain.addEventListener
-
-// when you click on the add main folder btn
-document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
-  e.preventDefault();
-  // grab fileCab
-  let fileCab = arrayOfFileCabs[fcI];
-  // grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  // grab text for primary object
-  let primaryName = el.textNameMain.value.trim();
-  // check if text is empty
-
-  if (primaryName === "") {
-    warningEmptyAudio.play();
-    display.showAlert("Please enter a name for the Main Folder!", "error");
-    return;
-  }
-
-  // create primary object
-  let primaryObj = new PrimaryObj(primaryName);
-  // check if the name already exists if it does alert and return and set current main folder to -243
-  // make a variable to return
-  let isTaken = false;
-  primaryArray.forEach((element) => {
-    if (primaryName === element.name) {
-      isTaken = true;
-    }
-  });
-  // check for taken name
-  if (isTaken) {
-    warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
-    mfI = -243;
-  } else {
-    // push primary object into array
-    primaryArray.push(primaryObj);
-    // sort primary array by name
-    sortArrayByName(primaryArray);
-    // save file cab
-    fileCab.writeFileCabToHardDisk(fs);
-    addAudio.play();
-    display.showAlert("A new main folder was added", "success", 1500);
-    // hide form
-
-    // reset form
-    el.mainFolderForm.reset();
-
-    // send main folder array to display
-    renderMainFolders();
-  } // End else statement
-}); // End
-
-// when You click on cancel btn on the main folder form
-document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
-  cancelAudio.play();
-  // reset form
-  el.mainFolderForm.reset();
-  // hide form
-  display.displayNone(el.mainFolderForm);
-  // get rid of active class
-  let activeTabList = document.getElementsByClassName("main active");
-  if (activeTabList) {
-    let newArray = Array.from(activeTabList);
-    for (let item of newArray) {
-      item.classList.remove("active");
-    }
-  }
-}); // End
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// Sub folder code
-
-//When You click +/icon in the subfolder heading
-el.addShowFormSub.addEventListener("click", (e) => {
-  clickAudio.play();
-  display.showSubFolderForm();
-  document.querySelector("#subFolderName").focus();
-}); // End
-
-// When You click on the add sub folder btn in the sub folder form
-document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
-  e.preventDefault();
-  // grab array from file
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  // create secondary obj
-  let secondaryName = el.textNameSub.value.trim();
-  if (secondaryName === "") {
-    warningEmptyAudio.play();
-    display.showAlert("Please enter a name for the Sub Folder!", "error");
-    return;
-  }
-  let secondaryObject = new SecondaryObj(secondaryName);
-  // check if the name already exists if it does alert and return and set current sub folder to -243
-  // make a variable to return
-  let isTaken = false;
-  primaryArray[mfI].secondaryArray.forEach((element) => {
-    if (secondaryName === element.name) {
-      isTaken = true;
-      return;
-    }
-  });
-  // check for taken name
-  if (isTaken) {
-    warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
-  } else {
-    // push object into array
-    primaryArray[mfI].secondaryArray.push(secondaryObject);
-    // sort secondary array by name
-    sortArrayByName(primaryArray[mfI].secondaryArray);
-    // write to file
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-    addAudio.play();
-    display.showAlert("A new sub folder was added", "success", 1500);
-    // reset form
-    subFolderForm.reset();
-    renderSubFolders();
-  } // End else statement
-}); // End
-
-// when You click the cancel btn in the sub folder form
-document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
-  cancelAudio.play();
-  // reset form
-  el.subFolderForm.reset();
-  // hide form
-  display.displayNone(el.subFolderForm);
-  // get rid of active class
-  let activeTabList = document.getElementsByClassName("sub active");
-  if (activeTabList) {
-    let newArray = Array.from(activeTabList);
-    for (let item of newArray) {
-      item.classList.remove("active");
-    }
-  }
-}); //End
-
-//Note Code**************************************************
-
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
   document.querySelector("#myTextArea").focus();
 }); // End
-
 // when You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", (e) => {
   e.preventDefault();
@@ -1252,7 +1242,6 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   nI = -243;
   renderNotes();
 }); // End
-
 // when You click the cancel btn in the note form
 document.querySelector("#noteCancel").addEventListener("click", (e) => {
   cancelAudio.play();
@@ -1276,42 +1265,44 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   document.querySelector("#myTextArea").focus();
 }); //End
 
-// when You click on the rename File Cab rename Btn
-document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
-  e.preventDefault();
-  btnAudio.play();
-  // change file cabinet name
-  arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+// *************************************************************
+//  Edit Note Code
+// *************************************************************
+// when you click on the save edit btn in the modal
+document.querySelector("#saveEdit").addEventListener("click", (e) => {
+  if (fcI < 0 || isNaN(fcI)) {
+    warningNameTakenAudio.play();
+    return;
+  }
+  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+
+  // grab current note
+  let note =
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray[nI];
+
+  // if note is valid set the new text
+  if (note) {
+    note.text = newNoteText;
+  }
+  addAudio.play();
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
-  // reset form
-  renameFileCabForm.reset();
-  // send file cabinets array to display
+  renderNotes();
+});
 
-  renderFileCabs();
-}); // End
-
-// when You click on the rename File Cab cancel Btn
-document
-  .querySelector("#renameFileCabCancel")
-  .addEventListener("click", (e) => {
-    cancelAudio.play();
-    // reset form
-    el.renameFileCabForm.reset();
-    // hide form
-    display.displayNone(el.renameFileCabForm);
-    // get rid of active class
-    let activeTabList = document.getElementsByClassName("fileCab active");
-    if (activeTabList) {
-      let newArray = Array.from(activeTabList);
-      for (let item of newArray) {
-        item.classList.remove("active");
-      }
-    }
-  });
-
-// ***********************************************************
-// settings
+// when you click on the close Btn on the edit note form
+document.querySelector("#editClose").addEventListener("click", (e) => {
+  clickAudio.play();
+});
+// *************************************************************
+//  End Edit Note Code
+// *************************************************************
+// *************************************************************
+//  End Note Code
+// *************************************************************
+// *************************************************************
+// Settings code
 // *************************************************************
 // when You click on save settings Btn
 document.querySelector("#settingsSave").addEventListener("click", (e) => {
@@ -1380,7 +1371,7 @@ document.querySelector("#factoryReset").addEventListener("click", (e) => {
 document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
 
-  // this is for extsions
+  // this is for extensions
   let myOptions = {
     filters: [
       {
@@ -1444,3 +1435,6 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
     }
   }
 });
+// *************************************************************
+//  End Settings Code
+// *************************************************************
