@@ -708,6 +708,8 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   btnAudio.play();
   // change file cabinet name
   arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+  //sort the array
+  sortArrayByName(arrayOfFileCabs);
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   // reset form
