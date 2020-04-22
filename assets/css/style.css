@@ -47,7 +47,30 @@ nav ul li {
 nav ul li:hover {
   color: rgb(255, 255, 255);
 }
-
+input[type="radio"]:hover {
+  cursor: pointer;
+}
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+.fileCab:hover {
+  cursor: pointer;
+}
+.main:hover {
+  cursor: pointer;
+}
+.sub:hover {
+  cursor: pointer;
+}
+.fas:hover {
+  cursor: pointer;
+}
+.far:hover {
+  cursor: pointer;
+}
+.edit-note:hover {
+  cursor: pointer;
+}
 #noteList {
   margin: 10px auto;
   width: 98%;
@@ -181,9 +204,15 @@ p {
   color: green;
   display: inline;
 }
+.moveUp:hover {
+  cursor: pointer;
+}
 .moveDown {
   color: blue;
   display: inline;
+}
+.moveDown:hover {
+  cursor: pointer;
 }
 h3 {
   text-align: center;
