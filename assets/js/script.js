@@ -18,6 +18,9 @@ const tabAudio = document.querySelector("#tabAudio");
 const clickAudio = document.querySelector("#clickAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
+// Select Rename vars
+const mainFolderAddBtn = document.querySelector("#mainFolderAdd");
+const mainFolderRenameBtn = document.querySelector("#mainFolderRename");
 // Global variable's
 // current File Cab Index
 let fcI = -243;
@@ -806,15 +809,13 @@ el.mainFolderList.addEventListener("click", (e) => {
     // set focus
     document.querySelector("#mainFolderName").focus();
     // hide Add btn
-    display.displayNone(document.querySelector("#mainFolderAdd"));
+    display.displayNone(mainFolderAddBtn);
     // disable add btn
-    document.querySelector("#mainFolderAdd").disabled = true;
+    mainFolderAddBtn.disabled = true;
     // show reName btn
-    display.displayBlock(document.querySelector("#mainFolderRename"));
+    display.displayBlock(mainFolderRenameBtn);
     // enable rename btn
-    document.querySelector("#mainFolderRename").disabled = false;
-    // hide and show Btn
-
+    mainFolderRenameBtn.disabled = false;
     return;
   }
   if (e.target.classList.contains("delete-main")) {
@@ -886,13 +887,13 @@ el.addShowFormMain.addEventListener("click", (e) => {
   // show form
   display.showMainFolderForm();
   // hide Add btn
-  display.displayBlock(document.querySelector("#mainFolderAdd"));
+  display.displayBlock(mainFolderAddBtn);
   // enable add btn
-  document.querySelector("#mainFolderAdd").disabled = false;
+  mainFolderAddBtn.disabled = false;
   // show reName btn
-  display.displayNone(document.querySelector("#mainFolderRename"));
+  display.displayNone(mainFolderRenameBtn);
   // disable rename btn
-  document.querySelector("#mainFolderRename").disabled = true;
+  mainFolderRenameBtn.disabled = true;
   document.querySelector("#mainFolderName").focus();
 }); // End el.addShowFormMain.addEventListener
 
