@@ -184,11 +184,21 @@ function readFileContents(filepath) {
             }
           });
           if (isTaken) {
-            display.showAlert("That file is already loaded", "error");
+            display.showAlert(
+              "A file cabinet with that name is already loaded",
+              "error"
+            );
             // redisplay
             // get the names for all the file cabinets
             // and then send them to the Display
 
+            renderFileCabs();
+            return;
+          }
+          if (isNameInArray(data.name, arrayOfFileCabs)) {
+            // alert and return
+            warningEmptyAudio.play();
+            display.showAlert("That name is already taken!", "error");
             renderFileCabs();
             return;
           }
@@ -365,8 +375,16 @@ function addImage() {
     }
   });
 } // End addImage()
-
-// End Helper functions********************************
+// *************************************************************
+// *************************************************************
+function isNameInArray(name, array) {
+  for (let item of array) {
+    if (name === item.name) {
+      return true;
+    }
+  }
+  return false;
+} // End isNameInArray(name, array)
 
 // *************************************************************
 //  IPC Code
@@ -386,7 +404,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
       "You did not enter a name for the File Cabinet!",
       "error"
     );
-
     renderFileCabs();
     return;
   }
@@ -401,7 +418,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   });
   if (isTaken) {
     display.showAlert("That file is already loaded", "error");
-
+    renderFileCabs();
+    return;
+  }
+  if (isNameInArray(dataObj.name, arrayOfFileCabs)) {
+    // alert and return
+    warningEmptyAudio.play();
+    display.showAlert("That name is already taken!", "error");
     renderFileCabs();
     return;
   }
@@ -433,6 +456,16 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded", "error");
 
+    renderFileCabs();
+    return;
+  }
+  if (isNameInArray(data.name, arrayOfFileCabs)) {
+    // alert and return
+    warningEmptyAudio.play();
+    display.showAlert(
+      "A file cabinet with that name is already loaded!",
+      "error"
+    );
     renderFileCabs();
     return;
   }
@@ -706,8 +739,16 @@ el.fileCabList.addEventListener("click", (e) => {
 document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   e.preventDefault();
   btnAudio.play();
+  let newName = el.textRenameFileCab.value;
+
+  if (isNameInArray(newName, arrayOfFileCabs)) {
+    // alert and return
+    warningEmptyAudio.play();
+    display.showAlert("That name is already taken!", "error");
+    return;
+  }
   // change file cabinet name
-  arrayOfFileCabs[fcI].name = el.textRenameFileCab.value;
+  arrayOfFileCabs[fcI].name = newName;
   //sort the array
   sortArrayByName(arrayOfFileCabs);
   // write to file
