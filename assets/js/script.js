@@ -423,7 +423,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   }
   if (isNameInArray(dataObj.name, arrayOfFileCabs)) {
     // alert and return
-    warningEmptyAudio.play();
+    warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     renderFileCabs();
     return;
@@ -461,7 +461,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   }
   if (isNameInArray(data.name, arrayOfFileCabs)) {
     // alert and return
-    warningEmptyAudio.play();
+    warningNameTakenAudio.play();
     display.showAlert(
       "A file cabinet with that name is already loaded!",
       "error"
@@ -743,7 +743,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
 
   if (isNameInArray(newName, arrayOfFileCabs)) {
     // alert and return
-    warningEmptyAudio.play();
+    warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     return;
   }
@@ -868,22 +868,16 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     return;
   }
 
-  // create primary object
-  let primaryObj = new PrimaryObj(primaryName);
   // check if the name already exists if it does alert and return and set current main folder to -243
-  // make a variable to return
-  let isTaken = false;
-  primaryArray.forEach((element) => {
-    if (primaryName === element.name) {
-      isTaken = true;
-    }
-  });
+
   // check for taken name
-  if (isTaken) {
+  if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
     mfI = -243;
   } else {
+    // create primary object
+    let primaryObj = new PrimaryObj(primaryName);
     // push primary object into array
     primaryArray.push(primaryObj);
     // sort primary array by name
@@ -893,10 +887,8 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     addAudio.play();
     display.showAlert("A new main folder was added", "success", 1500);
     // hide form
-
     // reset form
     el.mainFolderForm.reset();
-
     // send main folder array to display
     renderMainFolders();
   } // End else statement
@@ -1009,21 +1001,18 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     display.showAlert("Please enter a name for the Sub Folder!", "error");
     return;
   }
-  let secondaryObject = new SecondaryObj(secondaryName);
-  // check if the name already exists if it does alert and return and set current sub folder to -243
-  // make a variable to return
-  let isTaken = false;
-  primaryArray[mfI].secondaryArray.forEach((element) => {
-    if (secondaryName === element.name) {
-      isTaken = true;
-      return;
-    }
-  });
+
   // check for taken name
-  if (isTaken) {
+  if (
+    isNameInArray(
+      secondaryName,
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray
+    )
+  ) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
   } else {
+    let secondaryObject = new SecondaryObj(secondaryName);
     // push object into array
     primaryArray[mfI].secondaryArray.push(secondaryObject);
     // sort secondary array by name
