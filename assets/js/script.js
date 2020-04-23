@@ -19,10 +19,13 @@ const clickAudio = document.querySelector("#clickAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
 // Select Rename vars
+const fileCabText = document.querySelector("#newFileCabName");
 const mainFolderAddBtn = document.querySelector("#mainFolderAdd");
 const mainFolderRenameBtn = document.querySelector("#mainFolderRename");
+const mainFolderText = document.querySelector("#mainFolderName");
 const subFolderAddBtn = document.querySelector("#subFolderAdd");
 const subFolderRenameBtn = document.querySelector("#subFolderRename");
+const subFolderText = document.querySelector("#subFolderName");
 // Global variable's
 // current File Cab Index
 let fcI = -243;
@@ -705,7 +708,10 @@ el.fileCabList.addEventListener("click", (e) => {
     }
     fcI = index;
     display.showRenameFileCabForm();
-    document.querySelector("#newFileCabName").focus();
+    // grab file cab name
+    let { name } = arrayOfFileCabs[fcI];
+    fileCabText.value = name;
+    fileCabText.focus();
     return;
   } // End shift Key down
 
@@ -746,7 +752,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   //check for empty string
   if (newName === "") {
     warningEmptyAudio.play();
-    display.showAlert("Please enter a name for the Main Folder!", "error");
+    display.showAlert("Please enter a name for the file cabinet!", "error");
     return;
   }
   if (isNameInArray(newName, arrayOfFileCabs)) {
@@ -812,12 +818,14 @@ el.mainFolderList.addEventListener("click", (e) => {
       return;
     }
     mfI = index;
-    //display Hide Form
-    display.displayNone(this.mainFolderForm);
     // show form
     display.showMainFolderForm();
+    // grab main folder name
+    let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
+    // set form text
+    mainFolderText.value = name;
     // set focus
-    document.querySelector("#mainFolderName").focus();
+    mainFolderText.focus();
     // hide Add btn
     display.displayNone(mainFolderAddBtn);
     // disable add btn
@@ -892,8 +900,6 @@ el.mainFolderList.addEventListener("click", (e) => {
 // when You click on the +/icon in the main folder heading *********
 el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
-  //display Hide Form
-  display.displayNone(this.mainFolderForm);
   // show form
   display.showMainFolderForm();
   // hide Add btn
@@ -904,7 +910,8 @@ el.addShowFormMain.addEventListener("click", (e) => {
   display.displayNone(mainFolderRenameBtn);
   // disable rename btn
   mainFolderRenameBtn.disabled = true;
-  document.querySelector("#mainFolderName").focus();
+  mainFolderText.value = "";
+  mainFolderText.focus();
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn ***********************
@@ -923,9 +930,6 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     display.showAlert("Please enter a name for the Main Folder!", "error");
     return;
   }
-
-  // check if the name already exists if it does alert and return and set current main folder to -243
-
   // check for taken name
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
@@ -1025,12 +1029,16 @@ el.subFolderList.addEventListener("click", (e) => {
       return;
     }
     sfI = index;
-    //display Hide Form
-    display.displayNone(this.subFolderForm);
     // show form
     display.showSubFolderForm();
+    // grab sub folder name
+    let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[
+      mfI
+    ].secondaryArray[sfI];
+    // set from text
+    subFolderText.value = name;
     // set focus
-    document.querySelector("#subFolderName").focus();
+    subFolderText.focus();
     // hide Add btn
     display.displayNone(subFolderAddBtn);
     // disable add btn
@@ -1109,8 +1117,6 @@ el.subFolderList.addEventListener("click", (e) => {
 // When You click +/icon in the subfolder heading ***************************
 el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
-  //display Hide Form
-  display.displayNone(this.subFolderForm);
   // show form
   display.showSubFolderForm();
   // hide Add btn

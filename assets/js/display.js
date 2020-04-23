@@ -200,11 +200,13 @@ class Display {
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.renameFileCabForm);
     this.displayBlock(this.elements.renameFileCabForm);
   } // End showRenameFileCabForm()
 
   //Method
   showMainFolderForm() {
+    this.displayNone(this.elements.mainFolderForm);
     this.displayBlock(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -216,6 +218,7 @@ class Display {
 
   //Method
   showSubFolderForm() {
+    this.displayNone(this.elements.subFolderForm);
     this.displayBlock(this.elements.subFolderForm);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.noteForm);
