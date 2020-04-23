@@ -21,6 +21,8 @@ const cancelAudio = document.querySelector("#cancelAudio");
 // Select Rename vars
 const mainFolderAddBtn = document.querySelector("#mainFolderAdd");
 const mainFolderRenameBtn = document.querySelector("#mainFolderRename");
+const subFolderAddBtn = document.querySelector("#subFolderAdd");
+const subFolderRenameBtn = document.querySelector("#subFolderRename");
 // Global variable's
 // current File Cab Index
 let fcI = -243;
@@ -708,7 +710,6 @@ el.fileCabList.addEventListener("click", (e) => {
   } // End shift Key down
 
   // event delegation
-
   // set's the current target active
   e.target.classList.add("active");
   // the Next code is to set the current tab color white with the active class
@@ -752,15 +753,23 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
     // alert and return
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
+    document.querySelector("#newFileCabName").focus();
     return;
   }
-  btnAudio.play();
+
   // change file cabinet name
   arrayOfFileCabs[fcI].name = newName;
   //sort the array
   sortArrayByName(arrayOfFileCabs);
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  addAudio.play();
+  display.showAlert(
+    `You renamed the file cabinet to ${newName}`,
+    "success",
+    1500
+  );
+
   // reset form
   renameFileCabForm.reset();
   // send file cabinets array to display
@@ -790,6 +799,7 @@ document
 // *************************************************************
 // main UL *****************************************************
 el.mainFolderList.addEventListener("click", (e) => {
+  // if shift is held down rename main folder
   if (e.shiftKey) {
     // rename Main folder
     // get the index from the html
@@ -920,6 +930,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
+    document.querySelector("#mainFolderName").focus();
   } else {
     // create primary object
     let primaryObj = new PrimaryObj(primaryName);
@@ -938,7 +949,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     renderMainFolders();
   } // End else statement
 }); // End
-// when you click on the add main folder btn ***********************
+// when you click on the rename main folder btn ***********************
 document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   e.preventDefault();
   // grab text for primary object
@@ -954,6 +965,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
+    document.querySelector("#mainFolderName").focus();
   } else {
     // grab main folder
     let mainFolder = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
@@ -964,7 +976,11 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
     // save file cab
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     addAudio.play();
-    display.showAlert("A new main folder was added", "success", 1500);
+    display.showAlert(
+      `You renamed the folder to ${primaryName}`,
+      "success",
+      1500
+    );
     // hide form
     // reset form
     el.mainFolderForm.reset();
@@ -996,6 +1012,36 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
 // *************************************************************
 // Sub Folder UL
 el.subFolderList.addEventListener("click", (e) => {
+  // if shift is held down rename sub folder
+  if (e.shiftKey) {
+    // rename Main folder
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    // Bug fix
+    if (isNaN(index)) {
+      // when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    sfI = index;
+    //display Hide Form
+    display.displayNone(this.subFolderForm);
+    // show form
+    display.showSubFolderForm();
+    // set focus
+    document.querySelector("#subFolderName").focus();
+    // hide Add btn
+    display.displayNone(subFolderAddBtn);
+    // disable add btn
+    subFolderAddBtn.disabled = true;
+    // show reName btn
+    display.displayBlock(subFolderRenameBtn);
+    // enable rename btn
+    subFolderRenameBtn.disabled = false;
+    return;
+  }
+  // event delegation
   if (e.target.classList.contains("delete-sub")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -1063,7 +1109,18 @@ el.subFolderList.addEventListener("click", (e) => {
 // When You click +/icon in the subfolder heading ***************************
 el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
+  //display Hide Form
+  display.displayNone(this.subFolderForm);
+  // show form
   display.showSubFolderForm();
+  // hide Add btn
+  display.displayBlock(subFolderAddBtn);
+  // enable add btn
+  subFolderAddBtn.disabled = false;
+  // show reName btn
+  display.displayNone(subFolderRenameBtn);
+  // disable rename btn
+  subFolderRenameBtn.disabled = true;
   document.querySelector("#subFolderName").focus();
 }); // End
 
@@ -1072,14 +1129,14 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   e.preventDefault();
   // grab array from file
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
-  // create secondary obj
+  // grab text input
   let secondaryName = el.textNameSub.value.trim();
+  // check for empty string
   if (secondaryName === "") {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the Sub Folder!", "error");
     return;
   }
-
   // check for taken name
   if (
     isNameInArray(
@@ -1089,6 +1146,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   ) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
+    document.querySelector("#subFolderName").focus();
   } else {
     let secondaryObject = new SecondaryObj(secondaryName);
     // push object into array
@@ -1101,6 +1159,49 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     display.showAlert("A new sub folder was added", "success", 1500);
     // reset form
     subFolderForm.reset();
+    renderSubFolders();
+  } // End else statement
+}); // End
+// When you click on the sub folder rename btn
+document.querySelector("#subFolderRename").addEventListener("click", (e) => {
+  e.preventDefault();
+  // grab text for primary object
+  let subName = el.textNameSub.value.trim();
+  // check if text is empty
+  if (subName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
+
+  // check for taken name
+  if (
+    isNameInArray(
+      subName,
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray
+    )
+  ) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+    document.querySelector("#subFolderName").focus();
+  } else {
+    // grab sub folder
+    let subFolder =
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI];
+    //change text
+    subFolder.name = subName;
+    // sort sub folder array by name
+    sortArrayByName(
+      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray
+    );
+    // save file cab
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    addAudio.play();
+    display.showAlert(`You renamed the folder to ${subName}`, "success", 1500);
+    // hide form
+    // reset form
+    el.subFolderForm.reset();
+    // send main folder array to display
     renderSubFolders();
   } // End else statement
 }); // End
