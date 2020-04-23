@@ -197,7 +197,6 @@ function readFileContents(filepath) {
           }
           if (isNameInArray(data.name, arrayOfFileCabs)) {
             // alert and return
-            warningEmptyAudio.play();
             display.showAlert("That name is already taken!", "error");
             renderFileCabs();
             return;
@@ -738,15 +737,21 @@ el.fileCabList.addEventListener("click", (e) => {
 // when You click on the rename File Cab rename Btn in the form *******************
 document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   e.preventDefault();
-  btnAudio.play();
+  // get text
   let newName = el.textRenameFileCab.value;
-
+  //check for empty string
+  if (newName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
   if (isNameInArray(newName, arrayOfFileCabs)) {
     // alert and return
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     return;
   }
+  btnAudio.play();
   // change file cabinet name
   arrayOfFileCabs[fcI].name = newName;
   //sort the array
@@ -756,7 +761,6 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   // reset form
   renameFileCabForm.reset();
   // send file cabinets array to display
-
   renderFileCabs();
 }); // End
 
@@ -783,6 +787,36 @@ document
 // *************************************************************
 // main UL *****************************************************
 el.mainFolderList.addEventListener("click", (e) => {
+  if (e.shiftKey) {
+    // rename Main folder
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    // Bug fix
+    if (isNaN(index)) {
+      // when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    mfI = index;
+    //display Hide Form
+    display.displayNone(this.mainFolderForm);
+    // show form
+    display.showMainFolderForm();
+    // set focus
+    document.querySelector("#mainFolderName").focus();
+    // hide Add btn
+    display.displayNone(document.querySelector("#mainFolderAdd"));
+    // disable add btn
+    document.querySelector("#mainFolderAdd").disabled = true;
+    // show reName btn
+    display.displayBlock(document.querySelector("#mainFolderRename"));
+    // enable rename btn
+    document.querySelector("#mainFolderRename").disabled = false;
+    // hide and show Btn
+
+    return;
+  }
   if (e.target.classList.contains("delete-main")) {
     if (deleteMode) {
       if (e.ctrlKey) {
@@ -847,7 +881,18 @@ el.mainFolderList.addEventListener("click", (e) => {
 // when You click on the +/icon in the main folder heading *********
 el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
+  //display Hide Form
+  display.displayNone(this.mainFolderForm);
+  // show form
   display.showMainFolderForm();
+  // hide Add btn
+  display.displayBlock(document.querySelector("#mainFolderAdd"));
+  // enable add btn
+  document.querySelector("#mainFolderAdd").disabled = false;
+  // show reName btn
+  display.displayNone(document.querySelector("#mainFolderRename"));
+  // disable rename btn
+  document.querySelector("#mainFolderRename").disabled = true;
   document.querySelector("#mainFolderName").focus();
 }); // End el.addShowFormMain.addEventListener
 
@@ -874,7 +919,6 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is taken", "error");
-    mfI = -243;
   } else {
     // create primary object
     let primaryObj = new PrimaryObj(primaryName);
@@ -893,7 +937,40 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     renderMainFolders();
   } // End else statement
 }); // End
+// when you click on the add main folder btn ***********************
+document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
+  e.preventDefault();
+  // grab text for primary object
+  let primaryName = el.textNameMain.value.trim();
+  // check if text is empty
+  if (primaryName === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a name for the Main Folder!", "error");
+    return;
+  }
 
+  // check for taken name
+  if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
+    warningNameTakenAudio.play();
+    display.showAlert("That name is taken", "error");
+  } else {
+    // grab main folder
+    let mainFolder = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
+    //change text
+    mainFolder.name = primaryName;
+    // sort primary array by name
+    sortArrayByName(arrayOfFileCabs[fcI].arrayOfPrimaryObjects);
+    // save file cab
+    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    addAudio.play();
+    display.showAlert("A new main folder was added", "success", 1500);
+    // hide form
+    // reset form
+    el.mainFolderForm.reset();
+    // send main folder array to display
+    renderMainFolders();
+  } // End else statement
+});
 // when You click on cancel btn on the main folder form ****************
 document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   cancelAudio.play();

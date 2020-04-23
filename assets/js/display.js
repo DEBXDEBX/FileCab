@@ -43,6 +43,7 @@ class Display {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
+    this.displayNone(this.elements.renameFileCabForm);
     this.displayNone(this.elements.mfHeading);
     this.displayNone(this.elements.sfHeading);
     this.displayNone(this.elements.nHeading);
@@ -69,6 +70,7 @@ class Display {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
+    this.displayNone(this.elements.renameFileCabForm);
     this.displayNone(this.elements.mfHeading);
     this.displayBlock(this.elements.mfHeading);
     this.displayNone(this.elements.mainFolderList);
