@@ -15,6 +15,11 @@ class Elements {
     this.subFolderForm = document.querySelector("#subFolderForm");
     this.noteForm = document.querySelector("#noteForm");
     this.settingsForm = document.querySelector("#settingsForm");
+    // select btn
+    this.mainFolderAddBtn = document.querySelector("#mainFolderAdd");
+    this.mainFolderRenameBtn = document.querySelector("#mainFolderRename");
+    this.subFolderAddBtn = document.querySelector("#subFolderAdd");
+    this.subFolderRenameBtn = document.querySelector("#subFolderRename");
     // select add show forms + / icon
     this.addShowFormMain = document.querySelector("#mfadd");
     this.addShowFormSub = document.querySelector("#sfadd");

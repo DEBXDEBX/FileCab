@@ -206,6 +206,15 @@ class Display {
 
   //Method
   showMainFolderForm() {
+    // hide Add btn
+    this.displayBlock(this.elements.mainFolderAddBtn);
+    // enable add btn
+    this.elements.mainFolderAddBtn.disabled = false;
+    // show reName btn
+    this.displayNone(this.elements.mainFolderRenameBtn);
+    // disable rename btn
+    this.elements.mainFolderRenameBtn.disabled = true;
+
     this.displayNone(this.elements.mainFolderForm);
     this.displayBlock(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
@@ -215,9 +224,37 @@ class Display {
     this.clearSubDisplay();
     this.clearNoteDisplay();
   } // End showMainFolderForm()
+  //Method
+  showRenameMainFolderForm() {
+    // hide Add btn
+    this.displayNone(this.elements.mainFolderAddBtn);
+    // disable add btn
+    this.elements.mainFolderAddBtn.disabled = true;
+    // show reName btn
+    this.displayBlock(this.elements.mainFolderRenameBtn);
+    // enable rename btn
+    this.elements.mainFolderRenameBtn.disabled = false;
 
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayBlock(this.elements.mainFolderForm);
+    this.displayNone(this.elements.subFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.sfHeading);
+    this.displayNone(this.elements.nHeading);
+    this.clearSubDisplay();
+    this.clearNoteDisplay();
+  } // End showRenameMainFolderForm()
   //Method
   showSubFolderForm() {
+    // hide Add btn
+    this.displayBlock(this.elements.subFolderAddBtn);
+    // enable add btn
+    this.elements.subFolderAddBtn.disabled = false;
+    // show reName btn
+    this.displayNone(this.elements.subFolderRenameBtn);
+    // disable rename btn
+    this.elements.subFolderRenameBtn.disabled = true;
+
     this.displayNone(this.elements.subFolderForm);
     this.displayBlock(this.elements.subFolderForm);
     this.displayNone(this.elements.mainFolderForm);
@@ -225,7 +262,23 @@ class Display {
     this.displayNone(this.elements.nHeading);
     this.clearNoteDisplay();
   } // End showSubFolderForm()
+  showRenameSubFolderForm() {
+    // hide Add btn
+    this.displayNone(this.elements.subFolderAddBtn);
+    // disable add btn
+    this.elements.subFolderAddBtn.disabled = true;
+    // show reName btn
+    this.displayBlock(this.elements.subFolderRenameBtn);
+    // enable rename btn
+    this.elements.subFolderRenameBtn.disabled = false;
 
+    this.displayNone(this.elements.subFolderForm);
+    this.displayBlock(this.elements.subFolderForm);
+    this.displayNone(this.elements.mainFolderForm);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.nHeading);
+    this.clearNoteDisplay();
+  } // End showSubFolderForm()
   //Method
   showNoteForm() {
     this.displayBlock(this.elements.noteForm);
