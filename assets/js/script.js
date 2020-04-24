@@ -1474,6 +1474,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   if (note) {
     note.text = newNoteText;
   }
+  display.showAlert("Note updated!", "success", 3000);
   addAudio.play();
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
