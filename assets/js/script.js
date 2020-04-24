@@ -706,8 +706,9 @@ el.fileCabList.addEventListener("click", (e) => {
     // grab file cab name
     let { name } = arrayOfFileCabs[fcI];
     fileCabText.value = name;
-    display.showRenameFileCabForm();
     fileCabText.focus();
+    display.showRenameFileCabForm();
+
     return;
   } // End shift Key down
 
@@ -819,10 +820,11 @@ el.mainFolderList.addEventListener("click", (e) => {
     let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     // set form text
     mainFolderText.value = name;
-    // show form
-    display.showRenameMainFolderForm();
     // set focus
     mainFolderText.focus();
+    // show form
+    display.showRenameMainFolderForm();
+
     return;
   }
   if (e.target.classList.contains("delete-main")) {
@@ -891,9 +893,9 @@ el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
 
   mainFolderText.value = "";
+  mainFolderText.focus();
   // show form
   display.showMainFolderForm();
-  mainFolderText.focus();
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn ***********************
@@ -1016,10 +1018,11 @@ el.subFolderList.addEventListener("click", (e) => {
     ].secondaryArray[sfI];
     // set from text
     subFolderText.value = name;
-    // show form
-    display.showRenameSubFolderForm();
     // set focus
     subFolderText.focus();
+    // show form
+    display.showRenameSubFolderForm();
+
     return;
   }
   // event delegation

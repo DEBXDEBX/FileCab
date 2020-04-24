@@ -31,5 +31,7 @@ class Elements {
     this.textArea = document.querySelector("#myTextArea");
     // select the autoload list
     this.autoLoadList = document.querySelector("#autoLoadList");
+    // select message display
+    this.messageDisplay = document.querySelector("#displayMessage");
   } // End constructor
 } // End Elements class
