@@ -707,9 +707,11 @@ el.fileCabList.addEventListener("click", (e) => {
 
     let { name } = arrayOfFileCabs[fcI];
     fileCabText.value = name;
-    fileCabText.focus();
     display.showRenameFileCabForm();
-
+    // set time out to focus
+    window.setTimeout(function () {
+      fileCabText.focus();
+    }, 1000);
     return;
   } // End shift Key down
 
@@ -765,7 +767,10 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
     // alert and return
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
-    fileCabText.focus();
+    // set time out to focus
+    window.setTimeout(function () {
+      fileCabText.focus();
+    }, 1000);
     return;
   }
 
@@ -829,11 +834,12 @@ el.mainFolderList.addEventListener("click", (e) => {
     let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     // set form text
     mainFolderText.value = name;
-    // set focus
-    mainFolderText.focus();
     // show form
     display.showRenameMainFolderForm();
-
+    // set time out to focus
+    window.setTimeout(function () {
+      mainFolderText.focus();
+    }, 1000);
     return;
   }
   if (e.target.classList.contains("delete-main")) {
@@ -902,9 +908,12 @@ el.addShowFormMain.addEventListener("click", (e) => {
   clickAudio.play();
 
   mainFolderText.value = "";
-  mainFolderText.focus();
   // show form
   display.showMainFolderForm();
+  // set time out to focus
+  window.setTimeout(function () {
+    mainFolderText.focus();
+  }, 1000);
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn ***********************
@@ -927,7 +936,10 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
-    mainFolderText.focus();
+    // set time out to focus
+    window.setTimeout(function () {
+      mainFolderText.focus();
+    }, 1000);
   } else {
     // create primary object
     let primaryObj = new PrimaryObj(primaryName);
@@ -969,7 +981,10 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
-    mainFolderText.focus();
+    // set time out to focus
+    window.setTimeout(function () {
+      mainFolderText.focus();
+    }, 1000);
   } else {
     // grab main folder
     let mainFolder = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
@@ -1035,11 +1050,12 @@ el.subFolderList.addEventListener("click", (e) => {
     ].secondaryArray[sfI];
     // set from text
     subFolderText.value = name;
-    // set focus
-    subFolderText.focus();
     // show form
     display.showRenameSubFolderForm();
-
+    // set time out to focus
+    window.setTimeout(function () {
+      subFolderText.focus();
+    }, 1000);
     return;
   }
   // event delegation
@@ -1112,7 +1128,10 @@ el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
   // show form
   display.showSubFolderForm();
-  subFolderText.focus();
+  // set time out to focus
+  window.setTimeout(function () {
+    subFolderText.focus();
+  }, 1000);
 }); // End
 
 // When You click on the add sub folder btn in the sub folder form
@@ -1137,7 +1156,10 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   ) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
-    subFolderText.focus();
+    // set time out to focus
+    window.setTimeout(function () {
+      subFolderText.focus();
+    }, 1000);
   } else {
     let secondaryObject = new SecondaryObj(secondaryName);
     // push object into array
@@ -1425,7 +1447,11 @@ el.noteList.addEventListener("click", (e) => {
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
-  document.querySelector("#myTextArea").focus();
+
+  // set time out to focus
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); // End
 // when You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", (e) => {
@@ -1463,7 +1489,10 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
-  document.querySelector("#myTextArea").focus();
+  // set time out to focus
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); //End
 
 // when you click on the add Date btn in the note form
@@ -1471,7 +1500,10 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
-  document.querySelector("#myTextArea").focus();
+  // set time out to focus
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); //End
 
 // *************************************************************

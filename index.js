@@ -81,7 +81,7 @@ function loadFileCabinet() {
   };
   dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (!fileNames) {
-      let message = "No file selected";
+      let message = "No file selected!";
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
     } else {
@@ -92,7 +92,7 @@ function loadFileCabinet() {
 
   function readFileContents(filepath) {
     if (!filepath) {
-      let message = "No file selected";
+      let message = "No file selected!";
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
       return;
@@ -100,7 +100,7 @@ function loadFileCabinet() {
 
     fs.readFile(filepath, "utf-8", (err, data) => {
       if (err) {
-        let message = "An error occured reading the file.";
+        let message = "An error occured reading the file!";
         let msgType = "error";
         mainWindow.webContents.send("Display:showAlert", { message, msgType });
         return;
@@ -108,7 +108,7 @@ function loadFileCabinet() {
         try {
           data = JSON.parse(data);
         } catch {
-          let message = "Can not parse data";
+          let message = "Can not parse data!";
           let msgType = "error";
           mainWindow.webContents.send("Display:showAlert", {
             message,
@@ -125,7 +125,7 @@ function loadFileCabinet() {
             // data is an object to be converted to an file cab object
             mainWindow.webContents.send("fileCab:load", data);
           } else {
-            let message = "This is not a valid ElectronFileCab2019April file";
+            let message = "This is not a valid ElectronFileCab2019April file!";
             let msgType = "error";
             mainWindow.webContents.send("Display:showAlert", {
               message,
