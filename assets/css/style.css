@@ -113,7 +113,12 @@ img {
 }
 .black {
   background-color: black;
-  border-bottom: 5px solid black;
+}
+.redBorder {
+  border: 10px solid red;
+}
+.greenBorder {
+  border: 10px solid #2de11d;
 }
 /* END CODE FOR MESSAGES  */
 .addSpace {
