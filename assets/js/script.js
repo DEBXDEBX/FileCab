@@ -122,7 +122,7 @@ function pushFileSettingsContainer(filePath) {
   });
   if (isTaken) {
     warningNameTakenAudio.play();
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
     return;
   }
 
@@ -152,7 +152,7 @@ function autoLoadFileCabs(array) {
 // ***********************************************************
 function readFileContents(filepath) {
   if (!filepath) {
-    let message = "No file selected";
+    let message = "No file selected!";
     let msgType = "error";
     display.showAlert(message, msgType);
     return;
@@ -160,7 +160,7 @@ function readFileContents(filepath) {
 
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
-      let message = "An error occured reading the file.";
+      let message = "An error occured reading the file!";
       let msgType = "error";
       display.showAlert(message, msgType);
       return;
@@ -168,7 +168,7 @@ function readFileContents(filepath) {
       try {
         data = JSON.parse(data);
       } catch {
-        let message = "Can not parse data";
+        let message = "Can not parse data!";
         let msgType = "error";
         display.showAlert(message, msgType);
         return;
@@ -189,7 +189,7 @@ function readFileContents(filepath) {
           });
           if (isTaken) {
             display.showAlert(
-              "A file cabinet with that name is already loaded",
+              "A file cabinet with that name is already loaded!",
               "error"
             );
             // redisplay
@@ -222,7 +222,7 @@ function readFileContents(filepath) {
 
           renderFileCabs();
         } else {
-          let message = "This is not a valid ElectronFileCab2019April file";
+          let message = "This is not a valid ElectronFileCab2019April file!";
           let msgType = "error";
           display.showAlert(message, msgType);
         }
@@ -254,7 +254,7 @@ function loadUpSettingsForm() {
         document.querySelector("#Light").checked = true;
         break;
       default:
-        console.log("No valid theme");
+        console.log("No valid theme!");
     }
     // check the right font size
     switch (settings.fontSize) {
@@ -363,14 +363,14 @@ function handleFilePath(imagePath) {
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addImageAudio.play();
-  display.showAlert("A new image was added to the note", "success");
+  display.showAlert("A new image was added to the note!", "success");
 } // End handleFilePath(imagePath)
 // ***************************************************************
 function addImage() {
   let imagePath;
   dialog.showOpenDialog((fileNames) => {
     if (!fileNames) {
-      display.showAlert("No file selected", "error");
+      display.showAlert("No file selected!", "error");
     } else {
       // got file name
       imagePath = fileNames[0];
@@ -420,7 +420,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     }
   });
   if (isTaken) {
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
     renderFileCabs();
     return;
   }
@@ -457,7 +457,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   });
   if (isTaken) {
     // warningNameTakenAudio.play();
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
 
     renderFileCabs();
     return;
@@ -514,7 +514,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   }
 
   if (deleteMode) {
-    display.showAlert("You have entered delete mode", "success");
+    display.showAlert("Edit and Delete mode!", "error");
     myBody.style.backgroundColor = "#d3369c";
     myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
@@ -553,7 +553,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
       paintNote = true;
     }
 
-    display.showAlert("You Have exited delete mode", "success");
+    display.showAlert("Read and Write mode!", "success");
     switch (currentTheme) {
       case "Dark":
         myBody.style.background = "none";
@@ -622,7 +622,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
       deleteMode = false;
       break;
     default:
-      console.log("No valid option");
+      console.log("No valid option!");
     // code block
   }
 });
@@ -665,7 +665,7 @@ ipcRenderer.on("FileCab:close", (event) => {
   $("#myModal").modal("hide");
   if (fcI === -243 || isNaN(fcI)) {
     renderFileCabs();
-    display.showAlert("Please select a file cabinet to close", "error");
+    display.showAlert("Please select a file cabinet to close!", "error");
     return;
   }
   // remove file cab from array
@@ -704,6 +704,7 @@ el.fileCabList.addEventListener("click", (e) => {
     }
     fcI = index;
     // grab file cab name
+
     let { name } = arrayOfFileCabs[fcI];
     fileCabText.value = name;
     fileCabText.focus();
@@ -744,6 +745,14 @@ el.fileCabList.addEventListener("click", (e) => {
 // when You click on the rename File Cab rename Btn in the form *******************
 document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   e.preventDefault();
+  if (!deleteMode) {
+    warningEmptyAudio.play();
+    display.showAlert(
+      "You have to enter Edit and Delete mode to rename a file cabinet!",
+      "error"
+    );
+    return;
+  }
   // get text
   let newName = el.textRenameFileCab.value;
   //check for empty string
@@ -847,7 +856,7 @@ el.mainFolderList.addEventListener("click", (e) => {
       } else {
         warningEmptyAudio.play();
         display.showAlert(
-          "You have to hold down the control key to make a deletion",
+          "You have to hold down the control key to make a deletion!",
           "error"
         );
         return;
@@ -917,7 +926,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   // check for taken name
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
+    display.showAlert("That name is already taken!", "error");
     mainFolderText.focus();
   } else {
     // create primary object
@@ -929,7 +938,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     // save file cab
     fileCab.writeFileCabToHardDisk(fs);
     addAudio.play();
-    display.showAlert("A new main folder was added", "success", 1500);
+    display.showAlert("A new main folder was added!", "success", 1500);
     // reset form
     el.mainFolderForm.reset();
     // send main folder array to display
@@ -939,6 +948,14 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
 // when you click on the rename main folder btn ***********************
 document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   e.preventDefault();
+  if (!deleteMode) {
+    warningEmptyAudio.play();
+    display.showAlert(
+      "You have to enter Edit and Delete mode to rename a main folder!",
+      "error"
+    );
+    return;
+  }
   // grab text for primary object
   let primaryName = el.textNameMain.value.trim();
   // check if text is empty
@@ -951,7 +968,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   // check for taken name
   if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
     warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
+    display.showAlert("That name is already taken!", "error");
     mainFolderText.focus();
   } else {
     // grab main folder
@@ -964,7 +981,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     addAudio.play();
     display.showAlert(
-      `You renamed the folder to ${primaryName}`,
+      `You renamed the folder to ${primaryName}!`,
       "success",
       1500
     );
@@ -1046,7 +1063,7 @@ el.subFolderList.addEventListener("click", (e) => {
       } else {
         warningEmptyAudio.play();
         display.showAlert(
-          "You have to hold down the control key to make a deletion",
+          "You have to hold down the control key to make a deletion!",
           "error"
         );
         return;
@@ -1119,7 +1136,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     )
   ) {
     warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
+    display.showAlert("That name is already taken!", "error");
     subFolderText.focus();
   } else {
     let secondaryObject = new SecondaryObj(secondaryName);
@@ -1130,7 +1147,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     // write to file
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     addAudio.play();
-    display.showAlert("A new sub folder was added", "success", 1500);
+    display.showAlert("A new sub folder was added!", "success", 1500);
     // reset form
     subFolderForm.reset();
     renderSubFolders();
@@ -1139,6 +1156,14 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
 // When you click on the sub folder rename btn
 document.querySelector("#subFolderRename").addEventListener("click", (e) => {
   e.preventDefault();
+  if (!deleteMode) {
+    warningEmptyAudio.play();
+    display.showAlert(
+      "You have to enter Edit and Delete mode to rename a sub folder!",
+      "error"
+    );
+    return;
+  }
   // grab text for primary object
   let subName = el.textNameSub.value.trim();
   // check if text is empty
@@ -1156,7 +1181,7 @@ document.querySelector("#subFolderRename").addEventListener("click", (e) => {
     )
   ) {
     warningNameTakenAudio.play();
-    display.showAlert("That name is taken", "error");
+    display.showAlert("That name is already taken!", "error");
     subFolderText.focus();
   } else {
     // grab sub folder
@@ -1171,7 +1196,7 @@ document.querySelector("#subFolderRename").addEventListener("click", (e) => {
     // save file cab
     arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
     addAudio.play();
-    display.showAlert(`You renamed the folder to ${subName}`, "success", 1500);
+    display.showAlert(`You renamed the folder to ${subName}!`, "success", 1500);
     // hide form
     // reset form
     el.subFolderForm.reset();
@@ -1289,7 +1314,7 @@ el.noteList.addEventListener("click", (e) => {
     if (!deleteMode) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to select delete mode in menu to make a deletion",
+        "You have to select Edit and Delete mode in menu to make a deletion!",
         "error"
       );
       return;
@@ -1297,7 +1322,7 @@ el.noteList.addEventListener("click", (e) => {
     if (!e.ctrlKey) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to hold down ctrl key to make a deletion",
+        "You have to hold down ctrl key to make a deletion!",
         "error"
       );
       return;
@@ -1422,7 +1447,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addAudio.play();
-  display.showAlert("A new note was added", "success", 900);
+  display.showAlert("A new note was added!", "success", 900);
   nI = -243;
   renderNotes();
 }); // End
@@ -1476,6 +1501,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   }
   display.showAlert("Note updated!", "success", 3000);
   addAudio.play();
+
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   renderNotes();
@@ -1521,6 +1547,7 @@ document.querySelector("#settingsSave").addEventListener("click", (e) => {
   // save the object
   settingsStorage.saveSettings(settingsObj);
   addAudio.play();
+  display.showAlert("Saving User Settings!", "success", 900);
   // reset form
   el.settingsForm.reset();
   if (settingsObj.autoLoad) {
@@ -1574,7 +1601,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
 
   dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (fileNames === undefined || fileNames.length === 0) {
-      display.showAlert("No file selected", "error");
+      display.showAlert("No file selected!", "error");
     } else {
       // got file name
 
@@ -1597,7 +1624,7 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
     if (!deleteMode) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to select delete mode in menu to make a deletion",
+        "You have to select Edit and Delete mode in menu to make a deletion",
         "error"
       );
       return;
