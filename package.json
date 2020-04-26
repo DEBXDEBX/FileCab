@@ -1,6 +1,6 @@
 {
   "name": "filecab",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "file cab program",
   "main": "index.js",
   "scripts": {

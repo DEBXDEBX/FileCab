@@ -1126,6 +1126,7 @@ el.subFolderList.addEventListener("click", (e) => {
 // When You click +/icon in the subfolder heading ***************************
 el.addShowFormSub.addEventListener("click", (e) => {
   clickAudio.play();
+  subFolderText.value = "";
   // show form
   display.showSubFolderForm();
   // set time out to focus
