@@ -1474,6 +1474,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   // write to file
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addAudio.play();
+  el.textArea.value = "";
   display.showAlert("A new note was added!", "success", 900);
   nI = -243;
   renderNotes();
