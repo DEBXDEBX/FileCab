@@ -719,16 +719,15 @@ el.fileCabList.addEventListener("click", (e) => {
   // set's the current target active
   e.target.classList.add("active");
   // the Next code is to set the current tab color white with the active class
-  var el = document.querySelectorAll(".fileCab");
-  for (let i = 0; i < el.length; i++) {
-    el[i].onclick = function () {
-      var c = 0;
-      while (c < el.length) {
-        el[c++].className = "fileCab";
-      }
-      el[i].className = "fileCab active";
-    };
-  } // End code to set the active class
+
+  let fileCabList = document.getElementsByClassName("fileCab");
+  // create an array from an array like object
+  let newArray = Array.from(fileCabList);
+  newArray.forEach((item) => {
+    item.classList.remove("active");
+  });
+  // add active class
+  e.target.classList.add("active");
 
   // get the index from the html
   let index = e.target.dataset.index;
@@ -873,18 +872,16 @@ el.mainFolderList.addEventListener("click", (e) => {
 
   // The Next code is to set the current tab color white with the active class
   // set's the current target active
+
   if (e.target.classList.contains("main")) {
+    let mainFolderList = document.getElementsByClassName("main");
+    // create an array from an array like object
+    let newArray = Array.from(mainFolderList);
+    newArray.forEach((item) => {
+      item.classList.remove("active");
+    });
+    // add active class
     e.target.classList.add("active");
-    var el = document.querySelectorAll(".main");
-    for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function () {
-        var c = 0;
-        while (c < el.length) {
-          el[c++].className = "main";
-        }
-        el[i].className = "main active";
-      };
-    } // End code to set the active class
 
     // get the index from the html
     let index = e.target.dataset.index;
@@ -1102,6 +1099,14 @@ el.subFolderList.addEventListener("click", (e) => {
       };
     }
 
+    let subFolderList = document.getElementsByClassName("sub");
+    // create an array from an array like object
+    let newArray = Array.from(subFolderList);
+    newArray.forEach((item) => {
+      item.classList.remove("active");
+    });
+    // add active class
+    e.target.classList.add("active");
     // End code to set the active class
 
     // get the index from the html
