@@ -297,9 +297,9 @@ class Display {
       "#820ee8",
       "#8e7fc7",
       "#ff008b",
+      "#4dc6e8",
       "#17abf5",
       "#4c69bd",
-      "#0c10de",
       "#e251dc",
       "#bbb70e",
     ];
