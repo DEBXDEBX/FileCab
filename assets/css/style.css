@@ -86,12 +86,21 @@ input[type="checkbox"]:hover {
 
 .active {
   color: white;
+  box-shadow: 3px 2px 4px white;
 }
-
+#fileCabHeading,
+#headingMainFolder,
+#headingSubFolder,
+#headingNote,
+.setFlex,
+.note {
+  box-shadow: 5px 4px 9px black;
+  overflow: auto;
+}
 .note {
   white-space: pre;
   border-radius: 20px;
-  padding: 7px;
+  padding: 14px;
 }
 img {
   border-radius: 20px;
