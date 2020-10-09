@@ -49,10 +49,11 @@ const display = new Display(el, $);
 // This is the Main array that holds all the file cab objects
 const arrayOfFileCabs = [];
 
+//When you click on the icon's the tool tip gets messed up and you can't click one it.
 // This enables JQuery ToolTips
-$(document).ready(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
+// $(document).ready(function () {
+//   $('[data-toggle="tooltip"]').tooltip();
+// });
 
 // The start of program exicution.
 window.onload = function () {
