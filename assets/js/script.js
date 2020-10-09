@@ -716,18 +716,18 @@ el.fileCabList.addEventListener("click", (e) => {
   } // End shift Key down
 
   // event delegation
-  // set's the current target active
-  e.target.classList.add("active");
-  // the Next code is to set the current tab color white with the active class
+  if (e.target.classList.contains("fileCab")) {
+    let fileCabList = document.getElementsByClassName("fileCab");
+    // create an array from an array like object
+    let newArray = Array.from(fileCabList);
+    newArray.forEach((item) => {
+      item.classList.remove("active");
+    });
+    // add active class
+    e.target.classList.add("active");
+  }
 
-  let fileCabList = document.getElementsByClassName("fileCab");
-  // create an array from an array like object
-  let newArray = Array.from(fileCabList);
-  newArray.forEach((item) => {
-    item.classList.remove("active");
-  });
-  // add active class
-  e.target.classList.add("active");
+  // the Next code is to set the current tab color white with the active class
 
   // get the index from the html
   let index = e.target.dataset.index;
