@@ -95,12 +95,12 @@ input[type="checkbox"]:hover {
 .setFlex,
 .note {
   box-shadow: 5px 4px 9px black;
-  overflow: auto;
 }
 .note {
   white-space: pre;
   border-radius: 20px;
   padding: 14px;
+  overflow: auto;
 }
 img {
   border-radius: 20px;
