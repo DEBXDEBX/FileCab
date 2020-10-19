@@ -22,6 +22,9 @@ h4 {
 }
 body {
   background-color: black;
+  transition-duration: 1.7s;
+  transition-delay: 0s;
+  transition-timing-function: linear;
 }
 
 nav ul {
