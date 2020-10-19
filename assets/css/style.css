@@ -42,6 +42,9 @@ nav ul li {
   border-radius: 10px 10px 0px 0px;
   font-weight: 700;
   font-size: 1.2rem;
+  transition-duration: 0.7s;
+  transition-delay: 0s;
+  transition-timing-function: linear;
 }
 
 nav ul li:hover {
@@ -87,6 +90,7 @@ input[type="checkbox"]:hover {
 .active {
   color: white;
   box-shadow: 3px 2px 4px white;
+  transform: scale(1.1);
 }
 #fileCabHeading,
 #headingMainFolder,
