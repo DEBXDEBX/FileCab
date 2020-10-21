@@ -696,7 +696,6 @@ el.fileCabList.addEventListener("click", (e) => {
     // get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    // Bug fix
     if (isNaN(index)) {
       // when you click out side of the tab
       // if it's not a number return
@@ -704,7 +703,6 @@ el.fileCabList.addEventListener("click", (e) => {
     }
     fcI = index;
     // grab file cab name
-
     let { name } = arrayOfFileCabs[fcI];
     fileCabText.value = name;
     display.showRenameFileCabForm();
@@ -725,22 +723,18 @@ el.fileCabList.addEventListener("click", (e) => {
     });
     // add active class
     e.target.classList.add("active");
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    if (isNaN(index)) {
+      // when you click out side of the tab
+      // if it's not a number return
+      return;
+    }
+    fcI = index;
+    tabAudio.play();
+    renderMainFolders();
   }
-
-  // the Next code is to set the current tab color white with the active class
-
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  // Bug fix
-  if (isNaN(index)) {
-    // when you click out side of the tab
-    // if it's not a number return
-    return;
-  }
-  fcI = index;
-  tabAudio.play();
-  renderMainFolders();
 }); // End el.fileCabList.addEventListener
 
 // when You click on the rename File Cab rename Btn in the form *******************
@@ -821,7 +815,6 @@ el.mainFolderList.addEventListener("click", (e) => {
     // get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    // Bug fix
     if (isNaN(index)) {
       // when you click out side of the tab
       // if it's not a number return
@@ -1033,7 +1026,6 @@ el.subFolderList.addEventListener("click", (e) => {
     // get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    // Bug fix
     if (isNaN(index)) {
       // when you click out side of the tab
       // if it's not a number return
@@ -1084,21 +1076,7 @@ el.subFolderList.addEventListener("click", (e) => {
     } // End delete mode
   }
 
-  // the Next code is to set the current tab color white with the active class
-  // set's the current target active
   if (e.target.classList.contains("sub")) {
-    e.target.classList.add("active");
-    var el = document.querySelectorAll(".sub");
-    for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function () {
-        var c = 0;
-        while (c < el.length) {
-          el[c++].className = "sub";
-        }
-        el[i].className = "sub active";
-      };
-    }
-
     let subFolderList = document.getElementsByClassName("sub");
     // create an array from an array like object
     let newArray = Array.from(subFolderList);
