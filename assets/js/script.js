@@ -70,7 +70,7 @@ function startUp() {
     applySettings(settings);
     // update Form
     display.showAutoLoadList(settingsArrayContainer);
-    var x = document.querySelector("#autoLoad").checked;
+    let x = document.querySelector("#autoLoad").checked;
     if (x === true) {
       if (settings.filePathArray) {
         autoLoadFileCabs(settings.filePathArray);
@@ -406,7 +406,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     return;
   }
 
-  if (dataObj.name === "") {
+  if (!dataObj.name) {
     display.showAlert(
       "You did not enter a name for the File Cabinet!",
       "error"
@@ -418,11 +418,13 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfFileCabs.forEach((element) => {
+
+  for (const element of arrayOfFileCabs) {
     if (element.fileNamePath === dataObj.fileNamePath) {
       isTaken = true;
     }
-  });
+  }
+
   if (isTaken) {
     display.showAlert("That file is already loaded!", "error");
     renderFileCabs();
@@ -454,11 +456,13 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfFileCabs.forEach((element) => {
+
+  for (const element of arrayOfFileCabs) {
     if (element.fileNamePath === data.fileNamePath) {
       isTaken = true;
     }
-  });
+  }
+
   if (isTaken) {
     // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded!", "error");
@@ -755,7 +759,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   // get text
   let newName = el.textRenameFileCab.value;
   //check for empty string
-  if (newName === "") {
+  if (!newName) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the file cabinet!", "error");
     return;
@@ -921,7 +925,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   let primaryName = el.textNameMain.value.trim();
   // check if text is empty
 
-  if (primaryName === "") {
+  if (!primaryName) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the Main Folder!", "error");
     return;
@@ -965,7 +969,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
   // grab text for primary object
   let primaryName = el.textNameMain.value.trim();
   // check if text is empty
-  if (primaryName === "") {
+  if (!primaryName) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the Main Folder!", "error");
     return;
@@ -1130,7 +1134,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   // grab text input
   let secondaryName = el.textNameSub.value.trim();
   // check for empty string
-  if (secondaryName === "") {
+  if (!secondaryName) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the Sub Folder!", "error");
     return;
@@ -1177,7 +1181,7 @@ document.querySelector("#subFolderRename").addEventListener("click", (e) => {
   // grab text for primary object
   let subName = el.textNameSub.value.trim();
   // check if text is empty
-  if (subName === "") {
+  if (!subName) {
     warningEmptyAudio.play();
     display.showAlert("Please enter a name for the Main Folder!", "error");
     return;
@@ -1449,7 +1453,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   // create note
   let noteText = el.textArea.value.trim();
   // check if text is empty
-  if (noteText === "") {
+  if (!noteText) {
     warningEmptyAudio.play();
     display.showAlert("Please enter note in the text area!", "error");
     return;
@@ -1506,7 +1510,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   }
   let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
   // check if text is empty
-  if (newNoteText === "") {
+  if (!newNoteText) {
     warningEmptyAudio.play();
     display.showAlert("Please enter text in the text area!", "error");
     return;
