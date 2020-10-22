@@ -724,9 +724,11 @@ el.fileCabList.addEventListener("click", (e) => {
     let fileCabList = document.getElementsByClassName("fileCab");
     // create an array from an array like object
     let newArray = Array.from(fileCabList);
-    newArray.forEach((item) => {
+
+    for (const item of newArray) {
       item.classList.remove("active");
-    });
+    }
+
     // add active class
     e.target.classList.add("active");
     // get the index from the html
@@ -874,9 +876,10 @@ el.mainFolderList.addEventListener("click", (e) => {
     let mainFolderList = document.getElementsByClassName("main");
     // create an array from an array like object
     let newArray = Array.from(mainFolderList);
-    newArray.forEach((item) => {
+
+    for (const item of newArray) {
       item.classList.remove("active");
-    });
+    }
     // add active class
     e.target.classList.add("active");
 
@@ -1056,6 +1059,10 @@ el.subFolderList.addEventListener("click", (e) => {
         // get the index from the html
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
+
+        if (isNaN(deleteIndex)) {
+          return;
+        }
         // DELETE sub folder
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray.splice(
           deleteIndex,
@@ -1082,9 +1089,10 @@ el.subFolderList.addEventListener("click", (e) => {
     let subFolderList = document.getElementsByClassName("sub");
     // create an array from an array like object
     let newArray = Array.from(subFolderList);
-    newArray.forEach((item) => {
+
+    for (const item of newArray) {
       item.classList.remove("active");
-    });
+    }
     // add active class
     e.target.classList.add("active");
     // End code to set the active class
@@ -1093,10 +1101,7 @@ el.subFolderList.addEventListener("click", (e) => {
     let index = e.target.dataset.index;
     index = parseInt(index);
 
-    // Bug fix
     if (isNaN(index)) {
-      // display.paintNotes will throw an error, when you click outside the subfolder items
-      // if it's not a number return
       return;
     }
     sfI = index;
@@ -1134,12 +1139,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     return;
   }
   // check for taken name
-  if (
-    isNameInArray(
-      secondaryName,
-      arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray
-    )
-  ) {
+  if (isNameInArray(secondaryName, primaryArray[mfI].secondaryArray)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
