@@ -115,11 +115,13 @@ function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  settingsArrayContainer.forEach((element) => {
+
+  for (const element of settingsArrayContainer) {
     if (element === filePath) {
       isTaken = true;
     }
-  });
+  }
+
   if (isTaken) {
     warningNameTakenAudio.play();
     display.showAlert("That file is already loaded!", "error");
@@ -132,8 +134,8 @@ function pushFileSettingsContainer(filePath) {
 // *********************************************************
 function sortArrayByName(array) {
   array.sort(function (a, b) {
-    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
       return -1;
     }
@@ -145,9 +147,9 @@ function sortArrayByName(array) {
 }
 // ***********************************************************
 function autoLoadFileCabs(array) {
-  array.forEach(function (item) {
+  for (const item of array) {
     readFileContents(item);
-  });
+  }
 }
 // ***********************************************************
 function readFileContents(filepath) {
@@ -182,11 +184,13 @@ function readFileContents(filepath) {
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
-          arrayOfFileCabs.forEach((element) => {
+
+          for (const element of arrayOfFileCabs) {
             if (element.fileNamePath === data.fileNamePath) {
               isTaken = true;
             }
-          });
+          }
+
           if (isTaken) {
             display.showAlert(
               "A file cabinet with that name is already loaded!",
@@ -232,8 +236,8 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
-  let settingsStorage = new SettingsStorage();
-  let settings = settingsStorage.getSettingsFromFile();
+  const settingsStorage = new SettingsStorage();
+  const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
 
   if (settings.type === "fileCab") {
@@ -328,11 +332,11 @@ function applySettings(settings) {
 
 // ****************************************************************
 function getRadioValue(form, name) {
-  var val;
+  let val;
   // get list of radio buttons with specified name
-  var radios = form.elements[name];
+  const radios = form.elements[name];
   // loop through list of radio buttons
-  for (var i = 0, len = radios.length; i < len; i++) {
+  for (let i = 0, len = radios.length; i < len; i++) {
     if (radios[i].checked) {
       // radio checked?
       val = radios[i].value; // if so, hold its value in val
@@ -344,7 +348,7 @@ function getRadioValue(form, name) {
 
 // *******************************************************************
 function mapNamesOut(array) {
-  let mapedArray = array.map((item) => {
+  const mapedArray = array.map((item) => {
     return item.name;
   });
   return mapedArray;
