@@ -705,8 +705,6 @@ el.fileCabList.addEventListener("click", (e) => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     if (isNaN(index)) {
-      // when you click out side of the tab
-      // if it's not a number return
       return;
     }
     fcI = index;
@@ -735,8 +733,6 @@ el.fileCabList.addEventListener("click", (e) => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     if (isNaN(index)) {
-      // when you click out side of the tab
-      // if it's not a number return
       return;
     }
     fcI = index;
@@ -824,8 +820,6 @@ el.mainFolderList.addEventListener("click", (e) => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     if (isNaN(index)) {
-      // when you click out side of the tab
-      // if it's not a number return
       return;
     }
     mfI = index;
@@ -848,7 +842,9 @@ el.mainFolderList.addEventListener("click", (e) => {
         // get the index from the html
         let deleteIndex = e.target.parentElement.dataset.index;
         deleteIndex = parseInt(deleteIndex);
-
+        if (isNaN(deleteIndex)) {
+          return;
+        }
         // DELETE MAIN folder
         // grab array from file
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects.splice(deleteIndex, 1);
@@ -887,10 +883,8 @@ el.mainFolderList.addEventListener("click", (e) => {
     // get the index from the html
     let index = e.target.dataset.index;
     index = parseInt(index);
-    // Bug fix
+
     if (isNaN(index)) {
-      // when you click out side of the tab
-      // if it's not a number return
       return;
     }
     mfI = index;
@@ -920,7 +914,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   // grab fileCab
   let fileCab = arrayOfFileCabs[fcI];
   // grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  let primaryArray = fileCab.arrayOfPrimaryObjects;
   // grab text for primary object
   let primaryName = el.textNameMain.value.trim();
   // check if text is empty
@@ -931,7 +925,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     return;
   }
   // check for taken name
-  if (isNameInArray(primaryName, arrayOfFileCabs[fcI].arrayOfPrimaryObjects)) {
+  if (isNameInArray(primaryName, primaryArray)) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
