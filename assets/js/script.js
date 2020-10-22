@@ -1032,8 +1032,6 @@ el.subFolderList.addEventListener("click", (e) => {
     let index = e.target.dataset.index;
     index = parseInt(index);
     if (isNaN(index)) {
-      // when you click out side of the tab
-      // if it's not a number return
       return;
     }
     sfI = index;
@@ -1557,12 +1555,8 @@ document.querySelector("#settingsSave").addEventListener("click", (e) => {
   settingsObj.fontSize = fontSizeValue;
   settingsObj.filePathArray = settingsArrayContainer;
   // set auto load true or false
-  let y = document.querySelector("#autoLoad").checked;
-  if (y === true) {
-    settingsObj.autoLoad = true;
-  } else {
-    settingsObj.autoLoad = false;
-  }
+  settingsObj.autoLoad = document.querySelector("#autoLoad").checked;
+
   // save the object
   settingsStorage.saveSettings(settingsObj);
   addAudio.play();
