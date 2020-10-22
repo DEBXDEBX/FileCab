@@ -160,7 +160,7 @@ class Display {
         let newHead = document.createElement("div");
         html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
       title="Delete Note"
-      class="delete-item fas fa-trash-alt"
+      class="delete-item fas fa-trash-alt trash"
     ></i
   ><span title='Move Up' class='moveDown'>&dArr;</span><i class="edit-note fas fa-edit" data-toggle="modal" data-target="#myModal"
   title="Edit Note"
