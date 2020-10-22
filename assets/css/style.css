@@ -12,12 +12,13 @@ body {
   transition-timing-function: linear;
 }
 h6 {
-  margin: 10px;
+  margin: 10px auto;
   text-align: center;
   background-color: #313131;
   border-radius: 5px;
   padding: 0.45rem;
   color: white;
+  max-width: 80%;
 }
 h6 > span {
   color: #2de11d;
@@ -86,7 +87,16 @@ nav ul li {
 nav ul li:hover {
   color: rgb(255, 255, 255);
 }
-
+.fas,
+.far {
+  transition: transform 0.7s;
+  transition-timing-function: cubic-bezier(0.45, 1.87, 0.62, 1.6);
+}
+.fas:hover,
+.far:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+}
 input[type="radio"]:hover {
   cursor: pointer;
 }
@@ -100,15 +110,6 @@ input[type="checkbox"]:hover {
   cursor: pointer;
 }
 .sub:hover {
-  cursor: pointer;
-}
-.fas:hover {
-  cursor: pointer;
-}
-.far:hover {
-  cursor: pointer;
-}
-.edit-note:hover {
   cursor: pointer;
 }
 
@@ -125,7 +126,6 @@ input[type="checkbox"]:hover {
 }
 .note {
   white-space: pre;
-  /* border-radius: 20px; */
   background-color: #202020;
   border-radius: 10px 10px 0px 0px;
   padding: 14px;
@@ -272,6 +272,7 @@ p {
   transition-timing-function: cubic-bezier(0.45, 1.87, 0.62, 1.6);
 }
 .edit-note:hover {
+  cursor: pointer;
   color: white;
   transform: scale(1.2);
 }
