@@ -84,7 +84,8 @@ function startUp() {
 //*************************************************** */
 // **************************************************
 function save() {
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  let x = "hi david";
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
 }
 
 // **************************************************
@@ -224,7 +225,7 @@ function readFileContents(filepath) {
           arrayOfFileCabs.push(newfileCab);
           sortArrayByName(arrayOfFileCabs);
           // write to file
-          newfileCab.writeFileCabToHardDisk(fs);
+          newfileCab.writeFileCabToHardDisk(fs, display);
           // redisplay
           // get the names for all the file cabinets
           // and then send them to the Display
@@ -448,7 +449,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   arrayOfFileCabs.push(newfileCab);
   sortArrayByName(arrayOfFileCabs);
   // write to file
-  newfileCab.writeFileCabToHardDisk(fs);
+  newfileCab.writeFileCabToHardDisk(fs, display);
 
   renderFileCabs();
 });
@@ -495,7 +496,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   arrayOfFileCabs.push(newfileCab);
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
-  newfileCab.writeFileCabToHardDisk(fs);
+  newfileCab.writeFileCabToHardDisk(fs, display);
 
   renderFileCabs();
 });
@@ -919,10 +920,8 @@ el.addShowFormMain.addEventListener("click", (e) => {
 // when you click on the add main folder btn ***********************
 document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   e.preventDefault();
-  // grab fileCab
-  let fileCab = arrayOfFileCabs[fcI];
   // grab primary array
-  let primaryArray = fileCab.arrayOfPrimaryObjects;
+  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // grab text for primary object
   let primaryName = el.textNameMain.value.trim();
   // check if text is empty
@@ -948,7 +947,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     // sort primary array by name
     sortArrayByName(primaryArray);
     // save file cab
-    fileCab.writeFileCabToHardDisk(fs);
+    save();
     addAudio.play();
     display.showAlert("A new main folder was added!", "success", 1500);
     // reset form

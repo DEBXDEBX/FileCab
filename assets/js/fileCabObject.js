@@ -7,13 +7,16 @@ class FileCabObject {
   }
 
   // Method
-  writeFileCabToHardDisk(fs) {
+  writeFileCabToHardDisk(fs, display) {
     try {
+      // throw error("meessed up");
       //Stringify the file cab Object
       let content = JSON.stringify(this);
       fs.writeFileSync(this.fileNamePath, content);
     } catch (err) {
-      console.log("Error writing file.");
+      setTimeout(() => {
+        display.showAlert(`Error writing file. ${err}`, "error", 5000);
+      }, 5000);
     }
   } // End writeFileCabToHardDisk(fs)
 } // End FileCabObject class
