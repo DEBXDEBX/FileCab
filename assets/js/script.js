@@ -83,6 +83,11 @@ function startUp() {
 // Helper functions
 //*************************************************** */
 // **************************************************
+function save() {
+  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+}
+
+// **************************************************
 function renderFileCabs() {
   // function returns -243, -243 is used for close down of a file cabs
   fcI = display.paintFileCabTabs(mapNamesOut(arrayOfFileCabs));
@@ -365,7 +370,7 @@ function handleFilePath(imagePath) {
     nI
   ].imagePath = imagePath;
   // write to file
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  save();
   addImageAudio.play();
   display.showAlert("A new image was added to the note!", "success");
 } // End handleFilePath(imagePath)
@@ -778,7 +783,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
   //sort the array
   sortArrayByName(arrayOfFileCabs);
   // write to file
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  save();
   addAudio.play();
   display.showAlert(
     `You renamed the file cabinet to ${newName}`,
@@ -851,7 +856,7 @@ el.mainFolderList.addEventListener("click", (e) => {
         // grab array from file
         arrayOfFileCabs[fcI].arrayOfPrimaryObjects.splice(deleteIndex, 1);
         // write to file
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        save();
         deleteAudio.play();
         display.showAlert("Main folder deleted!", "success");
         renderMainFolders();
@@ -988,7 +993,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
     // sort primary array by name
     sortArrayByName(arrayOfFileCabs[fcI].arrayOfPrimaryObjects);
     // save file cab
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    save();
     addAudio.play();
     display.showAlert(
       `You renamed the folder to ${primaryName}!`,
@@ -1067,7 +1072,7 @@ el.subFolderList.addEventListener("click", (e) => {
           1
         );
         // write to file
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        save();
         deleteAudio.play();
         display.showAlert("Sub folder deleted!", "success");
         renderSubFolders();
@@ -1151,7 +1156,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     // sort secondary array by name
     sortArrayByName(primaryArray[mfI].secondaryArray);
     // write to file
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    save();
     addAudio.play();
     display.showAlert("A new sub folder was added!", "success", 1500);
     // reset form
@@ -1200,7 +1205,7 @@ document.querySelector("#subFolderRename").addEventListener("click", (e) => {
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray
     );
     // save file cab
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    save();
     addAudio.play();
     display.showAlert(`You renamed the folder to ${subName}!`, "success", 1500);
     // hide form
@@ -1275,7 +1280,7 @@ el.noteList.addEventListener("click", (e) => {
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
     btnAudio.play();
     // write to file
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    save();
     // redisplay
     // send note array to display
     renderNotes();
@@ -1303,7 +1308,7 @@ el.noteList.addEventListener("click", (e) => {
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
     btnAudio.play();
     // write to file
-    arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+    save();
     // redisplay
     // send note array to display
     renderNotes();
@@ -1340,7 +1345,7 @@ el.noteList.addEventListener("click", (e) => {
           sfI
         ].noteArray.splice(deleteIndex, 1);
         // write to file
-        arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+        save();
         // reasign current note
         nI = -243;
         deleteAudio.play();
@@ -1396,7 +1401,7 @@ el.noteList.addEventListener("click", (e) => {
     if (e.shiftKey) {
       selectedNote.imagePath = null;
       // write to file
-      arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+      save();
       // reasign current note
       nI = -243;
       deleteAudio.play();
@@ -1455,7 +1460,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   // push note into note array
   primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
   // write to file
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  save();
   addAudio.play();
   el.textArea.value = "";
   display.showAlert("A new note was added!", "success", 900);
@@ -1520,7 +1525,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   addAudio.play();
 
   // write to file
-  arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  save();
   renderNotes();
 });
 

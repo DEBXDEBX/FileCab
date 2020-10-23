@@ -8,8 +8,12 @@ class FileCabObject {
 
   // Method
   writeFileCabToHardDisk(fs) {
-    //Stringify the file cab Object
-    let content = JSON.stringify(this);
-    fs.writeFileSync(this.fileNamePath, content);
+    try {
+      //Stringify the file cab Object
+      let content = JSON.stringify(this);
+      fs.writeFileSync(this.fileNamePath, content);
+    } catch (err) {
+      console.log("Error writing file.");
+    }
   } // End writeFileCabToHardDisk(fs)
 } // End FileCabObject class
