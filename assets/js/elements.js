@@ -20,10 +20,6 @@ class Elements {
     this.mainFolderRenameBtn = document.querySelector("#mainFolderRename");
     this.subFolderAddBtn = document.querySelector("#subFolderAdd");
     this.subFolderRenameBtn = document.querySelector("#subFolderRename");
-    // select add show forms + / icon
-    this.addShowFormMain = document.querySelector("#mfadd");
-    this.addShowFormSub = document.querySelector("#sfadd");
-    this.addShowFormNote = document.querySelector("#nadd");
     // select textName and textArea
     this.textRenameFileCab = document.querySelector("#newFileCabName");
     this.textNameMain = document.querySelector("#mainFolderName");

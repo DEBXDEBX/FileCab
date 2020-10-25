@@ -19,9 +19,9 @@ const clickAudio = document.querySelector("#clickAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
 // Select Rename vars
-const fileCabText = document.querySelector("#newFileCabName");
-const mainFolderText = document.querySelector("#mainFolderName");
-const subFolderText = document.querySelector("#subFolderName");
+// const fileCabText = document.querySelector("#newFileCabName");
+// const mainFolderText = document.querySelector("#mainFolderName");
+// const subFolderText = document.querySelector("#subFolderName");
 // Global variable's
 // current File Cab Index
 let fcI = -243;
@@ -84,7 +84,6 @@ function startUp() {
 //*************************************************** */
 // **************************************************
 function save() {
-  let x = "hi david";
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
 }
 
@@ -716,11 +715,11 @@ el.fileCabList.addEventListener("click", (e) => {
     fcI = index;
     // grab file cab name
     let { name } = arrayOfFileCabs[fcI];
-    fileCabText.value = name;
+    el.textRenameFileCab.value = name;
     display.showRenameFileCabForm();
     // set time out to focus
     window.setTimeout(function () {
-      fileCabText.focus();
+      el.textRenameFileCab.focus();
     }, 1000);
     return;
   } // End shift Key down
@@ -774,7 +773,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     window.setTimeout(function () {
-      fileCabText.focus();
+      el.textRenameFileCab.focus();
     }, 1000);
     return;
   }
@@ -835,12 +834,12 @@ el.mainFolderList.addEventListener("click", (e) => {
     // grab main folder name
     let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     // set form text
-    mainFolderText.value = name;
+    el.textNameMain.value = name;
     // show form
     display.showRenameMainFolderForm();
     // set time out to focus
     window.setTimeout(function () {
-      mainFolderText.focus();
+      el.textNameMain.focus();
     }, 1000);
     return;
   }
@@ -905,20 +904,20 @@ el.mainFolderList.addEventListener("click", (e) => {
 }); // End el.mainFolderList.addEventListener
 
 // when You click on the +/icon in the main folder heading *********
-el.addShowFormMain.addEventListener("click", (e) => {
+document.querySelector("#mfadd").addEventListener("click", (e) => {
   clickAudio.play();
 
-  mainFolderText.value = "";
+  el.textNameMain.value = "";
   // show form
   display.showMainFolderForm();
   // set time out to focus
   window.setTimeout(function () {
-    mainFolderText.focus();
+    el.textNameMain.focus();
   }, 1000);
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn ***********************
-document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
+el.mainFolderAddBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -937,7 +936,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     window.setTimeout(function () {
-      mainFolderText.focus();
+      el.textNameMain.focus();
     }, 1000);
   } else {
     // create primary object
@@ -957,7 +956,7 @@ document.querySelector("#mainFolderAdd").addEventListener("click", (e) => {
   } // End else statement
 }); // End
 // when you click on the rename main folder btn ***********************
-document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
+el.mainFolderRenameBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -982,7 +981,7 @@ document.querySelector("#mainFolderRename").addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     window.setTimeout(function () {
-      mainFolderText.focus();
+      el.textNameMain.focus();
     }, 1000);
   } else {
     // grab main folder
@@ -1045,12 +1044,12 @@ el.subFolderList.addEventListener("click", (e) => {
       mfI
     ].secondaryArray[sfI];
     // set from text
-    subFolderText.value = name;
+    el.textNameSub.value = name;
     // show form
     display.showRenameSubFolderForm();
     // set time out to focus
     window.setTimeout(function () {
-      subFolderText.focus();
+      el.textNameSub.focus();
     }, 1000);
     return;
   }
@@ -1116,19 +1115,19 @@ el.subFolderList.addEventListener("click", (e) => {
 }); // End el.subFolderList.addEventListener
 
 // When You click +/icon in the subfolder heading ***************************
-el.addShowFormSub.addEventListener("click", (e) => {
+document.querySelector("#sfadd").addEventListener("click", (e) => {
   clickAudio.play();
-  subFolderText.value = "";
+  el.textNameSub.value = "";
   // show form
   display.showSubFolderForm();
   // set time out to focus
   window.setTimeout(function () {
-    subFolderText.focus();
+    el.textNameSub.focus();
   }, 1000);
 }); // End
 
 // When You click on the add sub folder btn in the sub folder form
-document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
+el.subFolderAddBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab array from file
   let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -1146,7 +1145,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     window.setTimeout(function () {
-      subFolderText.focus();
+      el.textNameSub.focus();
     }, 1000);
   } else {
     let secondaryObject = new SecondaryObj(secondaryName);
@@ -1164,7 +1163,7 @@ document.querySelector("#subFolderAdd").addEventListener("click", (e) => {
   } // End else statement
 }); // End
 // When you click on the sub folder rename btn
-document.querySelector("#subFolderRename").addEventListener("click", (e) => {
+el.subFolderRenameBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -1245,11 +1244,11 @@ el.noteList.addEventListener("click", (e) => {
   nI = deleteIndex;
   // this makes sure only one picture in a note shows up in the note area
   let picArray = [];
-  let el = document.querySelectorAll(".myPic");
+  let picElement = document.querySelectorAll(".myPic");
   // push all pic index's into an array to loop through next
-  for (let i = 0; i < el.length; i++) {
+  for (let i = 0; i < picElement.length; i++) {
     // remove all elements with the class of .myPic
-    let indexP = el[i].getAttribute("data-pIndex");
+    let indexP = picElement[i].getAttribute("data-pIndex");
     indexP = parseInt(indexP);
     picArray.push(indexP);
   }
@@ -1432,13 +1431,13 @@ el.noteList.addEventListener("click", (e) => {
   }
 }); // End el.noteList.addEventListener
 // when You click the + in the Note Heading
-el.addShowFormNote.addEventListener("click", (e) => {
+document.querySelector("#nadd").addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
 
   // set time out to focus
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.textArea.focus();
   }, 1000);
 }); // End
 // when You click the add note btn in the note form
@@ -1480,7 +1479,7 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   el.textArea.value = "";
   // set time out to focus
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.textArea.focus();
   }, 1000);
 }); //End
 
@@ -1491,7 +1490,7 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   el.textArea.value = date.toDateString();
   // set time out to focus
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.textArea.focus();
   }, 1000);
 }); //End
 
@@ -1634,7 +1633,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
 });
 
 // when You click on x to delete a file path
-document.querySelector("#autoLoadList").addEventListener("click", (e) => {
+el.autoLoadList.addEventListener("click", (e) => {
   e.preventDefault();
   // event delegation
   if (e.target.classList.contains("deleteFile")) {
@@ -1660,6 +1659,9 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
         // this gets the data I embedded into the html
         let dataIndex = e.target.parentElement.parentElement.dataset.index;
         let deleteIndex = parseInt(dataIndex);
+        if (isNaN(deleteIndex)) {
+          return;
+        }
         // delete path
         settingsArrayContainer.splice(deleteIndex, 1);
         warningSelectAudio.play();

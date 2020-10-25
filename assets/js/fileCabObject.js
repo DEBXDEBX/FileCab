@@ -9,7 +9,7 @@ class FileCabObject {
   // Method
   writeFileCabToHardDisk(fs, display) {
     try {
-      // throw error("meessed up");
+      // throw error("force an error");
       //Stringify the file cab Object
       let content = JSON.stringify(this);
       fs.writeFileSync(this.fileNamePath, content);
