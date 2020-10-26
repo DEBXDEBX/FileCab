@@ -86,7 +86,11 @@ function startUp() {
 function save() {
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
 }
-
+function removeActiveClass(htmlCollection) {
+  for (const item of htmlCollection) {
+    item.classList.remove("active");
+  }
+}
 // **************************************************
 function renderFileCabs() {
   // function returns -243, -243 is used for close down of a file cabs
@@ -390,7 +394,7 @@ function addImage() {
 // *************************************************************
 // *************************************************************
 function isNameInArray(name, array) {
-  for (let item of array) {
+  for (const item of array) {
     if (name === item.name) {
       return true;
     }
@@ -726,13 +730,8 @@ el.fileCabList.addEventListener("click", (e) => {
 
   // event delegation
   if (e.target.classList.contains("fileCab")) {
-    let fileCabList = document.getElementsByClassName("fileCab");
-    // create an array from an array like object
-    let newArray = Array.from(fileCabList);
-
-    for (const item of newArray) {
-      item.classList.remove("active");
-    }
+    const htmlCollection = document.getElementsByClassName("fileCab active");
+    removeActiveClass(htmlCollection);
 
     // add active class
     e.target.classList.add("active");
@@ -807,13 +806,8 @@ document
     // hide form
     display.displayNone(el.renameFileCabForm);
     // get rid of active class
-    let activeTabList = document.getElementsByClassName("fileCab active");
-    if (activeTabList) {
-      let newArray = Array.from(activeTabList);
-      for (let item of newArray) {
-        item.classList.remove("active");
-      }
-    }
+    const htmlCollection = document.getElementsByClassName("fileCab active");
+    removeActiveClass(htmlCollection);
   });
 // *************************************************************
 //   Main Folder Code
@@ -878,13 +872,8 @@ el.mainFolderList.addEventListener("click", (e) => {
   // set's the current target active
 
   if (e.target.classList.contains("main")) {
-    let mainFolderList = document.getElementsByClassName("main");
-    // create an array from an array like object
-    let newArray = Array.from(mainFolderList);
-
-    for (const item of newArray) {
-      item.classList.remove("active");
-    }
+    const htmlCollection = document.getElementsByClassName("main active");
+    removeActiveClass(htmlCollection);
     // add active class
     e.target.classList.add("active");
 
@@ -1012,13 +1001,8 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.mainFolderForm);
   // get rid of active class
-  let activeTabList = document.getElementsByClassName("main active");
-  if (activeTabList) {
-    let newArray = Array.from(activeTabList);
-    for (let item of newArray) {
-      item.classList.remove("active");
-    }
-  }
+  let htmlCollection = document.getElementsByClassName("main active");
+  removeActiveClass(htmlCollection);
 }); // End
 // *************************************************************
 //  End Main Folder Code
@@ -1087,13 +1071,8 @@ el.subFolderList.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("sub")) {
-    let subFolderList = document.getElementsByClassName("sub");
-    // create an array from an array like object
-    let newArray = Array.from(subFolderList);
-
-    for (const item of newArray) {
-      item.classList.remove("active");
-    }
+    const htmlCollection = document.getElementsByClassName("sub active");
+    removeActiveClass(htmlCollection);
     // add active class
     e.target.classList.add("active");
     // End code to set the active class
@@ -1222,13 +1201,8 @@ document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.subFolderForm);
   // get rid of active class
-  let activeTabList = document.getElementsByClassName("sub active");
-  if (activeTabList) {
-    let newArray = Array.from(activeTabList);
-    for (let item of newArray) {
-      item.classList.remove("active");
-    }
-  }
+  let htmlCollection = document.getElementsByClassName("sub active");
+  removeActiveClass(htmlCollection);
 }); //End
 // *************************************************************
 //  End SubFolder Code
@@ -1243,22 +1217,24 @@ el.noteList.addEventListener("click", (e) => {
   let deleteIndex = parseInt(dataIndex);
   nI = deleteIndex;
   // this makes sure only one picture in a note shows up in the note area
-  let picArray = [];
-  let picElement = document.querySelectorAll(".myPic");
+  const picArray = [];
+  const picElements = document.querySelectorAll(".myPic");
+
   // push all pic index's into an array to loop through next
-  for (let i = 0; i < picElement.length; i++) {
+  for (const element of picElements) {
     // remove all elements with the class of .myPic
-    let indexP = picElement[i].getAttribute("data-pIndex");
+    let indexP = element.getAttribute("data-pIndex");
     indexP = parseInt(indexP);
     picArray.push(indexP);
   }
   // loop through picArray and return if the picture is already displayed
-  for (let ii = 0; ii < picArray.length; ii++) {
-    if (picArray[ii] === nI) {
+  for (const item of picArray) {
+    if (item === nI) {
       nI = -243;
       return;
     }
   }
+
   // event delegation
   if (e.target.classList.contains("moveUp")) {
     // get the index from the html
