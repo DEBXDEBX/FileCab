@@ -18,10 +18,7 @@ const tabAudio = document.querySelector("#tabAudio");
 const clickAudio = document.querySelector("#clickAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
-// Select Rename vars
-// const fileCabText = document.querySelector("#newFileCabName");
-// const mainFolderText = document.querySelector("#mainFolderName");
-// const subFolderText = document.querySelector("#subFolderName");
+
 // Global variable's
 // current File Cab Index
 let fcI = -243;
@@ -31,13 +28,13 @@ let mfI = -243;
 let sfI = -243;
 // current note Index
 let nI = -243;
-let checkBox = document.querySelector("#autoLoad");
+
 let myBody = document.querySelector("body");
 // this is for the fontSize
 let root = document.querySelector(":root");
 // temp hold for array
 let settingsArrayContainer;
-//Theme current
+// Theme current
 let currentTheme = "Dark";
 // Delete Mode
 let deleteMode = false;
@@ -60,8 +57,8 @@ window.onload = function () {
 };
 // Start Up
 function startUp() {
-  let settingsStorage = new SettingsStorage();
-  let settings = settingsStorage.getSettingsFromFile();
+  const settingsStorage = new SettingsStorage();
+  const settings = settingsStorage.getSettingsFromFile();
 
   if (settings.type === "fileCab") {
     // set the holding array
@@ -70,8 +67,8 @@ function startUp() {
     applySettings(settings);
     // update Form
     display.showAutoLoadList(settingsArrayContainer);
-    let x = document.querySelector("#autoLoad").checked;
-    if (x === true) {
+
+    if (document.querySelector("#autoLoad").checked) {
       if (settings.filePathArray) {
         autoLoadFileCabs(settings.filePathArray);
       }
@@ -86,6 +83,7 @@ function startUp() {
 function save() {
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
 }
+//*************************************************** */
 function removeActiveClass(htmlCollection) {
   for (const item of htmlCollection) {
     item.classList.remove("active");
@@ -112,7 +110,6 @@ function renderSubFolders() {
 }
 // ****************************************************
 function renderNotes() {
-  // send the note array to the Display
   display.paintNotes(
     deleteMode,
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
@@ -163,25 +160,19 @@ function autoLoadFileCabs(array) {
 // ***********************************************************
 function readFileContents(filepath) {
   if (!filepath) {
-    let message = "No file selected!";
-    let msgType = "error";
-    display.showAlert(message, msgType);
+    display.showAlert("No file selected!", "error");
     return;
   }
 
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
-      let message = "An error occured reading the file!";
-      let msgType = "error";
-      display.showAlert(message, msgType);
+      display.showAlert("An error occured reading the file!", "error");
       return;
     } else {
       try {
         data = JSON.parse(data);
       } catch {
-        let message = "Can not parse data!";
-        let msgType = "error";
-        display.showAlert(message, msgType);
+        display.showAlert("Can not parse data!", "error");
         return;
       }
 
@@ -189,9 +180,8 @@ function readFileContents(filepath) {
         if (data.fileType === "ElectronFileCab2019April") {
           // set filepath: This is in case you moved your file
           data.fileNamePath = filepath;
-
           // check if the fileNamePath already exists if it does alert and return
-          // make a variable to return
+          // make a variable to set
           let isTaken = false;
 
           for (const element of arrayOfFileCabs) {
@@ -208,7 +198,6 @@ function readFileContents(filepath) {
             // redisplay
             // get the names for all the file cabinets
             // and then send them to the Display
-
             renderFileCabs();
             return;
           }
@@ -219,7 +208,7 @@ function readFileContents(filepath) {
             return;
           }
           // create a file cab object
-          let newfileCab = new FileCabObject(
+          const newfileCab = new FileCabObject(
             data.name,
             data.fileNamePath,
             data.arrayOfPrimaryObjects
@@ -232,12 +221,12 @@ function readFileContents(filepath) {
           // redisplay
           // get the names for all the file cabinets
           // and then send them to the Display
-
           renderFileCabs();
         } else {
-          let message = "This is not a valid ElectronFileCab2019April file!";
-          let msgType = "error";
-          display.showAlert(message, msgType);
+          display.showAlert(
+            "This is not a valid ElectronFileCab2019April file!",
+            "error"
+          );
         }
       }
     }
@@ -245,19 +234,13 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
+  let checkBox = document.querySelector("#autoLoad");
   const settingsStorage = new SettingsStorage();
   const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
-
   if (settings.type === "fileCab") {
     // set check box
-    if (settings.autoLoad) {
-      // check the box
-      checkBox.checked = true;
-    } else {
-      // uncheck the box
-      checkBox.checked = false;
-    }
+    checkBox.checked = settings.autoLoad;
     // check the right theme
     switch (settings.theme) {
       case "Dark":
@@ -295,9 +278,8 @@ function loadUpSettingsForm() {
 } // End loadUpSettingsForm()
 // *******************************************************************
 function applySettings(settings) {
-  if (settings.autoLoad === true) {
-    document.querySelector("#autoLoad").checked = true;
-  }
+  document.querySelector("#autoLoad").checked = settings.autoLoad;
+
   switch (settings.fontSize) {
     case "x-small":
       root.style.fontSize = "10px";
@@ -357,9 +339,7 @@ function getRadioValue(form, name) {
 
 // *******************************************************************
 function mapNamesOut(array) {
-  const mapedArray = array.map((item) => {
-    return item.name;
-  });
+  const mapedArray = array.map((item) => item.name);
   return mapedArray;
 } // End mapNamesOut(array)
 // *******************************************************************
@@ -410,7 +390,6 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   $("#myModal").modal("hide");
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
-
     renderFileCabs();
     return;
   }
@@ -425,7 +404,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
   }
 
   // check if the fileNamePath already exists if it does alert and return
-  // make a variable to return
+  // make a variable
   let isTaken = false;
 
   for (const element of arrayOfFileCabs) {
@@ -447,7 +426,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
     return;
   }
   // create a file cab object
-  let newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath);
+  const newfileCab = new FileCabObject(dataObj.name, dataObj.fileNamePath);
   // push the file cab obj into the array of file cabinets
   arrayOfFileCabs.push(newfileCab);
   sortArrayByName(arrayOfFileCabs);
@@ -463,7 +442,7 @@ ipcRenderer.on("fileCab:add", (event, dataObj) => {
 ipcRenderer.on("fileCab:load", (event, data) => {
   $("#myModal").modal("hide");
   // check if the fileNamePath already exists if it does alert and return
-  // make a variable to return
+  // make a variable
   let isTaken = false;
 
   for (const element of arrayOfFileCabs) {
@@ -473,12 +452,11 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   }
 
   if (isTaken) {
-    // warningNameTakenAudio.play();
     display.showAlert("That file is already loaded!", "error");
-
     renderFileCabs();
     return;
   }
+
   if (isNameInArray(data.name, arrayOfFileCabs)) {
     // alert and return
     warningNameTakenAudio.play();
@@ -490,7 +468,7 @@ ipcRenderer.on("fileCab:load", (event, data) => {
     return;
   }
   // create a file cab object
-  let newfileCab = new FileCabObject(
+  const newfileCab = new FileCabObject(
     data.name,
     data.fileNamePath,
     data.arrayOfPrimaryObjects
@@ -500,7 +478,6 @@ ipcRenderer.on("fileCab:load", (event, data) => {
   sortArrayByName(arrayOfFileCabs);
   // write the file cab object to disk
   newfileCab.writeFileCabToHardDisk(fs, display);
-
   renderFileCabs();
 });
 //End ipcRenderer.on("fileCab:load"**************************************
@@ -532,7 +509,6 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
   if (deleteMode) {
     display.showAlert("Edit and Delete mode!", "error");
-    myBody.style.backgroundColor = "#d3369c";
     myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
     let htmlMainFolders = document.querySelectorAll(".main");

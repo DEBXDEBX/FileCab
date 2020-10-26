@@ -307,7 +307,7 @@ class Display {
         this.tabColorIndex++;
       }
     }
-  } // End colorSetOfTabs(tabList)
+  } // End colorSetOfTabs(htmlCollection)
 
   // Method
   showAlert(message, className, displayTime = 4000) {
