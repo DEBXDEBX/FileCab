@@ -1341,7 +1341,7 @@ el.noteList.addEventListener("click", (e) => {
       // send note array to display: after delay so the path prints
       setTimeout(function () {
         renderNotes();
-      }, 4000);
+      }, 5000);
       // end set Time out
       return;
     }
