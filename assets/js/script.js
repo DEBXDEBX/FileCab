@@ -234,7 +234,7 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
-  let checkBox = document.querySelector("#autoLoad");
+  const checkBox = document.querySelector("#autoLoad");
   const settingsStorage = new SettingsStorage();
   const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
@@ -511,37 +511,37 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     display.showAlert("Edit and Delete mode!", "error");
     myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
-    let htmlMainFolders = document.querySelectorAll(".main");
+    const htmlMainFolders = document.querySelectorAll(".main");
     if (htmlMainFolders.length > 0) {
       paintMain = true;
     }
 
     // check for sub folders
-    let htmlSubFolders = document.querySelectorAll(".sub");
+    const htmlSubFolders = document.querySelectorAll(".sub");
 
     if (htmlSubFolders.length > 0) {
       paintSub = true;
     }
     // check for notes
-    let htmlNotes = document.querySelectorAll(".note");
+    const htmlNotes = document.querySelectorAll(".note");
 
     if (htmlNotes.length > 0) {
       paintNote = true;
     }
   } else {
     //check for Main folders
-    let htmlMainFolders = document.querySelectorAll(".main");
+    const htmlMainFolders = document.querySelectorAll(".main");
     if (htmlMainFolders.length > 0) {
       paintMain = true;
     }
     // check for sub folders
-    let htmlSubFolders = document.querySelectorAll(".sub");
+    const htmlSubFolders = document.querySelectorAll(".sub");
     if (htmlSubFolders.length > 0) {
       paintSub = true;
     }
 
     // check for notes
-    let htmlNotes = document.querySelectorAll(".note");
+    const htmlNotes = document.querySelectorAll(".note");
     if (htmlNotes.length > 0) {
       paintNote = true;
     }
@@ -564,11 +564,10 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     renderMainFolders();
     if (mainText) {
       // loop through the main array and set the one with mactching text to active
-      let Main = document.querySelectorAll(".main");
-      let newArray = Array.from(Main);
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].textContent === mainText) {
-          newArray[i].classList.add("active");
+      const htmlCollection = document.querySelectorAll(".main");
+      for (let i = 0; i < htmlCollection.length; i++) {
+        if (htmlCollection[i].textContent === mainText) {
+          htmlCollection[i].classList.add("active");
           break;
         }
       }
@@ -578,12 +577,11 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   if (paintSub) {
     renderSubFolders();
     if (subText) {
-      // loop through the main array and set the one with mactching text to active
-      let Sub = document.querySelectorAll(".sub");
-      let newArray = Array.from(Sub);
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].textContent === subText) {
-          newArray[i].classList.add("active");
+      // loop through the sub array and set the one with mactching text to active
+      const htmlCollection = document.querySelectorAll(".sub");
+      for (let i = 0; i < htmlCollection.length; i++) {
+        if (htmlCollection[i].textContent === subText) {
+          htmlCollection[i].classList.add("active");
           break;
         }
       }
@@ -694,11 +692,11 @@ el.fileCabList.addEventListener("click", (e) => {
     }
     fcI = index;
     // grab file cab name
-    let { name } = arrayOfFileCabs[fcI];
+    const { name } = arrayOfFileCabs[fcI];
     el.textRenameFileCab.value = name;
     display.showRenameFileCabForm();
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textRenameFileCab.focus();
     }, 1000);
     return;
@@ -706,7 +704,7 @@ el.fileCabList.addEventListener("click", (e) => {
 
   // event delegation
   if (e.target.classList.contains("fileCab")) {
-    const htmlCollection = document.getElementsByClassName("fileCab active");
+    const htmlCollection = document.querySelectorAll(".fileCab.active");
     removeActiveClass(htmlCollection);
 
     // add active class
@@ -735,7 +733,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
     return;
   }
   // get text
-  let newName = el.textRenameFileCab.value;
+  const newName = el.textRenameFileCab.value;
   //check for empty string
   if (!newName) {
     warningEmptyAudio.play();
@@ -747,7 +745,7 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textRenameFileCab.focus();
     }, 1000);
     return;
@@ -782,7 +780,7 @@ document
     // hide form
     display.displayNone(el.renameFileCabForm);
     // get rid of active class
-    const htmlCollection = document.getElementsByClassName("fileCab active");
+    const htmlCollection = document.querySelectorAll(".fileCab.active");
     removeActiveClass(htmlCollection);
   });
 // *************************************************************
@@ -802,13 +800,13 @@ el.mainFolderList.addEventListener("click", (e) => {
     mfI = index;
 
     // grab main folder name
-    let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
+    const { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     // set form text
     el.textNameMain.value = name;
     // show form
     display.showRenameMainFolderForm();
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textNameMain.focus();
     }, 1000);
     return;
@@ -848,7 +846,7 @@ el.mainFolderList.addEventListener("click", (e) => {
   // set's the current target active
 
   if (e.target.classList.contains("main")) {
-    const htmlCollection = document.getElementsByClassName("main active");
+    const htmlCollection = document.querySelectorAll(".main.active");
     removeActiveClass(htmlCollection);
     // add active class
     e.target.classList.add("active");
@@ -876,7 +874,7 @@ document.querySelector("#mfadd").addEventListener("click", (e) => {
   // show form
   display.showMainFolderForm();
   // set time out to focus
-  window.setTimeout(function () {
+  setTimeout(function () {
     el.textNameMain.focus();
   }, 1000);
 }); // End el.addShowFormMain.addEventListener
@@ -885,9 +883,9 @@ document.querySelector("#mfadd").addEventListener("click", (e) => {
 el.mainFolderAddBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // grab text for primary object
-  let primaryName = el.textNameMain.value.trim();
+  const primaryName = el.textNameMain.value.trim();
   // check if text is empty
 
   if (!primaryName) {
@@ -900,12 +898,12 @@ el.mainFolderAddBtn.addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textNameMain.focus();
     }, 1000);
   } else {
     // create primary object
-    let primaryObj = new PrimaryObj(primaryName);
+    const primaryObj = new PrimaryObj(primaryName);
     // push primary object into array
     primaryArray.push(primaryObj);
     // sort primary array by name
@@ -932,7 +930,7 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
     return;
   }
   // grab text for primary object
-  let primaryName = el.textNameMain.value.trim();
+  const primaryName = el.textNameMain.value.trim();
   // check if text is empty
   if (!primaryName) {
     warningEmptyAudio.play();
@@ -945,12 +943,12 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textNameMain.focus();
     }, 1000);
   } else {
     // grab main folder
-    let mainFolder = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
+    const mainFolder = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     //change text
     mainFolder.name = primaryName;
     // sort primary array by name
@@ -977,7 +975,7 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.mainFolderForm);
   // get rid of active class
-  let htmlCollection = document.getElementsByClassName("main active");
+  const htmlCollection = document.querySelectorAll(".main.active");
   removeActiveClass(htmlCollection);
 }); // End
 // *************************************************************
@@ -1000,7 +998,7 @@ el.subFolderList.addEventListener("click", (e) => {
     sfI = index;
 
     // grab sub folder name
-    let { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[
+    const { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[
       mfI
     ].secondaryArray[sfI];
     // set from text
@@ -1008,7 +1006,7 @@ el.subFolderList.addEventListener("click", (e) => {
     // show form
     display.showRenameSubFolderForm();
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textNameSub.focus();
     }, 1000);
     return;
@@ -1047,7 +1045,7 @@ el.subFolderList.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("sub")) {
-    const htmlCollection = document.getElementsByClassName("sub active");
+    const htmlCollection = document.querySelectorAll(".sub.active");
     removeActiveClass(htmlCollection);
     // add active class
     e.target.classList.add("active");
@@ -1076,7 +1074,7 @@ document.querySelector("#sfadd").addEventListener("click", (e) => {
   // show form
   display.showSubFolderForm();
   // set time out to focus
-  window.setTimeout(function () {
+  setTimeout(function () {
     el.textNameSub.focus();
   }, 1000);
 }); // End
@@ -1085,9 +1083,9 @@ document.querySelector("#sfadd").addEventListener("click", (e) => {
 el.subFolderAddBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab array from file
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // grab text input
-  let secondaryName = el.textNameSub.value.trim();
+  const secondaryName = el.textNameSub.value.trim();
   // check for empty string
   if (!secondaryName) {
     warningEmptyAudio.play();
@@ -1099,11 +1097,11 @@ el.subFolderAddBtn.addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
-    window.setTimeout(function () {
+    setTimeout(function () {
       el.textNameSub.focus();
     }, 1000);
   } else {
-    let secondaryObject = new SecondaryObj(secondaryName);
+    const secondaryObject = new SecondaryObj(secondaryName);
     // push object into array
     primaryArray[mfI].secondaryArray.push(secondaryObject);
     // sort secondary array by name
@@ -1129,7 +1127,7 @@ el.subFolderRenameBtn.addEventListener("click", (e) => {
     return;
   }
   // grab text for primary object
-  let subName = el.textNameSub.value.trim();
+  const subName = el.textNameSub.value.trim();
   // check if text is empty
   if (!subName) {
     warningEmptyAudio.play();
@@ -1149,7 +1147,7 @@ el.subFolderRenameBtn.addEventListener("click", (e) => {
     subFolderText.focus();
   } else {
     // grab sub folder
-    let subFolder =
+    const subFolder =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI];
     //change text
     subFolder.name = subName;
@@ -1177,7 +1175,7 @@ document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.subFolderForm);
   // get rid of active class
-  let htmlCollection = document.getElementsByClassName("sub active");
+  const htmlCollection = document.querySelectorAll(".sub.active");
   removeActiveClass(htmlCollection);
 }); //End
 // *************************************************************
@@ -1222,8 +1220,8 @@ el.noteList.addEventListener("click", (e) => {
       return;
     }
     // get move to index
-    let moveTo = index - 1;
-    let arr =
+    const moveTo = index - 1;
+    const arr =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray;
     // swap array elements
@@ -1244,7 +1242,7 @@ el.noteList.addEventListener("click", (e) => {
     let index = e.target.parentElement.dataset.index;
     index = parseInt(index);
 
-    let arr =
+    const arr =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray;
     // let arrayLength = arr.length - 1;
@@ -1253,7 +1251,7 @@ el.noteList.addEventListener("click", (e) => {
       return;
     }
     // get move to index
-    let moveTo = index + 1;
+    const moveTo = index + 1;
     // swap array elements
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
     btnAudio.play();
@@ -1321,7 +1319,7 @@ el.noteList.addEventListener("click", (e) => {
         .noteArray[nI];
 
     if (selectedNote.imagePath) {
-      let oImg = document.createElement("img");
+      const oImg = document.createElement("img");
       oImg.setAttribute("src", selectedNote.imagePath);
       oImg.setAttribute("alt", "na");
       oImg.setAttribute("width", "100%");
@@ -1373,7 +1371,7 @@ el.noteList.addEventListener("click", (e) => {
     nI = index;
     // set modal text
     // grab current note
-    let note =
+    const note =
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray[nI];
 
@@ -1388,7 +1386,7 @@ document.querySelector("#nadd").addEventListener("click", (e) => {
   display.showNoteForm();
 
   // set time out to focus
-  window.setTimeout(function () {
+  setTimeout(function () {
     el.textArea.focus();
   }, 1000);
 }); // End
@@ -1396,9 +1394,9 @@ document.querySelector("#nadd").addEventListener("click", (e) => {
 document.querySelector("#noteAdd").addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
-  let primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
+  const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // create note
-  let noteText = el.textArea.value.trim();
+  const noteText = el.textArea.value.trim();
   // check if text is empty
   if (!noteText) {
     warningEmptyAudio.play();
@@ -1406,7 +1404,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
     return;
   }
   // create new note
-  let newNote = new Note(noteText);
+  const newNote = new Note(noteText);
   // push note into note array
   primaryArray[mfI].secondaryArray[sfI].noteArray.push(newNote);
   // write to file
@@ -1430,7 +1428,7 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   // clear the text Area
   el.textArea.value = "";
   // set time out to focus
-  window.setTimeout(function () {
+  setTimeout(function () {
     el.textArea.focus();
   }, 1000);
 }); //End
@@ -1438,10 +1436,10 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
 // when you click on the add Date btn in the note form
 document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
-  let date = new Date();
+  const date = new Date();
   el.textArea.value = date.toDateString();
   // set time out to focus
-  window.setTimeout(function () {
+  setTimeout(function () {
     el.textArea.focus();
   }, 1000);
 }); //End
@@ -1455,7 +1453,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     return;
   }
-  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+  const newNoteText = document.querySelector("#noteModalTextarea").value.trim();
   // check if text is empty
   if (!newNoteText) {
     warningEmptyAudio.play();
@@ -1463,7 +1461,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
     return;
   }
   // grab current note
-  let note =
+  const note =
     arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
       .noteArray[nI];
 
@@ -1479,7 +1477,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   renderNotes();
 });
 
-// when you click on the close Btn on the edit note form
+// when you click on the cancel Btn on the edit note form
 document.querySelector("#editClose").addEventListener("click", (e) => {
   clickAudio.play();
 });
@@ -1498,13 +1496,13 @@ document.querySelector("#settingsSave").addEventListener("click", (e) => {
 
   // get form data to create a settings object
   // theme radio code
-  let themeValue = getRadioValue(el.settingsForm, "theme");
+  const themeValue = getRadioValue(el.settingsForm, "theme");
   // set the current theme
   currentTheme = themeValue;
   // fontsize radio code
-  let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
-  let settingsStorage = new SettingsStorage();
-  let settingsObj = new SettingsObj();
+  const fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
+  const settingsStorage = new SettingsStorage();
+  const settingsObj = new SettingsObj();
   // set the object values
   settingsObj.theme = themeValue;
   settingsObj.fontSize = fontSizeValue;
@@ -1547,7 +1545,7 @@ document.querySelector("#settingsCancel").addEventListener("click", (e) => {
 // when You click on settings form factory reset btn
 document.querySelector("#factoryReset").addEventListener("click", (e) => {
   btnAudio.play();
-  let settingsStorage = new SettingsStorage();
+  const settingsStorage = new SettingsStorage();
   settingsStorage.clearFileFromLocalStorage();
   loadUpSettingsForm();
 });
@@ -1557,7 +1555,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
 
   // this is for extensions
-  let myOptions = {
+  const myOptions = {
     filters: [
       {
         name: "Custom File Type",
@@ -1573,7 +1571,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
     } else {
       // got file name
 
-      for (let filePath of fileNames) {
+      for (const filePath of fileNames) {
         pushFileSettingsContainer(filePath);
       }
 

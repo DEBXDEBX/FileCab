@@ -75,7 +75,7 @@ class Display {
     // paint file cab tabs
     this.elements.fileCabList.innerHTML = html;
     // color tabs
-    let tabList = document.getElementsByClassName("fileCab");
+    const tabList = document.getElementsByClassName("fileCab");
     this.colorSetOfTabs(tabList);
     return -243;
   } // End paintFileCabTabs(mapedArray)
@@ -115,7 +115,7 @@ class Display {
     } // End if/else statement
     this.displayBlock(this.elements.mainFolderList);
     // color tabs
-    let tabList = document.getElementsByClassName("main");
+    const tabList = document.getElementsByClassName("main");
     this.colorSetOfTabs(tabList);
   } // End paintMainFolderTabs(deleteMode, mapedArray)
 
@@ -149,7 +149,7 @@ class Display {
     }
     this.displayBlock(this.elements.subFolderList);
     // color tabs
-    let tabList = document.getElementsByClassName("sub");
+    const tabList = document.getElementsByClassName("sub");
     this.colorSetOfTabs(tabList);
   } // End paintSubFolderTabs(deleteMode, mappedSecondaryArray)
 
@@ -168,7 +168,7 @@ class Display {
       // if delete mode is true, build div with head of the note to delete and move note
       if (deleteMode) {
         let html = "";
-        let newHead = document.createElement("div");
+        const newHead = document.createElement("div");
         html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
       title="Delete Note"
       class="delete-item fas fa-trash-alt trash"
@@ -183,7 +183,7 @@ class Display {
         this.elements.noteList.appendChild(newHead);
       } // End Head of Note
       //######################## Now build the Note #################################
-      let newElement = document.createElement("h4");
+      const newElement = document.createElement("h4");
       newElement.className = "note";
       newElement.setAttribute("data-index", `${index}`);
       if (note.imagePath) {
