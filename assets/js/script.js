@@ -5,6 +5,7 @@ let { dialog } = app;
 let fs = require("fs");
 
 const electron = require("electron");
+const { emitKeypressEvents } = require("readline");
 const { ipcRenderer } = electron;
 
 // Select audio files
@@ -29,8 +30,6 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 
-// this is for the fontSize
-let root = document.querySelector(":root");
 // temp hold for array
 let settingsArrayContainer;
 // Theme current
@@ -67,7 +66,7 @@ function startUp() {
     // update Form
     display.showAutoLoadList(settingsArrayContainer);
 
-    if (document.querySelector("#autoLoad").checked) {
+    if (el.autoLoad.checked) {
       if (settings.filePathArray) {
         autoLoadFileCabs(settings.filePathArray);
       }
@@ -233,7 +232,7 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
-  const checkBox = document.querySelector("#autoLoad");
+  const checkBox = el.autoLoad;
   const settingsStorage = new SettingsStorage();
   const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
@@ -243,10 +242,10 @@ function loadUpSettingsForm() {
     // check the right theme
     switch (settings.theme) {
       case "Dark":
-        document.querySelector("#Dark").checked = true;
+        el.dark.checked = true;
         break;
       case "Light":
-        document.querySelector("#Light").checked = true;
+        el.light.checked = true;
         break;
       default:
         console.log("No valid theme!");
@@ -254,19 +253,19 @@ function loadUpSettingsForm() {
     // check the right font size
     switch (settings.fontSize) {
       case "x-small":
-        document.querySelector("#x-small").checked = true;
+        el.xSmall.checked = true;
         break;
       case "small":
-        document.querySelector("#small").checked = true;
+        el.small.checked = true;
         break;
       case "normal":
-        document.querySelector("#normal").checked = true;
+        el.normal.checked = true;
         break;
       case "large":
-        document.querySelector("#large").checked = true;
+        el.large.checked = true;
         break;
       case "x-large":
-        document.querySelector("#x-large").checked = true;
+        el.xLarge.checked = true;
         break;
       default:
         console.log("No valid font size");
@@ -277,23 +276,23 @@ function loadUpSettingsForm() {
 } // End loadUpSettingsForm()
 // *******************************************************************
 function applySettings(settings) {
-  document.querySelector("#autoLoad").checked = settings.autoLoad;
+  el.autoLoad.checked = settings.autoLoad;
 
   switch (settings.fontSize) {
     case "x-small":
-      root.style.fontSize = "10px";
+      el.root.style.fontSize = "10px";
       break;
     case "small":
-      root.style.fontSize = "12px";
+      el.root.style.fontSize = "12px";
       break;
     case "normal":
-      root.style.fontSize = "16px";
+      el.root.style.fontSize = "16px";
       break;
     case "large":
-      root.style.fontSize = "20px";
+      el.root.style.fontSize = "20px";
       break;
     case "x-large":
-      root.style.fontSize = "24px";
+      el.root.style.fontSize = "24px";
       break;
     default:
       console.log("No valid font-size");
@@ -302,14 +301,14 @@ function applySettings(settings) {
     // set the theme
     switch (settings.theme) {
       case "Dark":
-        document.querySelector("#blank").href = "assets/css/dark.css";
-        document.querySelector("body").style.backgroundColor = "black";
+        el.blank.href = "assets/css/dark.css";
+        el.myBody.style.backgroundColor = "black";
         // deleteMode = false;
         currentTheme = "Dark";
         break;
       case "Light":
-        document.querySelector("#blank").href = "assets/css/light.css";
-        document.querySelector("body").style.backgroundColor = "white";
+        el.blank.href = "assets/css/light.css";
+        el.myBody.style.backgroundColor = "white";
         // deleteMode = false;
         currentTheme = "Light";
         break;
@@ -493,7 +492,6 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
 
-  const myBody = document.querySelector("body");
   let paintMain = false;
   let mainText;
   let subText;
@@ -510,7 +508,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
   if (deleteMode) {
     display.showAlert("Edit and Delete mode!", "error");
-    myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
+    el.myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
     const htmlMainFolders = document.querySelectorAll(".main");
     if (htmlMainFolders.length > 0) {
@@ -550,12 +548,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     display.showAlert("Read and Write mode!", "success");
     switch (currentTheme) {
       case "Dark":
-        myBody.style.background = "none";
-        myBody.style.backgroundColor = "black";
+        el.myBody.style.background = "none";
+        el.myBody.style.backgroundColor = "black";
         break;
       case "Light":
-        myBody.style.background = "none";
-        myBody.style.backgroundColor = "white";
+        el.myBody.style.background = "none";
+        el.myBody.style.backgroundColor = "white";
         break;
       default:
         console.log("No Match");
@@ -604,13 +602,13 @@ ipcRenderer.on("Theme:set", (event, theme) => {
   }
   switch (theme) {
     case "Dark":
-      document.querySelector("#blank").href = "assets/css/dark.css";
-      document.querySelector("body").style.backgroundColor = "black";
+      el.blank.href = "assets/css/dark.css";
+      el.myBody.style.backgroundColor = "black";
       deleteMode = false;
       break;
     case "Light":
-      document.querySelector("#blank").href = "assets/css/light.css";
-      document.querySelector("body").style.backgroundColor = "white";
+      el.blank.href = "assets/css/light.css";
+      el.myBody.style.backgroundColor = "white";
       deleteMode = false;
       break;
     default:
@@ -633,19 +631,19 @@ ipcRenderer.on("SettingsForm:show", (event) => {
 ipcRenderer.on("FontSize:change", (event, fontSize) => {
   switch (fontSize) {
     case "x-small":
-      root.style.fontSize = "10px";
+      el.root.style.fontSize = "10px";
       break;
     case "small":
-      root.style.fontSize = "12px";
+      el.root.style.fontSize = "12px";
       break;
     case "normal":
-      root.style.fontSize = "16px";
+      el.root.style.fontSize = "16px";
       break;
     case "large":
-      root.style.fontSize = "20px";
+      el.root.style.fontSize = "20px";
       break;
     case "x-large":
-      root.style.fontSize = "24px";
+      el.root.style.fontSize = "24px";
       break;
     default:
       console.log("No valid font-size");
@@ -723,7 +721,7 @@ el.fileCabList.addEventListener("click", (e) => {
 }); // End el.fileCabList.addEventListener
 
 // when You click on the rename File Cab rename Btn in the form *******************
-document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
+el.renameFileCabAdd.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -772,18 +770,16 @@ document.querySelector("#renameFileCabAdd").addEventListener("click", (e) => {
 }); // End
 
 // when You click on the rename File Cab cancel Btn in the form ************************
-document
-  .querySelector("#renameFileCabCancel")
-  .addEventListener("click", (e) => {
-    cancelAudio.play();
-    // reset form
-    el.renameFileCabForm.reset();
-    // hide form
-    display.displayNone(el.renameFileCabForm);
-    // get rid of active class
-    const element = document.querySelector(".fileCab.active");
-    removeActiveClass(element);
-  });
+el.renameFileCabCancel.addEventListener("click", (e) => {
+  cancelAudio.play();
+  // reset form
+  el.renameFileCabForm.reset();
+  // hide form
+  display.displayNone(el.renameFileCabForm);
+  // get rid of active class
+  const element = document.querySelector(".fileCab.active");
+  removeActiveClass(element);
+});
 // *************************************************************
 //   Main Folder Code
 // *************************************************************
@@ -868,7 +864,7 @@ el.mainFolderList.addEventListener("click", (e) => {
 }); // End el.mainFolderList.addEventListener
 
 // when You click on the +/icon in the main folder heading *********
-document.querySelector("#mfadd").addEventListener("click", (e) => {
+el.mfAdd.addEventListener("click", (e) => {
   clickAudio.play();
 
   el.textNameMain.value = "";
@@ -969,7 +965,7 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
   } // End else statement
 });
 // when You click on cancel btn on the main folder form ****************
-document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
+el.mainFolderCancel.addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.mainFolderForm.reset();
@@ -1069,7 +1065,7 @@ el.subFolderList.addEventListener("click", (e) => {
 }); // End el.subFolderList.addEventListener
 
 // When You click +/icon in the subfolder heading ***************************
-document.querySelector("#sfadd").addEventListener("click", (e) => {
+el.sfAdd.addEventListener("click", (e) => {
   clickAudio.play();
   el.textNameSub.value = "";
   // show form
@@ -1169,7 +1165,7 @@ el.subFolderRenameBtn.addEventListener("click", (e) => {
 }); // End
 
 // when You click the cancel btn in the sub folder form
-document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
+el.subFolderCancel.addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.subFolderForm.reset();
@@ -1376,13 +1372,13 @@ el.noteList.addEventListener("click", (e) => {
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray[nI];
 
-    document.querySelector("#noteModalTextarea").value = note.text;
+    el.noteModalTextarea.value = note.text;
     clickAudio.play();
     return;
   }
 }); // End el.noteList.addEventListener
 // when You click the + in the Note Heading
-document.querySelector("#nadd").addEventListener("click", (e) => {
+el.nAdd.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
 
@@ -1392,7 +1388,7 @@ document.querySelector("#nadd").addEventListener("click", (e) => {
   }, 1000);
 }); // End
 // when You click the add note btn in the note form
-document.querySelector("#noteAdd").addEventListener("click", (e) => {
+el.noteAdd.addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
   const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
@@ -1417,14 +1413,14 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   renderNotes();
 }); // End
 // when You click the cancel btn in the note form
-document.querySelector("#noteCancel").addEventListener("click", (e) => {
+el.noteCancel.addEventListener("click", (e) => {
   cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
 }); // End
 
 // when You click the clear btn in the note form
-document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
+el.noteClearTextArea.addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
@@ -1435,7 +1431,7 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
 }); //End
 
 // when you click on the add Date btn in the note form
-document.querySelector("#noteDate").addEventListener("click", (e) => {
+el.noteDate.addEventListener("click", (e) => {
   btnAudio.play();
   const date = new Date();
   el.textArea.value = date.toDateString();
@@ -1449,12 +1445,12 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
 //  Edit Note Code
 // *************************************************************
 // when you click on the save edit btn in the modal
-document.querySelector("#saveEdit").addEventListener("click", (e) => {
+el.saveEdit.addEventListener("click", (e) => {
   if (fcI < 0 || isNaN(fcI)) {
     warningNameTakenAudio.play();
     return;
   }
-  const newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+  const newNoteText = el.noteModalTextarea.value.trim();
   // check if text is empty
   if (!newNoteText) {
     warningEmptyAudio.play();
@@ -1479,7 +1475,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
 });
 
 // when you click on the cancel Btn on the edit note form
-document.querySelector("#editClose").addEventListener("click", (e) => {
+el.editClose.addEventListener("click", (e) => {
   clickAudio.play();
 });
 // *************************************************************
@@ -1492,7 +1488,7 @@ document.querySelector("#editClose").addEventListener("click", (e) => {
 // Settings code
 // *************************************************************
 // when You click on save settings Btn
-document.querySelector("#settingsSave").addEventListener("click", (e) => {
+el.settingsSave.addEventListener("click", (e) => {
   e.preventDefault();
 
   // get form data to create a settings object
@@ -1509,7 +1505,7 @@ document.querySelector("#settingsSave").addEventListener("click", (e) => {
   settingsObj.fontSize = fontSizeValue;
   settingsObj.filePathArray = settingsArrayContainer;
   // set auto load true or false
-  settingsObj.autoLoad = document.querySelector("#autoLoad").checked;
+  settingsObj.autoLoad = el.autoLoad.checked;
 
   // save the object
   settingsStorage.saveSettings(settingsObj);
@@ -1535,7 +1531,7 @@ document.querySelector("#settingsSave").addEventListener("click", (e) => {
 }); // End
 
 // when You click on settings form cancel Btn
-document.querySelector("#settingsCancel").addEventListener("click", (e) => {
+el.settingsCancel.addEventListener("click", (e) => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
@@ -1544,7 +1540,7 @@ document.querySelector("#settingsCancel").addEventListener("click", (e) => {
 });
 
 // when You click on settings form factory reset btn
-document.querySelector("#factoryReset").addEventListener("click", (e) => {
+el.factoryReset.addEventListener("click", (e) => {
   btnAudio.play();
   const settingsStorage = new SettingsStorage();
   settingsStorage.clearFileFromLocalStorage();
@@ -1552,7 +1548,7 @@ document.querySelector("#factoryReset").addEventListener("click", (e) => {
 });
 
 // When You click on settings form add path to autoload Btn
-document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
+el.settingsAddPath.addEventListener("click", (e) => {
   e.preventDefault();
 
   // this is for extensions
