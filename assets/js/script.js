@@ -29,7 +29,6 @@ let sfI = -243;
 // current note Index
 let nI = -243;
 
-let myBody = document.querySelector("body");
 // this is for the fontSize
 let root = document.querySelector(":root");
 // temp hold for array
@@ -84,9 +83,9 @@ function save() {
   arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs, display);
 }
 //*************************************************** */
-function removeActiveClass(htmlCollection) {
-  for (const item of htmlCollection) {
-    item.classList.remove("active");
+function removeActiveClass(element) {
+  if (element) {
+    element.classList.remove("active");
   }
 }
 // **************************************************
@@ -493,6 +492,8 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   $("#myModal").modal("hide");
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
+
+  const myBody = document.querySelector("body");
   let paintMain = false;
   let mainText;
   let subText;
@@ -704,8 +705,8 @@ el.fileCabList.addEventListener("click", (e) => {
 
   // event delegation
   if (e.target.classList.contains("fileCab")) {
-    const htmlCollection = document.querySelectorAll(".fileCab.active");
-    removeActiveClass(htmlCollection);
+    const element = document.querySelector(".fileCab.active");
+    removeActiveClass(element);
 
     // add active class
     e.target.classList.add("active");
@@ -780,8 +781,8 @@ document
     // hide form
     display.displayNone(el.renameFileCabForm);
     // get rid of active class
-    const htmlCollection = document.querySelectorAll(".fileCab.active");
-    removeActiveClass(htmlCollection);
+    const element = document.querySelector(".fileCab.active");
+    removeActiveClass(element);
   });
 // *************************************************************
 //   Main Folder Code
@@ -846,8 +847,8 @@ el.mainFolderList.addEventListener("click", (e) => {
   // set's the current target active
 
   if (e.target.classList.contains("main")) {
-    const htmlCollection = document.querySelectorAll(".main.active");
-    removeActiveClass(htmlCollection);
+    const element = document.querySelector(".main.active");
+    removeActiveClass(element);
     // add active class
     e.target.classList.add("active");
 
@@ -975,8 +976,8 @@ document.querySelector("#mainFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.mainFolderForm);
   // get rid of active class
-  const htmlCollection = document.querySelectorAll(".main.active");
-  removeActiveClass(htmlCollection);
+  const element = document.querySelector(".main.active");
+  removeActiveClass(element);
 }); // End
 // *************************************************************
 //  End Main Folder Code
@@ -1045,8 +1046,8 @@ el.subFolderList.addEventListener("click", (e) => {
   }
 
   if (e.target.classList.contains("sub")) {
-    const htmlCollection = document.querySelectorAll(".sub.active");
-    removeActiveClass(htmlCollection);
+    const element = document.querySelector(".sub.active");
+    removeActiveClass(element);
     // add active class
     e.target.classList.add("active");
     // End code to set the active class
@@ -1175,8 +1176,8 @@ document.querySelector("#subFolderCancel").addEventListener("click", (e) => {
   // hide form
   display.displayNone(el.subFolderForm);
   // get rid of active class
-  const htmlCollection = document.querySelectorAll(".sub.active");
-  removeActiveClass(htmlCollection);
+  const element = document.querySelector(".sub.active");
+  removeActiveClass(element);
 }); //End
 // *************************************************************
 //  End SubFolder Code
