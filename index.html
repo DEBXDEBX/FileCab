@@ -37,7 +37,7 @@
 
     <!-- My CSS File -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <link id="blank" rel="stylesheet" type="text/css" href="" />
+    <link id="blankCssLink" rel="stylesheet" type="text/css" href="" />
 
     <title>File Cabinet's</title>
   </head>
@@ -83,7 +83,7 @@
     <form id="renameFileCabForm">
       <div class="form-group">
         <input
-          id="newFileCabName"
+          id="fileCabNameInput"
           type="text"
           autofocus
           class="form-control"
@@ -92,7 +92,7 @@
       </div>
       <div class="form-group">
         <input
-          id="renameFileCabAdd"
+          id="renameFileCabSubmitBtn"
           class="btn btn-primary form-control"
           type="submit"
           value="Rename File Cabinet"
@@ -100,7 +100,7 @@
       </div>
       <div class="form-group">
         <button
-          id="renameFileCabCancel"
+          id="renameFileCabCancelBtn"
           class="btn btn-warning form-control"
           type="button"
         >
@@ -112,7 +112,7 @@
     <section>
       <h6 id="headingMainFolder">
         Main Folder
-        <span id="mfadd"
+        <span id="mainFolderAddIcon"
           ><i
             data-toggle="tooltip"
             title="Add Main Folder"
@@ -129,7 +129,7 @@
       <form id="mainFolderForm">
         <div class="form-group">
           <input
-            id="mainFolderName"
+            id="mainFolderNameInput"
             type="text"
             autofocus
             class="form-control"
@@ -138,7 +138,7 @@
         </div>
         <div class="form-group">
           <input
-            id="mainFolderAdd"
+            id="addMainFolderSubmitBtn"
             class="btn btn-primary form-control"
             type="submit"
             value="Add Main Folder"
@@ -147,7 +147,7 @@
         <!-- **********************-->
         <div class="form-group">
           <button
-            id="mainFolderRename"
+            id="renameMainFolderBtn"
             class="btn btn-primary form-control"
           >Rename Main Folder</button>
         </div>
@@ -155,7 +155,7 @@
 
         <div class="form-group">
           <button
-            id="mainFolderCancel"
+            id="mainFolderCancelBtn"
             class="btn btn-warning form-control"
             type="button"
           >
@@ -168,7 +168,7 @@
     <section id="subFolder">
       <h6 id="headingSubFolder">
         Sub Folder
-        <span id="sfadd"
+        <span id="subFolderAddIcon"
           ><i
             data-toggle="tooltip"
             title="Add Sub Folder"
@@ -184,7 +184,7 @@
       <form id="subFolderForm">
         <div class="form-group">
           <input
-            id="subFolderName"
+            id="subFolderNameInput"
             type="text"
             autofocus
             class="form-control"
@@ -194,7 +194,7 @@
 
         <div class="form-group">
           <input
-            id="subFolderAdd"
+            id="addSubFolderSubmitBtn"
             class="btn btn-primary form-control"
             type="submit"
             value="Add Sub Folder"
@@ -203,7 +203,7 @@
         <!-- **********************-->
         <div class="form-group">
           <input
-            id="subFolderRename"
+            id="renameSubfolderSubmitBtn"
             class="btn btn-primary form-control"
             type="submit"
             value="Rename Sub Folder"
@@ -212,7 +212,7 @@
         <!-- **************************** -->
         <div class="form-group">
           <button
-            id="subFolderCancel"
+            id="subFolderCancelBtn"
             class="btn btn-warning form-control"
             type="button"
           >
@@ -224,7 +224,7 @@
 
     <h6 id="headingNote">
       Notes
-      <span id="nadd"
+      <span id="noteAddIcon"
         ><i data-toggle="tooltip" title="Add Note" class="far fa-map"></i
       ></span>
     </h6>
@@ -236,7 +236,7 @@
           autofocus
           wrap="hard"
           placeholder="Enter notes here!"
-          id="myTextArea"
+          id="noteTextareaInput"
           rows="10"
           cols="200"
         ></textarea>
@@ -244,7 +244,7 @@
 
       <div class="form-group">
         <input
-          id="noteAdd"
+          id="addNoteSubmitBtn"
           type="submit"
           class="btn btn-primary form-control"
           value="Add Note"
@@ -253,7 +253,7 @@
 
       <div class="form-group">
         <button
-          id="noteClearTextArea"
+          id="noteClearTextAreaBtn"
           class="btn btn-dark form-control"
           type="button"
         >
@@ -262,14 +262,14 @@
       </div>
 
       <div class="form-group">
-        <button id="noteDate" class="btn btn-info form-control" type="button">
+        <button id="noteAddDateBtn" class="btn btn-info form-control" type="button">
           Add Date
         </button>
       </div>
 
       <div class="form-group">
         <button
-          id="noteCancel"
+          id="noteCancelBtn"
           class="btn btn-warning form-control"
           type="button"
         >
@@ -288,11 +288,11 @@
         <label for="theme">Pick a theme</label>
 
         <div>
-          <input id="Dark" type="radio" name="theme" value="Dark" checked />
+          <input id="darkRadio" type="radio" name="theme" value="Dark" checked />
           Dark
         </div>
         <div>
-          <input id="Light" type="radio" name="theme" value="Light" /> Light
+          <input id="lightRadio" type="radio" name="theme" value="Light" /> Light
         </div>
       </div>
 
@@ -300,25 +300,25 @@
       <div class="form-group setFlex">
         <label for="fontSize">Pick a font size</label>
         <div>
-          <input id="x-small" type="radio" name="fontSize" value="x-small" />
+          <input id="x-smallRadio" type="radio" name="fontSize" value="x-small" />
           x-small
-          <input id="small" type="radio" name="fontSize" value="small" /> small
+          <input id="smallRadio" type="radio" name="fontSize" value="small" /> small
           <input
-            id="normal"
+            id="normalRadio"
             type="radio"
             name="fontSize"
             value="normal"
             checked
           />
           normal
-          <input id="large" type="radio" name="fontSize" value="large" /> large
-          <input id="x-large" type="radio" name="fontSize" value="x-large" />
+          <input id="largeRadio" type="radio" name="fontSize" value="large" /> large
+          <input id="x-largeRadio" type="radio" name="fontSize" value="x-large" />
           x-large
         </div>
       </div>
 
       <div>
-        <input id="autoLoad" type="checkbox" /> Auto Load File Cabinent's
+        <input id="autoLoadCheckBox" type="checkbox" /> Auto Load File Cabinent's
       </div>
 
       <div>
@@ -330,7 +330,7 @@
       <div class="form-group">
         <button
           class="btn btn-primary form-control"
-          id="settingsAddPath"
+          id="settingsAddPathBtn"
           type="button"
         >
           Add File To Auto Load List
@@ -338,7 +338,7 @@
       </div>
       <div class="form-group">
         <input
-          id="settingsSave"
+          id="saveSettingsSubmitBtn"
           class="btn btn-success form-control"
           type="submit"
           value="Save Settings"
@@ -347,7 +347,7 @@
 
       <div class="form-group">
         <button
-          id="factoryReset"
+          id="factoryResetBtn"
           class="btn btn-danger form-control"
           type="button"
         >
@@ -357,7 +357,7 @@
 
       <div class="form-group">
         <button
-          id="settingsCancel"
+          id="settingsCancelBtn"
           class="btn btn-warning form-control"
           type="button"
         >
@@ -393,7 +393,7 @@
           <div class="modal-footer">
 
             <button
-              id="saveEdit"
+              id="saveEditedNoteBtn"
               type="button"
               class="btn btn-primary"
               data-dismiss="modal"
@@ -401,7 +401,7 @@
               Save Edit
             </button>
             <button
-              id="editClose"
+              id="editNoteCloseBtn"
               type="button"
               class="btn btn-warning"
               data-dismiss="modal"
