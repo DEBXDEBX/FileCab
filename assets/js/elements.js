@@ -6,9 +6,9 @@ class Elements {
     this.subFolderList = document.querySelector("#subFolderList");
     this.noteList = document.querySelector("#noteList");
     // select headings
-    this.mfHeading = document.querySelector("#headingMainFolder");
-    this.sfHeading = document.querySelector("#headingSubFolder");
-    this.nHeading = document.querySelector("#headingNote");
+    this.headingMainFolder = document.querySelector("#headingMainFolder");
+    this.headingSubFolder = document.querySelector("#headingSubFolder");
+    this.headingNote = document.querySelector("#headingNote");
     // select forms
     this.renameFileCabForm = document.querySelector("#renameFileCabForm");
     this.mainFolderForm = document.querySelector("#mainFolderForm");
@@ -16,54 +16,62 @@ class Elements {
     this.noteForm = document.querySelector("#noteForm");
     this.settingsForm = document.querySelector("#settingsForm");
     // select btn
-    this.renameFileCabAdd = document.querySelector("#renameFileCabSubmitBtn");
-    this.mainFolderAddBtn = document.querySelector("#addMainFolderSubmitBtn");
-    this.mainFolderRenameBtn = document.querySelector("#renameMainFolderBtn");
-    this.subFolderAddBtn = document.querySelector("#addSubFolderSubmitBtn");
-    this.subFolderRenameBtn = document.querySelector(
+    this.renameFileCabSubmitBtn = document.querySelector(
+      "#renameFileCabSubmitBtn"
+    );
+    this.addMainFolderSubmitBtn = document.querySelector(
+      "#addMainFolderSubmitBtn"
+    );
+    this.renameMainFolderBtn = document.querySelector("#renameMainFolderBtn");
+    this.addSubFolderSubmitBtn = document.querySelector(
+      "#addSubFolderSubmitBtn"
+    );
+    this.renameSubfolderSubmitBtn = document.querySelector(
       "#renameSubfolderSubmitBtn"
     );
     // select textName and textArea
-    this.textRenameFileCab = document.querySelector("#fileCabNameInput");
-    this.textNameMain = document.querySelector("#mainFolderNameInput");
-    this.textNameSub = document.querySelector("#subFolderNameInput");
-    this.textArea = document.querySelector("#noteTextareaInput");
+    this.fileCabRenameInput = document.querySelector("#fileCabRenameInput");
+    this.mainFolderNameInput = document.querySelector("#mainFolderNameInput");
+    this.subFolderNameInput = document.querySelector("#subFolderNameInput");
+    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
     // select the autoload list
     this.autoLoadList = document.querySelector("#autoLoadList");
     // select message display
-    this.messageDisplay = document.querySelector("#displayMessage");
+    this.displayMessage = document.querySelector("#displayMessage");
     // select message border
-    this.messageBorder = document.querySelector("#modalBorder");
+    this.messageBorder = document.querySelector("#messageBorder");
     // this is for the fontSize
     this.root = document.querySelector(":root");
-    this.myBody = document.querySelector("body");
-    this.autoLoad = document.querySelector("#autoLoadCheckBox");
-    this.dark = document.querySelector("#darkRadio");
-    this.light = document.querySelector("#lightRadio");
-    this.xSmall = document.querySelector("#x-smallRadio");
-    this.small = document.querySelector("#smallRadio");
-    this.normal = document.querySelector("#normalRadio");
-    this.large = document.querySelector("#largeRadio");
-    this.xLarge = document.querySelector("#x-largeRadio");
-    this.blank = document.querySelector("#blankCssLink");
-    this.renameFileCabCancel = document.querySelector(
+    this.body = document.querySelector("body");
+    this.autoLoadCheckBox = document.querySelector("#autoLoadCheckBox");
+    this.darkRadio = document.querySelector("#darkRadio");
+    this.lightRadio = document.querySelector("#lightRadio");
+    this.xSmallRadio = document.querySelector("#xSmallRadio");
+    this.smallRadio = document.querySelector("#smallRadio");
+    this.normalRadio = document.querySelector("#normalRadio");
+    this.largeRadio = document.querySelector("#largeRadio");
+    this.xLargeRadio = document.querySelector("#xLargeRadio");
+    this.blankCssLink = document.querySelector("#blankCssLink");
+    this.renameFileCabCancelBtn = document.querySelector(
       "#renameFileCabCancelBtn"
     );
-    this.mfAdd = document.querySelector("#mainFolderAddIcon");
-    this.mainFolderCancel = document.querySelector("#mainFolderCancelBtn");
-    this.sfAdd = document.querySelector("#subFolderAddIcon");
-    this.subFolderCancel = document.querySelector("#subFolderCancelBtn");
+    this.mainFolderAddIcon = document.querySelector("#mainFolderAddIcon");
+    this.mainFolderCancelBtn = document.querySelector("#mainFolderCancelBtn");
+    this.subFolderAddIcon = document.querySelector("#subFolderAddIcon");
+    this.subFolderCancelBtn = document.querySelector("#subFolderCancelBtn");
     this.noteModalTextarea = document.querySelector("#noteModalTextarea");
-    this.nAdd = document.querySelector("#noteAddIcon");
-    this.noteAdd = document.querySelector("#addNoteSubmitBtn");
-    this.noteCancel = document.querySelector("#noteCancelBtn");
-    this.noteClearTextArea = document.querySelector("#noteClearTextAreaBtn");
-    this.noteDate = document.querySelector("#noteAddDateBtn");
-    this.saveEdit = document.querySelector("#saveEditedNoteBtn");
-    this.editClose = document.querySelector("#editNoteCloseBtn");
-    this.settingsSave = document.querySelector("#saveSettingsSubmitBtn");
-    this.settingsCancel = document.querySelector("#settingsCancelBtn");
-    this.factoryReset = document.querySelector("#factoryResetBtn");
-    this.settingsAddPath = document.querySelector("#settingsAddPathBtn");
+    this.noteAddIcon = document.querySelector("#noteAddIcon");
+    this.addNoteSubmitBtn = document.querySelector("#addNoteSubmitBtn");
+    this.noteCancelBtn = document.querySelector("#noteCancelBtn");
+    this.noteClearTextAreaBtn = document.querySelector("#noteClearTextAreaBtn");
+    this.noteAddDateBtn = document.querySelector("#noteAddDateBtn");
+    this.saveEditedNoteBtn = document.querySelector("#saveEditedNoteBtn");
+    this.editNoteCloseBtn = document.querySelector("#editNoteCloseBtn");
+    this.saveSettingsSubmitBtn = document.querySelector(
+      "#saveSettingsSubmitBtn"
+    );
+    this.settingsCancelBtn = document.querySelector("#settingsCancelBtn");
+    this.factoryResetBtn = document.querySelector("#factoryResetBtn");
+    this.settingsAddPathBtn = document.querySelector("#settingsAddPathBtn");
   } // End constructor
 } // End Elements class

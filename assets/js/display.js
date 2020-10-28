@@ -59,9 +59,9 @@ class Display {
     this.clearSubDisplay();
     this.clearNoteDisplay();
     this.displayNone(this.elements.renameFileCabForm);
-    this.displayNone(this.elements.mfHeading);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingMainFolder);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -86,11 +86,11 @@ class Display {
     this.clearSubDisplay();
     this.clearNoteDisplay();
     this.displayNone(this.elements.renameFileCabForm);
-    this.displayNone(this.elements.mfHeading);
-    this.displayBlock(this.elements.mfHeading);
+    this.displayNone(this.elements.headingMainFolder);
+    this.displayBlock(this.elements.headingMainFolder);
     this.displayNone(this.elements.mainFolderList);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -123,10 +123,10 @@ class Display {
   paintSubFolderTabs(deleteMode, mappedSecondaryArray) {
     this.clearSubDisplay();
     this.clearNoteDisplay();
-    this.displayNone(this.elements.sfHeading);
-    this.displayBlock(this.elements.sfHeading);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayBlock(this.elements.headingSubFolder);
     this.displayNone(this.elements.subFolderList);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -155,8 +155,8 @@ class Display {
 
   //Method
   paintNotes(deleteMode, noteArray) {
-    this.displayNone(this.elements.nHeading);
-    this.displayBlock(this.elements.nHeading);
+    this.displayNone(this.elements.headingNote);
+    this.displayBlock(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -205,9 +205,9 @@ class Display {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
-    this.displayNone(this.elements.mfHeading);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingMainFolder);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
@@ -218,76 +218,76 @@ class Display {
   //Method
   showMainFolderForm() {
     // hide Add btn
-    this.displayBlock(this.elements.mainFolderAddBtn);
+    this.displayBlock(this.elements.addMainFolderSubmitBtn);
     // enable add btn
-    this.elements.mainFolderAddBtn.disabled = false;
+    this.elements.addMainFolderSubmitBtn.disabled = false;
     // show reName btn
-    this.displayNone(this.elements.mainFolderRenameBtn);
+    this.displayNone(this.elements.renameMainFolderBtn);
     // disable rename btn
-    this.elements.mainFolderRenameBtn.disabled = true;
+    this.elements.renameMainFolderBtn.disabled = true;
 
     this.displayNone(this.elements.mainFolderForm);
     this.displayBlock(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.clearSubDisplay();
     this.clearNoteDisplay();
   } // End showMainFolderForm()
   //Method
   showRenameMainFolderForm() {
     // hide Add btn
-    this.displayNone(this.elements.mainFolderAddBtn);
+    this.displayNone(this.elements.addMainFolderSubmitBtn);
     // disable add btn
-    this.elements.mainFolderAddBtn.disabled = true;
+    this.elements.addMainFolderSubmitBtn.disabled = true;
     // show reName btn
-    this.displayBlock(this.elements.mainFolderRenameBtn);
+    this.displayBlock(this.elements.renameMainFolderBtn);
     // enable rename btn
-    this.elements.mainFolderRenameBtn.disabled = false;
+    this.elements.renameMainFolderBtn.disabled = false;
 
     this.displayNone(this.elements.mainFolderForm);
     this.displayBlock(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.clearSubDisplay();
     this.clearNoteDisplay();
   } // End showRenameMainFolderForm()
   //Method
   showSubFolderForm() {
     // hide Add btn
-    this.displayBlock(this.elements.subFolderAddBtn);
+    this.displayBlock(this.elements.addSubFolderSubmitBtn);
     // enable add btn
-    this.elements.subFolderAddBtn.disabled = false;
+    this.elements.addSubFolderSubmitBtn.disabled = false;
     // show reName btn
-    this.displayNone(this.elements.subFolderRenameBtn);
+    this.displayNone(this.elements.renameSubfolderSubmitBtn);
     // disable rename btn
-    this.elements.subFolderRenameBtn.disabled = true;
+    this.elements.renameSubfolderSubmitBtn.disabled = true;
 
     this.displayNone(this.elements.subFolderForm);
     this.displayBlock(this.elements.subFolderForm);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.noteForm);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingNote);
     this.clearNoteDisplay();
   } // End showSubFolderForm()
   showRenameSubFolderForm() {
     // hide Add btn
-    this.displayNone(this.elements.subFolderAddBtn);
+    this.displayNone(this.elements.addSubFolderSubmitBtn);
     // disable add btn
-    this.elements.subFolderAddBtn.disabled = true;
+    this.elements.addSubFolderSubmitBtn.disabled = true;
     // show reName btn
-    this.displayBlock(this.elements.subFolderRenameBtn);
+    this.displayBlock(this.elements.renameSubfolderSubmitBtn);
     // enable rename btn
-    this.elements.subFolderRenameBtn.disabled = false;
+    this.elements.renameSubfolderSubmitBtn.disabled = false;
 
     this.displayNone(this.elements.subFolderForm);
     this.displayBlock(this.elements.subFolderForm);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.noteForm);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingNote);
     this.clearNoteDisplay();
   } // End showSubFolderForm()
   //Method
@@ -313,24 +313,24 @@ class Display {
   showAlert(message, className, displayTime = 4000) {
     if (className === "success") {
       // remove error
-      this.elements.messageDisplay.classList.remove("error");
+      this.elements.displayMessage.classList.remove("error");
       // add success
-      this.elements.messageDisplay.classList.add("success");
+      this.elements.displayMessage.classList.add("success");
       // remove red border
       this.elements.messageBorder.classList.remove("redBorder");
       // add green border
       this.elements.messageBorder.classList.add("greenBorder");
     } else {
       // remove success
-      this.elements.messageDisplay.classList.remove("success");
+      this.elements.displayMessage.classList.remove("success");
       // add error
-      this.elements.messageDisplay.classList.add("error");
+      this.elements.displayMessage.classList.add("error");
       // remove green border
       this.elements.messageBorder.classList.remove("greenBorder");
       // add red border
       this.elements.messageBorder.classList.add("redBorder");
     }
-    this.elements.messageDisplay.textContent = message;
+    this.elements.displayMessage.textContent = message;
     $("#myMessageModal").modal("hide");
     $("#myMessageModal").modal("show");
     setTimeout(() => {
@@ -346,9 +346,9 @@ class Display {
     this.clearPrimaryDisplay();
     this.clearSubDisplay();
     this.clearNoteDisplay();
-    this.displayNone(this.elements.mfHeading);
-    this.displayNone(this.elements.sfHeading);
-    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.headingMainFolder);
+    this.displayNone(this.elements.headingSubFolder);
+    this.displayNone(this.elements.headingNote);
     this.displayNone(this.elements.mainFolderForm);
     this.displayNone(this.elements.subFolderForm);
     this.displayNone(this.elements.noteForm);

@@ -66,7 +66,7 @@ function startUp() {
     // update Form
     display.showAutoLoadList(settingsArrayContainer);
 
-    if (el.autoLoad.checked) {
+    if (el.autoLoadCheckBox.checked) {
       if (settings.filePathArray) {
         autoLoadFileCabs(settings.filePathArray);
       }
@@ -232,7 +232,7 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
-  const checkBox = el.autoLoad;
+  const checkBox = el.autoLoadCheckBox;
   const settingsStorage = new SettingsStorage();
   const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
@@ -242,10 +242,10 @@ function loadUpSettingsForm() {
     // check the right theme
     switch (settings.theme) {
       case "Dark":
-        el.dark.checked = true;
+        el.darkRadio.checked = true;
         break;
       case "Light":
-        el.light.checked = true;
+        el.lightRadio.checked = true;
         break;
       default:
         console.log("No valid theme!");
@@ -253,19 +253,19 @@ function loadUpSettingsForm() {
     // check the right font size
     switch (settings.fontSize) {
       case "x-small":
-        el.xSmall.checked = true;
+        el.xSmallRadio.checked = true;
         break;
       case "small":
-        el.small.checked = true;
+        el.smallRadio.checked = true;
         break;
       case "normal":
-        el.normal.checked = true;
+        el.normalRadio.checked = true;
         break;
       case "large":
-        el.large.checked = true;
+        el.largeRadio.checked = true;
         break;
       case "x-large":
-        el.xLarge.checked = true;
+        el.xLargeRadio.checked = true;
         break;
       default:
         console.log("No valid font size");
@@ -276,7 +276,7 @@ function loadUpSettingsForm() {
 } // End loadUpSettingsForm()
 // *******************************************************************
 function applySettings(settings) {
-  el.autoLoad.checked = settings.autoLoad;
+  el.autoLoadCheckBox.checked = settings.autoLoad;
 
   switch (settings.fontSize) {
     case "x-small":
@@ -301,14 +301,14 @@ function applySettings(settings) {
     // set the theme
     switch (settings.theme) {
       case "Dark":
-        el.blank.href = "assets/css/dark.css";
-        el.myBody.style.backgroundColor = "black";
+        el.blankCssLink.href = "assets/css/dark.css";
+        el.body.style.backgroundColor = "black";
         // deleteMode = false;
         currentTheme = "Dark";
         break;
       case "Light":
-        el.blank.href = "assets/css/light.css";
-        el.myBody.style.backgroundColor = "white";
+        el.blankCssLink.href = "assets/css/light.css";
+        el.body.style.backgroundColor = "white";
         // deleteMode = false;
         currentTheme = "Light";
         break;
@@ -514,7 +514,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
   if (deleteMode) {
     display.showAlert("Edit and Delete mode!", "error");
-    el.myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
+    el.body.style.background = "linear-gradient(to right, #180808, #ff0000)";
     //check for Main folders
     const htmlMainFolders = document.querySelectorAll(".main");
     if (htmlMainFolders.length > 0) {
@@ -554,12 +554,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     display.showAlert("Read and Write mode!", "success");
     switch (currentTheme) {
       case "Dark":
-        el.myBody.style.background = "none";
-        el.myBody.style.backgroundColor = "black";
+        el.body.style.background = "none";
+        el.body.style.backgroundColor = "black";
         break;
       case "Light":
-        el.myBody.style.background = "none";
-        el.myBody.style.backgroundColor = "white";
+        el.body.style.background = "none";
+        el.body.style.backgroundColor = "white";
         break;
       default:
         console.log("No Match");
@@ -608,13 +608,13 @@ ipcRenderer.on("Theme:set", (event, theme) => {
   }
   switch (theme) {
     case "Dark":
-      el.blank.href = "assets/css/dark.css";
-      el.myBody.style.backgroundColor = "black";
+      el.blankCssLink.href = "assets/css/dark.css";
+      el.body.style.backgroundColor = "black";
       deleteMode = false;
       break;
     case "Light":
-      el.blank.href = "assets/css/light.css";
-      el.myBody.style.backgroundColor = "white";
+      el.blankCssLink.href = "assets/css/light.css";
+      el.body.style.backgroundColor = "white";
       deleteMode = false;
       break;
     default:
@@ -698,11 +698,11 @@ el.fileCabList.addEventListener("click", (e) => {
     fcI = index;
     // grab file cab name
     const { name } = arrayOfFileCabs[fcI];
-    el.textRenameFileCab.value = name;
+    el.fileCabRenameInput.value = name;
     display.showRenameFileCabForm();
     // set time out to focus
     setTimeout(function () {
-      el.textRenameFileCab.focus();
+      el.fileCabRenameInput.focus();
     }, 1000);
     return;
   } // End shift Key down
@@ -727,7 +727,7 @@ el.fileCabList.addEventListener("click", (e) => {
 }); // End el.fileCabList.addEventListener
 
 // when You click on the rename File Cab rename Btn in the form *******************
-el.renameFileCabAdd.addEventListener("click", (e) => {
+el.renameFileCabSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -738,7 +738,7 @@ el.renameFileCabAdd.addEventListener("click", (e) => {
     return;
   }
   // get text
-  const newName = el.textRenameFileCab.value;
+  const newName = el.fileCabRenameInput.value;
   //check for empty string
   if (!newName) {
     warningEmptyAudio.play();
@@ -751,7 +751,7 @@ el.renameFileCabAdd.addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     setTimeout(function () {
-      el.textRenameFileCab.focus();
+      el.fileCabRenameInput.focus();
     }, 1000);
     return;
   }
@@ -776,7 +776,7 @@ el.renameFileCabAdd.addEventListener("click", (e) => {
 }); // End
 
 // when You click on the rename File Cab cancel Btn in the form ************************
-el.renameFileCabCancel.addEventListener("click", (e) => {
+el.renameFileCabCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.renameFileCabForm.reset();
@@ -805,12 +805,12 @@ el.mainFolderList.addEventListener("click", (e) => {
     // grab main folder name
     const { name } = arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI];
     // set form text
-    el.textNameMain.value = name;
+    el.mainFolderNameInput.value = name;
     // show form
     display.showRenameMainFolderForm();
     // set time out to focus
     setTimeout(function () {
-      el.textNameMain.focus();
+      el.mainFolderNameInput.focus();
     }, 1000);
     return;
   }
@@ -870,25 +870,25 @@ el.mainFolderList.addEventListener("click", (e) => {
 }); // End el.mainFolderList.addEventListener
 
 // when You click on the +/icon in the main folder heading *********
-el.mfAdd.addEventListener("click", (e) => {
+el.mainFolderAddIcon.addEventListener("click", (e) => {
   clickAudio.play();
 
-  el.textNameMain.value = "";
+  el.mainFolderNameInput.value = "";
   // show form
   display.showMainFolderForm();
   // set time out to focus
   setTimeout(function () {
-    el.textNameMain.focus();
+    el.mainFolderNameInput.focus();
   }, 1000);
 }); // End el.addShowFormMain.addEventListener
 
 // when you click on the add main folder btn ***********************
-el.mainFolderAddBtn.addEventListener("click", (e) => {
+el.addMainFolderSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
   const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // grab text for primary object
-  const primaryName = el.textNameMain.value.trim();
+  const primaryName = el.mainFolderNameInput.value.trim();
   // check if text is empty
 
   if (!primaryName) {
@@ -902,7 +902,7 @@ el.mainFolderAddBtn.addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     setTimeout(function () {
-      el.textNameMain.focus();
+      el.mainFolderNameInput.focus();
     }, 1000);
   } else {
     // create primary object
@@ -922,7 +922,7 @@ el.mainFolderAddBtn.addEventListener("click", (e) => {
   } // End else statement
 }); // End
 // when you click on the rename main folder btn ***********************
-el.mainFolderRenameBtn.addEventListener("click", (e) => {
+el.renameMainFolderBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -933,7 +933,7 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
     return;
   }
   // grab text for primary object
-  const primaryName = el.textNameMain.value.trim();
+  const primaryName = el.mainFolderNameInput.value.trim();
   // check if text is empty
   if (!primaryName) {
     warningEmptyAudio.play();
@@ -947,7 +947,7 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     setTimeout(function () {
-      el.textNameMain.focus();
+      el.mainFolderNameInput.focus();
     }, 1000);
   } else {
     // grab main folder
@@ -971,7 +971,7 @@ el.mainFolderRenameBtn.addEventListener("click", (e) => {
   } // End else statement
 });
 // when You click on cancel btn on the main folder form ****************
-el.mainFolderCancel.addEventListener("click", (e) => {
+el.mainFolderCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.mainFolderForm.reset();
@@ -1005,12 +1005,12 @@ el.subFolderList.addEventListener("click", (e) => {
       mfI
     ].secondaryArray[sfI];
     // set from text
-    el.textNameSub.value = name;
+    el.subFolderNameInput.value = name;
     // show form
     display.showRenameSubFolderForm();
     // set time out to focus
     setTimeout(function () {
-      el.textNameSub.focus();
+      el.subFolderNameInput.focus();
     }, 1000);
     return;
   }
@@ -1071,24 +1071,24 @@ el.subFolderList.addEventListener("click", (e) => {
 }); // End el.subFolderList.addEventListener
 
 // When You click +/icon in the subfolder heading ***************************
-el.sfAdd.addEventListener("click", (e) => {
+el.subFolderAddIcon.addEventListener("click", (e) => {
   clickAudio.play();
-  el.textNameSub.value = "";
+  el.subFolderNameInput.value = "";
   // show form
   display.showSubFolderForm();
   // set time out to focus
   setTimeout(function () {
-    el.textNameSub.focus();
+    el.subFolderNameInput.focus();
   }, 1000);
 }); // End
 
 // When You click on the add sub folder btn in the sub folder form
-el.subFolderAddBtn.addEventListener("click", (e) => {
+el.addSubFolderSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab array from file
   const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // grab text input
-  const secondaryName = el.textNameSub.value.trim();
+  const secondaryName = el.subFolderNameInput.value.trim();
   // check for empty string
   if (!secondaryName) {
     warningEmptyAudio.play();
@@ -1101,7 +1101,7 @@ el.subFolderAddBtn.addEventListener("click", (e) => {
     display.showAlert("That name is already taken!", "error");
     // set time out to focus
     setTimeout(function () {
-      el.textNameSub.focus();
+      el.subFolderNameInput.focus();
     }, 1000);
   } else {
     const secondaryObject = new SecondaryObj(secondaryName);
@@ -1119,7 +1119,7 @@ el.subFolderAddBtn.addEventListener("click", (e) => {
   } // End else statement
 }); // End
 // When you click on the sub folder rename btn
-el.subFolderRenameBtn.addEventListener("click", (e) => {
+el.renameSubfolderSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!deleteMode) {
     warningEmptyAudio.play();
@@ -1130,7 +1130,7 @@ el.subFolderRenameBtn.addEventListener("click", (e) => {
     return;
   }
   // grab text for primary object
-  const subName = el.textNameSub.value.trim();
+  const subName = el.subFolderNameInput.value.trim();
   // check if text is empty
   if (!subName) {
     warningEmptyAudio.play();
@@ -1171,7 +1171,7 @@ el.subFolderRenameBtn.addEventListener("click", (e) => {
 }); // End
 
 // when You click the cancel btn in the sub folder form
-el.subFolderCancel.addEventListener("click", (e) => {
+el.subFolderCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   // reset form
   el.subFolderForm.reset();
@@ -1379,22 +1379,22 @@ el.noteList.addEventListener("click", (e) => {
   }
 }); // End el.noteList.addEventListener
 // when You click the + in the Note Heading
-el.nAdd.addEventListener("click", (e) => {
+el.noteAddIcon.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
 
   // set time out to focus
   setTimeout(function () {
-    el.textArea.focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); // End
 // when You click the add note btn in the note form
-el.noteAdd.addEventListener("click", (e) => {
+el.addNoteSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   // grab primary array
   const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // create note
-  const noteText = el.textArea.value.trim();
+  const noteText = el.noteTextareaInput.value.trim();
   // check if text is empty
   if (!noteText) {
     warningEmptyAudio.play();
@@ -1408,37 +1408,37 @@ el.noteAdd.addEventListener("click", (e) => {
   // write to file
   save();
   addAudio.play();
-  el.textArea.value = "";
+  el.noteTextareaInput.value = "";
   display.showAlert("A new note was added!", "success", 900);
   nI = -243;
   renderNotes();
 }); // End
 // when You click the cancel btn in the note form
-el.noteCancel.addEventListener("click", (e) => {
+el.noteCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
 }); // End
 
 // when You click the clear btn in the note form
-el.noteClearTextArea.addEventListener("click", (e) => {
+el.noteClearTextAreaBtn.addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
-  el.textArea.value = "";
+  el.noteTextareaInput.value = "";
   // set time out to focus
   setTimeout(function () {
-    el.textArea.focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); //End
 
 // when you click on the add Date btn in the note form
-el.noteDate.addEventListener("click", (e) => {
+el.noteAddDateBtn.addEventListener("click", (e) => {
   btnAudio.play();
   const date = new Date();
-  el.textArea.value = date.toDateString();
+  el.noteTextareaInput.value = date.toDateString();
   // set time out to focus
   setTimeout(function () {
-    el.textArea.focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); //End
 
@@ -1446,7 +1446,7 @@ el.noteDate.addEventListener("click", (e) => {
 //  Edit Note Code
 // *************************************************************
 // when you click on the save edit btn in the modal
-el.saveEdit.addEventListener("click", (e) => {
+el.saveEditedNoteBtn.addEventListener("click", (e) => {
   if (fcI < 0 || isNaN(fcI)) {
     warningNameTakenAudio.play();
     return;
@@ -1476,7 +1476,7 @@ el.saveEdit.addEventListener("click", (e) => {
 });
 
 // when you click on the cancel Btn on the edit note form
-el.editClose.addEventListener("click", (e) => {
+el.editNoteCloseBtn.addEventListener("click", (e) => {
   clickAudio.play();
 });
 // *************************************************************
@@ -1489,7 +1489,7 @@ el.editClose.addEventListener("click", (e) => {
 // Settings code
 // *************************************************************
 // when You click on save settings Btn
-el.settingsSave.addEventListener("click", (e) => {
+el.saveSettingsSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
 
   // get form data to create a settings object
@@ -1506,7 +1506,7 @@ el.settingsSave.addEventListener("click", (e) => {
   settingsObj.fontSize = fontSizeValue;
   settingsObj.filePathArray = settingsArrayContainer;
   // set auto load true or false
-  settingsObj.autoLoad = el.autoLoad.checked;
+  settingsObj.autoLoad = el.autoLoadCheckBox.checked;
 
   // save the object
   settingsStorage.saveSettings(settingsObj);
@@ -1532,7 +1532,7 @@ el.settingsSave.addEventListener("click", (e) => {
 }); // End
 
 // when You click on settings form cancel Btn
-el.settingsCancel.addEventListener("click", (e) => {
+el.settingsCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
@@ -1541,7 +1541,7 @@ el.settingsCancel.addEventListener("click", (e) => {
 });
 
 // when You click on settings form factory reset btn
-el.factoryReset.addEventListener("click", (e) => {
+el.factoryResetBtn.addEventListener("click", (e) => {
   btnAudio.play();
   const settingsStorage = new SettingsStorage();
   settingsStorage.clearFileFromLocalStorage();
@@ -1549,7 +1549,7 @@ el.factoryReset.addEventListener("click", (e) => {
 });
 
 // When You click on settings form add path to autoload Btn
-el.settingsAddPath.addEventListener("click", (e) => {
+el.settingsAddPathBtn.addEventListener("click", (e) => {
   e.preventDefault();
 
   // this is for extensions

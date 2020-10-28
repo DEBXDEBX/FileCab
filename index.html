@@ -83,7 +83,7 @@
     <form id="renameFileCabForm">
       <div class="form-group">
         <input
-          id="fileCabNameInput"
+          id="fileCabRenameInput"
           type="text"
           autofocus
           class="form-control"
@@ -300,7 +300,7 @@
       <div class="form-group setFlex">
         <label for="fontSize">Pick a font size</label>
         <div>
-          <input id="x-smallRadio" type="radio" name="fontSize" value="x-small" />
+          <input id="xSmallRadio" type="radio" name="fontSize" value="x-small" />
           x-small
           <input id="smallRadio" type="radio" name="fontSize" value="small" /> small
           <input
@@ -312,7 +312,7 @@
           />
           normal
           <input id="largeRadio" type="radio" name="fontSize" value="large" /> large
-          <input id="x-largeRadio" type="radio" name="fontSize" value="x-large" />
+          <input id="xLargeRadio" type="radio" name="fontSize" value="x-large" />
           x-large
         </div>
       </div>
@@ -417,9 +417,9 @@
     <!-- Message Modal -->
     <div id="myMessageModal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-lg">
-        <div id="modalBorder"  class="modal-content">
+        <div id="messageBorder"  class="modal-content">
           <div class="modal-body black">
-            <h3 id="displayMessage">You did some thing</h3>
+            <h3 id="displayMessage"></h3>
           </div>
           </div> 
         </div>
