@@ -347,14 +347,20 @@ function handleFilePath(imagePath) {
     display.showAlert("Please enter a path in the name area!", "error");
     return;
   }
-  // set image path
-  arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI].noteArray[
-    nI
-  ].imagePath = imagePath;
-  // write to file
-  save();
-  addImageAudio.play();
-  display.showAlert("A new image was added to the note!", "success");
+  // check if you have a valid note
+  if (
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+      .noteArray[nI]
+  ) {
+    // set image path
+    arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[
+      sfI
+    ].noteArray[nI].imagePath = imagePath;
+    // write to file
+    save();
+    addImageAudio.play();
+    display.showAlert("A new image was added to the note!", "success");
+  }
 } // End handleFilePath(imagePath)
 // ***************************************************************
 function addImage() {
@@ -1335,11 +1341,6 @@ el.noteList.addEventListener("click", (e) => {
     // check if the alt Key is held down and add Image to note
     if (e.altKey) {
       addImage();
-      // send note array to display: after delay so the path prints
-      setTimeout(function () {
-        renderNotes();
-      }, 5000);
-      // end set Time out
       return;
     }
     // if shift is down remove the current path
