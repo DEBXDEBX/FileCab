@@ -5,7 +5,6 @@ let { dialog } = app;
 let fs = require("fs");
 
 const electron = require("electron");
-const { emitKeypressEvents } = require("readline");
 const { ipcRenderer } = electron;
 
 // Select audio files
@@ -724,7 +723,7 @@ el.fileCabList.addEventListener("click", (e) => {
     tabAudio.play();
     renderMainFolders();
   }
-}); // End el.fileCabList.addEventListener
+}); // End
 
 // when You click on the rename File Cab rename Btn in the form *******************
 el.renameFileCabSubmitBtn.addEventListener("click", (e) => {
@@ -867,7 +866,7 @@ el.mainFolderList.addEventListener("click", (e) => {
     renderSubFolders();
     return;
   }
-}); // End el.mainFolderList.addEventListener
+}); // End
 
 // when You click on the +/icon in the main folder heading *********
 el.mainFolderAddIcon.addEventListener("click", (e) => {
@@ -880,7 +879,7 @@ el.mainFolderAddIcon.addEventListener("click", (e) => {
   setTimeout(function () {
     el.mainFolderNameInput.focus();
   }, 1000);
-}); // End el.addShowFormMain.addEventListener
+}); // End
 
 // when you click on the add main folder btn ***********************
 el.addMainFolderSubmitBtn.addEventListener("click", (e) => {
@@ -1068,7 +1067,7 @@ el.subFolderList.addEventListener("click", (e) => {
     renderNotes();
     return;
   }
-}); // End el.subFolderList.addEventListener
+}); // End
 
 // When You click +/icon in the subfolder heading ***************************
 el.subFolderAddIcon.addEventListener("click", (e) => {
@@ -1147,7 +1146,7 @@ el.renameSubfolderSubmitBtn.addEventListener("click", (e) => {
   ) {
     warningNameTakenAudio.play();
     display.showAlert("That name is already taken!", "error");
-    subFolderText.focus();
+    el.subFolderNameInput.focus();
   } else {
     // grab sub folder
     const subFolder =
@@ -1329,14 +1328,7 @@ el.noteList.addEventListener("click", (e) => {
       oImg.setAttribute("data-pIndex", nI);
       oImg.className = "myPic";
       // insert the image after current note
-
-      // You can not use el.noteList because you are in the addeventListener for el.noteList
-      // use this.noteList
       this.noteList.insertBefore(oImg, e.target.nextSibling);
-      // 2ND fix: just reselect the element, both will work
-      // document
-      //   .querySelector("#noteList")
-      //   .insertBefore(oImg, e.target.nextSibling);
     }
     // check if the alt Key is held down and add Image to note
     if (e.altKey) {
@@ -1377,7 +1369,7 @@ el.noteList.addEventListener("click", (e) => {
     clickAudio.play();
     return;
   }
-}); // End el.noteList.addEventListener
+}); // End
 // when You click the + in the Note Heading
 el.noteAddIcon.addEventListener("click", (e) => {
   clickAudio.play();
