@@ -5,6 +5,7 @@ class Elements {
     this.mainFolderList = document.querySelector("#mainFolderList");
     this.subFolderList = document.querySelector("#subFolderList");
     this.noteList = document.querySelector("#noteList");
+    this.autoLoadList = document.querySelector("#autoLoadList");
     // select headings
     this.headingMainFolder = document.querySelector("#headingMainFolder");
     this.headingSubFolder = document.querySelector("#headingSubFolder");
@@ -15,7 +16,7 @@ class Elements {
     this.subFolderForm = document.querySelector("#subFolderForm");
     this.noteForm = document.querySelector("#noteForm");
     this.settingsForm = document.querySelector("#settingsForm");
-    // select btn
+    // select btn's
     this.renameFileCabSubmitBtn = document.querySelector(
       "#renameFileCabSubmitBtn"
     );
@@ -29,29 +30,6 @@ class Elements {
     this.renameSubfolderSubmitBtn = document.querySelector(
       "#renameSubfolderSubmitBtn"
     );
-    // select textName and textArea
-    this.fileCabRenameInput = document.querySelector("#fileCabRenameInput");
-    this.mainFolderNameInput = document.querySelector("#mainFolderNameInput");
-    this.subFolderNameInput = document.querySelector("#subFolderNameInput");
-    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
-    // select the autoload list
-    this.autoLoadList = document.querySelector("#autoLoadList");
-    // select message display
-    this.displayMessage = document.querySelector("#displayMessage");
-    // select message border
-    this.messageBorder = document.querySelector("#messageBorder");
-    // this is for the fontSize
-    this.root = document.querySelector(":root");
-    this.body = document.querySelector("body");
-    this.autoLoadCheckBox = document.querySelector("#autoLoadCheckBox");
-    this.darkRadio = document.querySelector("#darkRadio");
-    this.lightRadio = document.querySelector("#lightRadio");
-    this.xSmallRadio = document.querySelector("#xSmallRadio");
-    this.smallRadio = document.querySelector("#smallRadio");
-    this.normalRadio = document.querySelector("#normalRadio");
-    this.largeRadio = document.querySelector("#largeRadio");
-    this.xLargeRadio = document.querySelector("#xLargeRadio");
-    this.blankCssLink = document.querySelector("#blankCssLink");
     this.renameFileCabCancelBtn = document.querySelector(
       "#renameFileCabCancelBtn"
     );
@@ -73,5 +51,26 @@ class Elements {
     this.settingsCancelBtn = document.querySelector("#settingsCancelBtn");
     this.factoryResetBtn = document.querySelector("#factoryResetBtn");
     this.settingsAddPathBtn = document.querySelector("#settingsAddPathBtn");
+    // select textName and textArea
+    this.fileCabRenameInput = document.querySelector("#fileCabRenameInput");
+    this.mainFolderNameInput = document.querySelector("#mainFolderNameInput");
+    this.subFolderNameInput = document.querySelector("#subFolderNameInput");
+    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
+    // select message display
+    this.displayMessage = document.querySelector("#displayMessage");
+    // select message border
+    this.messageBorder = document.querySelector("#messageBorder");
+    // this is for the fontSize
+    this.root = document.querySelector(":root");
+    this.body = document.querySelector("body");
+    this.autoLoadCheckBox = document.querySelector("#autoLoadCheckBox");
+    this.darkRadio = document.querySelector("#darkRadio");
+    this.lightRadio = document.querySelector("#lightRadio");
+    this.xSmallRadio = document.querySelector("#xSmallRadio");
+    this.smallRadio = document.querySelector("#smallRadio");
+    this.normalRadio = document.querySelector("#normalRadio");
+    this.largeRadio = document.querySelector("#largeRadio");
+    this.xLargeRadio = document.querySelector("#xLargeRadio");
+    this.blankCssLink = document.querySelector("#blankCssLink");
   } // End constructor
 } // End Elements class
