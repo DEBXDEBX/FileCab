@@ -37,7 +37,7 @@ class Elements {
     this.mainFolderCancelBtn = document.querySelector("#mainFolderCancelBtn");
     this.subFolderAddIcon = document.querySelector("#subFolderAddIcon");
     this.subFolderCancelBtn = document.querySelector("#subFolderCancelBtn");
-    this.noteModalTextarea = document.querySelector("#noteModalTextarea");
+    this.noteModalTextArea = document.querySelector("#noteModalTextArea");
     this.noteAddIcon = document.querySelector("#noteAddIcon");
     this.addNoteSubmitBtn = document.querySelector("#addNoteSubmitBtn");
     this.noteCancelBtn = document.querySelector("#noteCancelBtn");
@@ -55,7 +55,7 @@ class Elements {
     this.fileCabRenameInput = document.querySelector("#fileCabRenameInput");
     this.mainFolderNameInput = document.querySelector("#mainFolderNameInput");
     this.subFolderNameInput = document.querySelector("#subFolderNameInput");
-    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
+    this.noteTextAreaInput = document.querySelector("#noteTextAreaInput");
     // select message display
     this.displayMessage = document.querySelector("#displayMessage");
     // select message border

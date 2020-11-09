@@ -1365,7 +1365,7 @@ el.noteList.addEventListener("click", (e) => {
       arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
         .noteArray[nI];
 
-    el.noteModalTextarea.value = note.text;
+    el.noteModalTextArea.value = note.text;
     clickAudio.play();
     return;
   }
@@ -1377,7 +1377,7 @@ el.noteAddIcon.addEventListener("click", (e) => {
 
   // set time out to focus
   setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); // End
 // when You click the add note btn in the note form
@@ -1386,7 +1386,7 @@ el.addNoteSubmitBtn.addEventListener("click", (e) => {
   // grab primary array
   const primaryArray = arrayOfFileCabs[fcI].arrayOfPrimaryObjects;
   // create note
-  const noteText = el.noteTextareaInput.value.trim();
+  const noteText = el.noteTextAreaInput.value.trim();
   // check if text is empty
   if (!noteText) {
     warningEmptyAudio.play();
@@ -1400,7 +1400,7 @@ el.addNoteSubmitBtn.addEventListener("click", (e) => {
   // write to file
   save();
   addAudio.play();
-  el.noteTextareaInput.value = "";
+  el.noteTextAreaInput.value = "";
   display.showAlert("A new note was added!", "success", 900);
   nI = -243;
   renderNotes();
@@ -1416,10 +1416,10 @@ el.noteCancelBtn.addEventListener("click", (e) => {
 el.noteClearTextAreaBtn.addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
-  el.noteTextareaInput.value = "";
+  el.noteTextAreaInput.value = "";
   // set time out to focus
   setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); //End
 
@@ -1427,10 +1427,10 @@ el.noteClearTextAreaBtn.addEventListener("click", (e) => {
 el.noteAddDateBtn.addEventListener("click", (e) => {
   btnAudio.play();
   const date = new Date();
-  el.noteTextareaInput.value = date.toDateString();
+  el.noteTextAreaInput.value = date.toDateString();
   // set time out to focus
   setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); //End
 
@@ -1443,7 +1443,7 @@ el.saveEditedNoteBtn.addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     return;
   }
-  const newNoteText = el.noteModalTextarea.value.trim();
+  const newNoteText = el.noteModalTextArea.value.trim();
   // check if text is empty
   if (!newNoteText) {
     warningEmptyAudio.play();
