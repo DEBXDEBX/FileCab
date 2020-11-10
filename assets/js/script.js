@@ -302,13 +302,11 @@ function applySettings(settings) {
       case "Dark":
         el.blankCssLink.href = "assets/css/dark.css";
         el.body.style.backgroundColor = "black";
-        // deleteMode = false;
         currentTheme = "Dark";
         break;
       case "Light":
         el.blankCssLink.href = "assets/css/light.css";
         el.body.style.backgroundColor = "white";
-        // deleteMode = false;
         currentTheme = "Light";
         break;
       default:
@@ -532,6 +530,16 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
     if (htmlNotes.length > 0) {
       paintNote = true;
     }
+    switch (currentTheme) {
+      case "Dark":
+        el.blankCssLink.href = "assets/css/dark.css";
+        break;
+      case "Light":
+        el.blankCssLink.href = "assets/css/light.css";
+        break;
+      default:
+        console.log("No Match");
+    }
   } else {
     //check for Main folders
     const htmlMainFolders = document.querySelectorAll(".main");
@@ -555,10 +563,12 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
       case "Dark":
         el.body.style.background = "none";
         el.body.style.backgroundColor = "black";
+        el.blankCssLink.href = "assets/css/dark.css";
         break;
       case "Light":
         el.body.style.background = "none";
         el.body.style.backgroundColor = "white";
+        el.blankCssLink.href = "assets/css/light.css";
         break;
       default:
         console.log("No Match");
@@ -603,6 +613,17 @@ ipcRenderer.on("Theme:set", (event, theme) => {
   currentTheme = theme;
   // check if delete mode is on, if so return
   if (deleteMode) {
+    switch (currentTheme) {
+      case "Dark":
+        el.blankCssLink.href = "assets/css/dark.css";
+        break;
+      case "Light":
+        el.blankCssLink.href = "assets/css/light.css";
+        break;
+      default:
+        console.log("No Match");
+    }
+
     return;
   }
   switch (theme) {
