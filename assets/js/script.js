@@ -309,9 +309,7 @@ function applySettings(settings) {
         console.log("No valid option!");
       // code block
     }
-  }
-
-  if (!deleteMode) {
+  } else {
     // set the theme
     switch (settings.theme) {
       case "Dark":
