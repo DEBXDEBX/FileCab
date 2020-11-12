@@ -231,13 +231,12 @@ function readFileContents(filepath) {
 } // End readFileContents(filepath)
 // ***********************************************************
 function loadUpSettingsForm() {
-  const checkBox = el.autoLoadCheckBox;
   const settingsStorage = new SettingsStorage();
   const settings = settingsStorage.getSettingsFromFile();
   settingsArrayContainer = settings.filePathArray;
   if (settings.type === "fileCab") {
     // set check box
-    checkBox.checked = settings.autoLoad;
+    el.autoLoadCheckBox.checked = settings.autoLoad;
     // check the right theme
     switch (settings.theme) {
       case "Dark":
